@@ -11,7 +11,7 @@
 class Stack {
 private:
     std::stack<Card> boardStack;           //karty lezace na stole
-    int cardCount;
+    int cardCount;                         //liczba kart na stosie
 public:
     Stack();
     ~Stack();

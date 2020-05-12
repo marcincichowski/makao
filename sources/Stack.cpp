@@ -4,7 +4,7 @@
 
 #include "../headers/Stack.h"
 
-int Stack::getCardCount() { return cardCount; }
+Stack::Stack() { cardCount = boardStack.size(); }
 
 void Stack::pushCart(Card toAdd) { boardStack.push(toAdd); }
 Card Stack::pullCard() { return boardStack.top(); boardStack.pop(); }
