@@ -6,7 +6,7 @@
 
 #include <string>
 
-class Card {
+class Card {                    //TODO rozroznianie kart zwyklych i specjalnych, flagi czy dziedzienie
 private:
     std::string sign;           //znak karty
     std::string color;          //kolor karty
