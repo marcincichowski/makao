@@ -6,10 +6,14 @@
 #define MAKAO_PLAYER_H
 
 #include <string>
+#include <vector>
+#include "Card.h"
 
 class Player {
 private:
     std::string nickname;               //nazwa gracza
+    std::vector<Card> hand;             //reka gracza
+
 public:
     Player(std::string nicknameToSet);
     ~Player();

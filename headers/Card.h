@@ -10,6 +10,7 @@ class Card {
 private:
     std::string sign;           //znak karty
     std::string color;          //kolor karty
+    bool isSpecial;
 
 public:
     Card(std::string, std::string);
@@ -17,6 +18,8 @@ public:
 
     std::string getSign();       //zwraca znak
     std::string getColor();        //zwraca kolor
+
+    void displayCardInfo() const;
 };
 
 #endif //MAKAO_CARD_H
