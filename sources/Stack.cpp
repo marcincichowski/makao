@@ -6,5 +6,10 @@
 
 Stack::Stack() { cardCount = boardStack.size(); }
 
-void Stack::pushCart(Card toAdd) { boardStack.push(toAdd); }
-Card Stack::pullCard() { return boardStack.top(); boardStack.pop(); }
+int Stack::getCardCount() { return cardCount; }
+
+void Stack::addCardsToPull(int amountToAdd) { cardsToPull+=amountToAdd; }
+void Stack::addRoundsToWait(int amountToAdd) { roundsToWait+=amountToAdd; }
+
+void Stack::pushCard(Card *toAdd) { boardStack.push(toAdd); }
+Card* Stack::pullCard() { return boardStack.top(); boardStack.pop(); }

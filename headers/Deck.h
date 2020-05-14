@@ -7,11 +7,11 @@
 
 
 #include <vector>
-#include "Card.h"
+#include "Cards.h"
 
 class Deck {
 private:
-    std::vector<Card> cardCollection;           //zbior kart
+    std::vector<Card*> cardCollection;           //zbior kart
     Deck();
     ~Deck();
 

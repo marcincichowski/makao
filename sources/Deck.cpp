@@ -23,7 +23,7 @@ void Deck::createCards(){               //tworzenie wszystkich kart
 
 void Deck::shuffleDeck() {
     if(!cardCollection.empty()) {
-        std::shuffle(std::begin(cardCollection), std::end(cardCollection), std::default_random_engine{});
+        //std::shuffle(std::begin(cardCollection), std::end(cardCollection), std::default_random_engine{});
     }else{
         std::cout << "Talia jest pusta.\n";
         return;
