@@ -6,7 +6,8 @@
 #define MAKAO_STACK_H
 
 #include <stack>
-#include "Cards.h"
+
+class Card;
 
 class Stack {
 private:
