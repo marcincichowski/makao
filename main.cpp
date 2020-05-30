@@ -16,6 +16,23 @@ int main(){
                window.close();
             }
         }
+        window.clear(sf::Color::Black);
+        sf::Font arial;
+        if(!arial.loadFromFile("../assets/fonts/arial.ttf")){
+            std::cout << "error loading font";
+        }
+        else{
+            sf::Text title;
+            title.setFont(arial);
+            title.setString("Makao");
+            title.setCharacterSize(24);
+            title.setFillColor(sf::Color::White);
+            title.setStyle(sf::Text::Bold);
+            title.setPosition(370, 200);
+            window.draw(title);
+        }
+
+        window.display();
     }
     return 0;
 }
