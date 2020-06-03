@@ -28,17 +28,8 @@ enum Value{ dwa = 0,
 constexpr std::initializer_list<Value> all_Values = {dwa,trzy,cztery,piec,szesc,siedem,osiem,dziewiec,dziesiec,walet,dama,krol,as};
 constexpr std::initializer_list<Color > all_Colors = {pik,kier,karo,trefl};
 
-/*std::ostream& operator<< (std::ostream& out, const Color& color)
-{
-    switch(color)
-    {
-        case pik: out << "pik"; break;
-        case kier: out << "kier"; break;
-        case karo: out << "karo"; break;
-        case trefl: out << "trefl"; break;
-    }
-    return out;
-}*/
+std::ostream& operator<< (std::ostream& out, const Color& color);
+std::ostream& operator<< (std::ostream& out, const Value& color);
 
 class Stack {
 private:
