@@ -7,21 +7,7 @@
 
 #include "Stack.h"
 
-enum Color{ pik, kier, karo, trefl };
-enum Value{ dwa = 2,
-            trzy = 3,
-            cztery = 4,
-            piec = 5,
-            szesc = 6,
-            siedem = 7,
-            dsiem = 8,
-            dziewiec = 9,
-            dziesiec = 10,
-            walet = 11,
-            dama = 12,
-            krol = 13,
-            as = 14,
-            joker = 15};
+class Stack;
 
 class Card{
 private:
@@ -32,8 +18,10 @@ public:
 
     virtual void initStack()=0;                 //kazda karta ma inne "zadania" po wejsciu na stos
     virtual void printCard()=0;
+    virtual Value getValue()const=0;
     void setColor(Color colorToSet);
-    Color getColor();
+    Color getColor()const;
+
 };
 
 class NumericCard : public Card{
@@ -44,6 +32,7 @@ public:
     NumericCard(Color colorToSet, Value valueToSet);
     ~NumericCard();
 
+    virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
 };
 
@@ -54,6 +43,9 @@ private:
 public:
     Jack(Color colorToSet);
     ~Jack();
+
+    virtual Value getValue()const;
+    virtual void initStack(Stack* stackToInitOn);
 };
 
 class Queen : public Card{
@@ -63,6 +55,9 @@ private:
 public:
     Queen(Color colorToSet);
     ~Queen();
+
+    virtual void initStack(Stack* stackToInitOn);
+    virtual Value getValue()const;
 };
 
 class King : public Card{
@@ -72,6 +67,9 @@ private:
 public:
     King(Color colorToSet);
     ~King();
+
+    virtual void initStack(Stack* stackToInitOn);
+    virtual Value getValue()const;
 };
 
 class Ace  : public Card{
@@ -81,6 +79,9 @@ private:
 public:
     Ace(Color colorToSet);
     ~Ace();
+
+    virtual Value getValue()const;
+    virtual void initStack(Stack* stackToInitOn);
 };
 
 class Joker : public Card{
@@ -90,6 +91,8 @@ private:
 public:
     Joker(Color colorToSet);
     ~Joker();
+
+    virtual Value getValue()const;
 };
 
 

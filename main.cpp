@@ -5,6 +5,10 @@
 #include "headers/Deck.h"
 #include "headers/Stack.h"
 
+void debug(){
+
+}
+
 int main(){
 
     sf::RenderWindow window(sf::VideoMode(800,600),"Makao");
@@ -28,7 +32,7 @@ int main(){
             title.setCharacterSize(24);
             title.setFillColor(sf::Color::White);
             title.setStyle(sf::Text::Bold);
-            title.setPosition(370, 200);
+            title.setPosition(370, 50);
             window.draw(title);
         }
 

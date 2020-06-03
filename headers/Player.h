@@ -14,11 +14,15 @@ private:
     std::string nickname;               //nazwa gracza
     std::vector<Card> hand;             //reka gracza
 
+    int freezedRounds;                   //pozostala liczba rund do odczekania
+
 public:
     Player(std::string nicknameToSet);
     ~Player();
 
-    std::string getNickname();
+    void setFreezedRounds(int freezedRounds);
+
+    std::string getNickname() const;
 };
 
 
