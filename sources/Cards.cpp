@@ -3,6 +3,7 @@
 //
 
 #include "../headers/Cards.h"
+#include <iostream>
 
 ///==================================================================================/
 ///                                    Card
@@ -39,6 +40,10 @@ Value NumericCard::getValue() const{
     return value;
 }
 
+void NumericCard::printCard() {
+    std::cout << this->getValue() << " " << this->getColor() << std::endl;
+}
+
 //==================================================================================//
 
 
@@ -61,6 +66,10 @@ void Jack::initStack(Stack *stackToInitOn) {
     //stackToInitOn->setDesiredValue(valueToSet);
 }
 
+void Jack::printCard() {
+    std::cout << this->getValue() << " " << this->getColor() << std::endl;
+}
+
 ///==================================================================================/
 
 //==================================================================================//
@@ -79,6 +88,10 @@ Value Queen::getValue() const{
 
 void Queen::initStack(Stack *stackToInitOn) {
     stackToInitOn->reset();
+}
+
+void Queen::printCard() {
+    std::cout << this->getValue() << " " << this->getColor() << std::endl;
 }
 
 //==================================================================================//
@@ -107,6 +120,10 @@ Value King::getValue() const{
     return value;
 }
 
+void King::printCard() {
+    std::cout << this->getValue() << " " << this->getColor() << std::endl;
+}
+
 ///==================================================================================/
 
 //==================================================================================//
@@ -128,13 +145,17 @@ void Ace::initStack(Stack *stackToInitOn) {
     //stackToInitOn->setDesiredColor(colorToSet);
 }
 
+void Ace::printCard() {
+    std::cout << this->getValue() << " " << this->getColor() << std::endl;
+}
+
 //==================================================================================//
 
 ///==================================================================================/
 ///                                    Joker
 ///==================================================================================/
 
-Joker::Joker(Color colorToSet) {
+/*Joker::Joker(Color colorToSet) {
     Card::setColor(colorToSet);
     value = joker;
 };
@@ -143,5 +164,13 @@ Joker::~Joker(){}
 Value Joker::getValue() const{
     return value;
 }
+
+void Joker::initStack(Stack *stackToInitOn) {
+    return;
+}
+
+void Joker::printCard() {
+    std::cout << this->getValue() << " " << this->getColor() << std::endl;
+}*/
 
 ///==================================================================================/

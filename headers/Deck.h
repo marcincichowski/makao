@@ -10,8 +10,9 @@
 #include "Cards.h"
 
 class Deck {
-private:
+public:
     std::vector<Card*> cardCollection;           //zbior kart
+
     Deck();
     ~Deck();
 

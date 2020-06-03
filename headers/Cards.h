@@ -6,17 +6,19 @@
 #define MAKAO_CARDS_H
 
 #include "Stack.h"
+#include <SFML/Graphics.hpp>
 
 class Stack;
 
 class Card{
 private:
     Color color;
+    sf::Texture image;
 public:
     Card();
     ~Card();
 
-    virtual void initStack()=0;                 //kazda karta ma inne "zadania" po wejsciu na stos
+    virtual void initStack(Stack* stackToInitOn)=0;                 //kazda karta ma inne "zadania" po wejsciu na stos
     virtual void printCard()=0;
     virtual Value getValue()const=0;
     void setColor(Color colorToSet);
@@ -34,6 +36,7 @@ public:
 
     virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
+    virtual void printCard();
 };
 
 class Jack : public Card{
@@ -46,6 +49,7 @@ public:
 
     virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
+    virtual void printCard();
 };
 
 class Queen : public Card{
@@ -56,8 +60,9 @@ public:
     Queen(Color colorToSet);
     ~Queen();
 
-    virtual void initStack(Stack* stackToInitOn);
     virtual Value getValue()const;
+    virtual void initStack(Stack* stackToInitOn);
+    virtual void printCard();
 };
 
 class King : public Card{
@@ -68,11 +73,12 @@ public:
     King(Color colorToSet);
     ~King();
 
-    virtual void initStack(Stack* stackToInitOn);
     virtual Value getValue()const;
+    virtual void initStack(Stack* stackToInitOn);
+    virtual void printCard();
 };
 
-class Ace  : public Card{
+class Ace : public Card{
 private:
     Value value;
 
@@ -82,9 +88,10 @@ public:
 
     virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
+    virtual void printCard();
 };
 
-class Joker : public Card{
+/*class Joker : public Card{
 private:
     Value value;
 
@@ -93,7 +100,9 @@ public:
     ~Joker();
 
     virtual Value getValue()const;
-};
+    virtual void initStack(Stack* stackToInitOn);
+    virtual void printCard();
+};*/
 
 
 

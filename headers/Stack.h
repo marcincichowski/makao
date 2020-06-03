@@ -6,24 +6,39 @@
 #define MAKAO_STACK_H
 
 #include <stack>
+#include <iostream>
 
 class Card;
 
-enum Color{ pik, kier, karo, trefl };
-enum Value{ dwa = 2,
-    trzy = 3,
-    cztery = 4,
-    piec = 5,
-    szesc = 6,
-    siedem = 7,
-    dsiem = 8,
-    dziewiec = 9,
-    dziesiec = 10,
-    walet = 11,
-    dama = 12,
-    krol = 13,
-    as = 14,
-    joker = 15};
+enum Color{ pik = 0, kier, karo, trefl};
+enum Value{ dwa = 0,
+    trzy,
+    cztery,
+    piec,
+    szesc,
+    siedem,
+    osiem,
+    dziewiec,
+    dziesiec,
+    walet,
+    dama,
+    krol,
+    as};
+
+constexpr std::initializer_list<Value> all_Values = {dwa,trzy,cztery,piec,szesc,siedem,osiem,dziewiec,dziesiec,walet,dama,krol,as};
+constexpr std::initializer_list<Color > all_Colors = {pik,kier,karo,trefl};
+
+std::ostream& operator<< (std::ostream& out, const Color& color)
+{
+    switch(color)
+    {
+        case pik: out << "pik"; break;
+        case kier: out << "kier"; break;
+        case karo: out << "karo"; break;
+        case trefl: out << "trefl"; break;
+    }
+    return out;
+}
 
 class Stack {
 private:

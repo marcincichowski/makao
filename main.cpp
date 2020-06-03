@@ -11,6 +11,10 @@ void debug(){
 
 int main(){
 
+
+    Deck nowy;
+    nowy.cardCollection.back()->printCard();
+
     sf::RenderWindow window(sf::VideoMode(800,600),"Makao");
     while(window.isOpen()){
 
