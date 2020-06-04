@@ -23,10 +23,11 @@ Color Card::getColor() const{ return color; }
 
 NumericCard::NumericCard(Color colorToSet, Value valueToSet) : value(valueToSet) {
     Card::setColor(colorToSet);
+    std::cout << "Stworzono Karte o kolorze " << colorToSet << " oraz wartosci " << valueToSet << std::endl;
 };
 NumericCard::~NumericCard(){}
 
-void NumericCard::initStack(Stack* stackToInitOn){
+void NumericCard::initStack(Stack *stackToInitOn) {
       if(value == 2 || value == 3){
           stackToInitOn->addCardsToPull(value);
       }else if(value == 4){
@@ -54,6 +55,7 @@ void NumericCard::printCard() {
 Jack::Jack(Color colorToSet) {
     Card::setColor(colorToSet);
     value = walet;
+    std::cout << "Stworzono Waleta o kolorze " << colorToSet << std::endl;
 };
 Jack::~Jack(){}
 
@@ -79,6 +81,7 @@ void Jack::printCard() {
 Queen::Queen(Color colorToSet) {
     Card::setColor(colorToSet);
     value = dama;
+    std::cout << "Stworzono Dame o kolorze " << colorToSet << std::endl;
 };
 Queen::~Queen(){}
 
@@ -103,6 +106,7 @@ void Queen::printCard() {
 King::King(Color colorToSet) {
     Card::setColor(colorToSet);
     value = krol;
+    std::cout << "Stworzono Krola o kolorze " << colorToSet << std::endl;
 };
 King::~King(){}
 
@@ -133,6 +137,7 @@ void King::printCard() {
 Ace::Ace(Color colorToSet) {
     Card::setColor(colorToSet);
     value = as;
+    std::cout << "Stworzono Asa o kolorze " << colorToSet << std::endl;
 };
 Ace::~Ace(){}
 

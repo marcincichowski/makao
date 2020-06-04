@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(SFML 2.5 COMPONENTS system window graphics)
 
 
-add_executable(makao main.cpp sources/Cards.cpp headers/Cards.h sources/Player.cpp headers/Player.h sources/Deck.cpp headers/Deck.h sources/Stack.cpp headers/Stack.h)
+add_executable(makao main.cpp game_elements/sources/Cards.cpp game_elements/headers/Cards.h game_elements/sources/Player.cpp game_elements/headers/Player.h game_elements/sources/Deck.cpp game_elements/headers/Deck.h game_elements/sources/Stack.cpp game_elements/headers/Stack.h resources/gui/sources/Button.cpp resources/gui/headers/Button.h)
 
 target_link_libraries(makao sfml-system sfml-window sfml-graphics)

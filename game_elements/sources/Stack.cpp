@@ -16,8 +16,12 @@ int Stack::getCardCount() { return cardCount; }
 void Stack::addCardsToPull(int amountToAdd) { cardsToPull+=amountToAdd; }
 void Stack::addRoundsToWait(int amountToAdd) { roundsToWait+=amountToAdd; }
 
-void Stack::pushCard(Card *toAdd) { boardStack.push(toAdd); }
-Card* Stack::pullCard() { return boardStack.top(); boardStack.pop(); }
+void Stack::pushCard(std::shared_ptr<Card> toAdd) { boardStack.push(toAdd); }
+
+std::shared_ptr<Card> Stack::pullCard() {
+    return boardStack.top();
+    boardStack.pop();
+}
 
 int Stack::getCardsToPull() const {
     return cardsToPull;
@@ -32,7 +36,7 @@ void Stack::reset() {
     roundsToWait = 0;
 }
 
-Card *Stack::topCard() {
+std::shared_ptr<Card> Stack::topCard() {
    if(cardCount>0){return boardStack.top();}
    else{ return nullptr; }
 }

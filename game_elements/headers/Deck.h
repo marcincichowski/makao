@@ -11,7 +11,7 @@
 
 class Deck {
 public:
-    std::vector<Card*> cardCollection;           //zbior kart
+    std::vector<std::shared_ptr<Card>> cardCollection;           //zbior kart
 
     Deck();
     ~Deck();

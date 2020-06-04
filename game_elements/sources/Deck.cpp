@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <random>
+#include <memory>
 #include <iostream>
 #include "../headers/Deck.h"
 
@@ -21,22 +22,17 @@ Deck::~Deck(){ std::cout << "Niszcze talie..\n"; }
 
 void Deck::createCards(){               //tworzenie wszystkich kart
     for(auto color : all_Colors){
-        cardCollection.push_back(new Jack(color));
-        std::cout << "Stworzono Waleta o kolorze " << color << std::endl;
+        cardCollection.push_back(std::make_shared<Jack>(color));
+        cardCollection.push_back(std::make_shared<Queen>(color));
+        cardCollection.push_back(std::make_shared<King>(color));
+        cardCollection.push_back(std::make_shared<Ace>(color));
     }
-    for(auto color : all_Colors){
-        cardCollection.push_back(new Queen(color));
-        std::cout << "Stworzono Dame o kolorze " << color << std::endl;
+    for (int i = 0; i < Value::walet; ++i) {
+        for (auto color : all_Colors) {
+            cardCollection.push_back(std::make_shared<NumericCard>(color, (Value) i));
+            std::cout << "Stworzono karte o kolorze " << color << " oraz wartosci " << (Value) i << std::endl;
+        }
     }
-    for(auto color : all_Colors){
-        cardCollection.push_back(new King(color));
-        std::cout << "Stworzono Krola o kolorze " << color << std::endl;
-    }
-    for(auto color : all_Colors){
-        cardCollection.push_back(new Ace(color));
-        std::cout << "Stworzono Asa o kolorze " << color << std::endl;
-    }
-
 }
 
 void Deck::shuffleDeck() {

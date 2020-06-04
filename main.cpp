@@ -1,9 +1,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "headers/Cards.h"
-#include "headers/Player.h"
-#include "headers/Deck.h"
-#include "headers/Stack.h"
+#include "game_elements/headers/Cards.h"
+#include "game_elements/headers/Player.h"
+#include "game_elements/headers/Deck.h"
+#include "game_elements/headers/Stack.h"
 
 void debug(){
 
@@ -39,6 +39,7 @@ int main(){
             title.setPosition(370, 50);
             window.draw(title);
         }
+
 
         window.display();
     }
