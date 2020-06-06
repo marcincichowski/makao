@@ -12,8 +12,12 @@ void debug(){
 int main(){
 
 
-    Deck nowy;
-    nowy.cardCollection.back()->printCard();
+    Deck talia;
+    talia.cardCollection.back()->printCard();
+
+    std::cout << talia.cardCollection.back()->generatePath();
+
+
 
     sf::RenderWindow window(sf::VideoMode(800,600),"Makao");
 
@@ -22,7 +26,6 @@ int main(){
 
         sf::Event event;
         while(window.pollEvent(event)) {
-
             switch(event.type){
                 case sf::Event::Closed:{
                     window.close();
