@@ -40,7 +40,7 @@ int main(){
                         }
                         case sf::Keyboard::Return:{
                             if(menu.getPressedItem() == 0){
-                                std::cout<<"Rozpoczecie gry!!!";
+                                std::cout<<"123";
                             }
                             if(menu.getPressedItem() == 1){
                                 window.close();
@@ -63,7 +63,18 @@ int main(){
         }
         window.clear(sf::Color::Black);
 
-        menu.draw(window);
+
+        //menu.draw(window);
+
+        nowy.cardCollection.back()->setImage();
+        sf::Sprite test = nowy.cardCollection.back()->draw();
+        test.setPosition(100,100);
+        window.draw(test);
+        /*sf::Sprite sprite;
+        sf::Texture tekstura;
+        tekstura.loadFromFile("../resources/cards/card_back_red.png");
+        sprite.setTexture(tekstura);
+        window.draw(sprite);*/
         window.display();
     }
     return 0;

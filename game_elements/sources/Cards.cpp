@@ -9,7 +9,9 @@
 ///                                    Card
 ///==================================================================================/
 
-Card::Card(){}
+Card::Card(){
+
+}
 Card::~Card(){}
 
 Color Card::getColor() const{ return color; }
@@ -32,7 +34,7 @@ void Card::printCard() {
 std::string Card::generatePath() {
     std::string col = this->printColor();
     std::string val = this->printValue();
-    return ("./resources/cards/"+val+col+".png");
+    return ("../resources/cards/"+val+col+".png");
 }
 
 std::string Card::printColor() {
@@ -65,6 +67,7 @@ std::string Card::printValue() {
 void Card::setImage() {
     texture.loadFromFile(this->generatePath());
     sprite.setTexture(texture);
+    sprite.scale(0.1,0.1);
 }
 
 sf::Sprite Card::draw() {
