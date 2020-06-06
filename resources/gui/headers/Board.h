@@ -26,5 +26,6 @@ public:
     void nextPlayer();
     int getPlayerCount() const;
     void giveaway();
+    Deck *getDeck()const;
 };
 #endif //MAKAO_BOARD_H
