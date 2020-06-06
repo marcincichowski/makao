@@ -12,9 +12,6 @@ void debug(){
 
 int main(){
 
-
-    Deck nowy;
-
     sf::RenderWindow window(sf::VideoMode(1280,720),"Makao");
 
     int STATE = 0;
@@ -23,7 +20,7 @@ int main(){
     sf::Sprite background;
     background_texture.loadFromFile("../resources/background.jpg");
     background.setTexture(background_texture);
-
+    Board plansza(window.getSize().x, window.getSize().y, 4);
     while(window.isOpen()){
 
         sf::Event event;
@@ -73,7 +70,6 @@ int main(){
             menu.draw(window);
         }
         else{
-            Board plansza(window.getSize().x,window.getSize().y,4);
             plansza.draw(window);
         }
         window.display();
