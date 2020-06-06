@@ -12,14 +12,9 @@ void debug(){
 int main(){
 
 
-    Deck talia;
-    talia.cardCollection.back()->printCard();
+    Deck nowy;
 
-    std::cout << talia.cardCollection.back()->generatePath();
-
-
-
-    sf::RenderWindow window(sf::VideoMode(800,600),"Makao");
+    sf::RenderWindow window(sf::VideoMode(1280,720),"Makao");
 
     Menu menu(window.getSize().x, window.getSize().y);
     while(window.isOpen()){
@@ -70,14 +65,13 @@ int main(){
         //menu.draw(window);
 
         nowy.cardCollection.back()->setImage();
-        sf::Sprite test = nowy.cardCollection.back()->draw();
-        test.setPosition(100,100);
-        window.draw(test);
-        /*sf::Sprite sprite;
+        sf::Sprite sprite;
         sf::Texture tekstura;
         tekstura.loadFromFile("../resources/cards/card_back_red.png");
         sprite.setTexture(tekstura);
-        window.draw(sprite);*/
+        sprite.setScale(0.15,0.15);
+        sprite.setPosition(640,360);
+        window.draw(sprite);
         window.display();
     }
     return 0;
