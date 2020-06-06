@@ -21,5 +21,6 @@ public:
     Board(float width, float height);
     ~Board();
     void draw(sf::RenderWindow &window);
+    void nextPlayer();
 };
 #endif //MAKAO_BOARD_H

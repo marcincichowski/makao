@@ -5,7 +5,6 @@
 //#include "../game_elements/Deck.h"
 Board::Board(float width, float height){
 
-
 }
 
 

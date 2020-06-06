@@ -5,6 +5,7 @@
 #include "game_elements/headers/Deck.h"
 #include "game_elements/headers/Stack.h"
 #include "resources/gui/headers/Menu.h"
+#include "resources/gui/headers/Board.h"
 void debug(){
 
 }
@@ -16,6 +17,7 @@ int main(){
 
     sf::RenderWindow window(sf::VideoMode(1280,720),"Makao");
 
+    int STATE = 0;
     Menu menu(window.getSize().x, window.getSize().y);
     while(window.isOpen()){
 
@@ -38,7 +40,8 @@ int main(){
                         }
                         case sf::Keyboard::Return:{
                             if(menu.getPressedItem() == 0){
-                                std::cout<<"123";
+                                STATE = 1;
+
                             }
                             if(menu.getPressedItem() == 1){
                                 window.close();
@@ -61,17 +64,22 @@ int main(){
         }
         window.clear(sf::Color::Black);
 
+        if(STATE == 0){
+            menu.draw(window);
+        }
+        else{
+            sf::Texture tekstura;
+            tekstura.loadFromFile("../resources/cards/card_back_red.png");
+            sf::Sprite sprite = nowy.cardCollection.back()->draw();
+            sprite.setTexture(tekstura);
+            sprite.setScale(0.15,0.15);
+            sprite.setPosition(640,250);
+            window.draw(sprite);
+        }
 
-        //menu.draw(window);
 
-        nowy.cardCollection.back()->setImage();
-        sf::Sprite sprite;
-        sf::Texture tekstura;
-        tekstura.loadFromFile("../resources/cards/card_back_red.png");
-        sprite.setTexture(tekstura);
-        sprite.setScale(0.15,0.15);
-        sprite.setPosition(640,360);
-        window.draw(sprite);
+
+
         window.display();
     }
     return 0;
