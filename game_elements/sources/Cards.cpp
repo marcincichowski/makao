@@ -78,7 +78,7 @@ sf::Sprite Card::draw() {
 NumericCard::NumericCard(Color colorToSet, Value valueToSet) {
     Card::setColor(colorToSet);
     Card::setValue(valueToSet);
-    std::cout << "Stworzono Karte o kolorze " << colorToSet << " oraz wartosci " << valueToSet << std::endl;
+    //std::cout << "Stworzono Karte o kolorze " << colorToSet << " oraz wartosci " << valueToSet << std::endl;
 };
 NumericCard::~NumericCard(){}
 
@@ -106,7 +106,7 @@ Value NumericCard::getValue() const{
 Jack::Jack(Color colorToSet) {
     Card::setColor(colorToSet);
     Card::setValue(Value::walet);
-    std::cout << "Stworzono Waleta o kolorze " << colorToSet << std::endl;
+    //std::cout << "Stworzono Waleta o kolorze " << colorToSet << std::endl;
 };
 Jack::~Jack(){}
 
@@ -128,7 +128,7 @@ void Jack::initStack(Stack *stackToInitOn) {
 Queen::Queen(Color colorToSet) {
     Card::setColor(colorToSet);
     Card::setValue(Value::dama);
-    std::cout << "Stworzono Dame o kolorze " << colorToSet << std::endl;
+    //std::cout << "Stworzono Dame o kolorze " << colorToSet << std::endl;
 };
 Queen::~Queen(){}
 
@@ -149,7 +149,7 @@ void Queen::initStack(Stack *stackToInitOn) {
 King::King(Color colorToSet) {
     Card::setColor(colorToSet);
     Card::setValue(Value::krol);
-    std::cout << "Stworzono Krola o kolorze " << colorToSet << std::endl;
+    //std::cout << "Stworzono Krola o kolorze " << colorToSet << std::endl;
 };
 King::~King(){}
 
@@ -175,7 +175,7 @@ Value King::getValue() const{
 Ace::Ace(Color colorToSet) {
     Card::setColor(colorToSet);
     Card::setValue(Value::as);
-    std::cout << "Stworzono Asa o kolorze " << colorToSet << std::endl;
+    //std::cout << "Stworzono Asa o kolorze " << colorToSet << std::endl;
 };
 Ace::~Ace(){}
 
