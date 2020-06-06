@@ -10,7 +10,8 @@ Board::Board(float width, float height){
 void Board::giveaway() {
     for(auto player : players){
         for(int i = 0;i<5;i++){
-            player->hand.
+            player->hand.push_back(deck->cardCollection.back());
+            deck->cardCollection.pop_back();
         }
     }
 }
