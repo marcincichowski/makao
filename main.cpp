@@ -23,7 +23,6 @@ int main(){
     sf::Sprite background;
     background_texture.loadFromFile("../resources/background.jpg");
     background.setTexture(background_texture);
-    background.setScale(window.getSize().x, window.getSize().y);
 
     while(window.isOpen()){
 
@@ -68,7 +67,7 @@ int main(){
                 }
             }
         }
-        window.clear(sf::Color::Black);
+        window.clear();
         window.draw(background);
         if(STATE == 0){
             menu.draw(window);

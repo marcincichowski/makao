@@ -3,7 +3,10 @@
 //
 #include "../headers/Board.h"
 //#include "../game_elements/Deck.h"
-Board::Board(float width, float height){
+Board::Board(float width, float height, int playerCount){
+    for(int i = 0;i<playerCount;i++) {
+
+    }
     giveaway();
 }
 

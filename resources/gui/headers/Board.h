@@ -20,7 +20,7 @@ private:
     sf::Texture background;
     sf::Sprite backgroundSprite;
 public:
-    Board(float width, float height);
+    Board(float width, float height,int playerCount);
     ~Board();
     void draw(sf::RenderWindow &window);
     void nextPlayer();
