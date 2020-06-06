@@ -24,8 +24,6 @@ int main(){
     background_texture.loadFromFile("../resources/background.jpg");
     background.setTexture(background_texture);
 
-    Board board(window.getSize().x, window.getSize().y, 4);
-
     while(window.isOpen()){
 
         sf::Event event;
@@ -75,7 +73,8 @@ int main(){
             menu.draw(window);
         }
         else{
-            board.draw(window);
+            Board plansza(window.getSize().x,window.getSize().y,4);
+            plansza.draw(window);
         }
         window.display();
     }
