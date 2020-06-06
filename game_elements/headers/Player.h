@@ -12,7 +12,7 @@
 class Player {
 private:
     std::string nickname;               //nazwa gracza
-    std::vector<std::shared_ptr<Card>> hand;             //reka gracza
+    std::vector<std::shared_ptr<Card>> hand; //reka gracza
 
     int freezedRounds;                   //pozostala liczba rund do odczekania
 
@@ -24,6 +24,8 @@ public:
 
     std::string getNickname() const;
     int getCardCount() const;
+
+
 };
 
 

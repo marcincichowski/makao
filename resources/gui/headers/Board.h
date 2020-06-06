@@ -11,10 +11,12 @@
 
 class Board{
 private:
+    std::vector<std::shared_ptr<Player>> players;
     Player *activePlayer;
     Player *previousPlayer;
     Stack *stack;
     Deck *deck;
+    int playerCount;
     sf::Texture background;
     sf::Sprite backgroundSprite;
 public:
@@ -22,5 +24,7 @@ public:
     ~Board();
     void draw(sf::RenderWindow &window);
     void nextPlayer();
+    int getPlayerCount() const;
+    void giveaway();
 };
 #endif //MAKAO_BOARD_H

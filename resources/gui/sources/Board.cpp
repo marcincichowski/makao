@@ -7,6 +7,16 @@ Board::Board(float width, float height){
 
 }
 
+void Board::giveaway() {
+    for(auto player : players){
+        for(int i = 0;i<5;i++){
+            player->hand.
+        }
+    }
+}
+
+int Board::getPlayerCount() const {
+    return players.capacity();
 
 void Board::draw(sf::RenderWindow &window){
 
