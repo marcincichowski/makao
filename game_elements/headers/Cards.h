@@ -13,6 +13,7 @@ class Stack;
 class Card{
 private:
     Color color;
+    Value value;
     sf::Texture image;
 public:
     Card();
@@ -20,18 +21,19 @@ public:
 
     virtual void initStack(Stack* stackToInitOn)=0;                 //kazda karta ma inne "zadania" po wejsciu na stos
     virtual void printCard()=0;
-    virtual Value getValue()const=0;
-    void setColor(Color colorToSet);
-    Color getColor()const;
 
+    std::string generatePath();
+
+    Color getColor()const;
+    Value getValue()const;
+
+    void setColor(Color);
+    void setValue(Value);
 };
 
 
 
 class NumericCard : public Card{
-private:
-    Value value;
-
 public:
     NumericCard(Color colorToSet, Value valueToSet);
     ~NumericCard();
@@ -42,9 +44,6 @@ public:
 };
 
 class Jack : public Card{
-private:
-    Value value;
-
 public:
     Jack(Color colorToSet);
     ~Jack();
@@ -55,9 +54,6 @@ public:
 };
 
 class Queen : public Card{
-private:
-    Value value;
-
 public:
     Queen(Color colorToSet);
     ~Queen();
@@ -68,9 +64,6 @@ public:
 };
 
 class King : public Card{
-private:
-    Value value;
-
 public:
     King(Color colorToSet);
     ~King();
@@ -81,9 +74,6 @@ public:
 };
 
 class Ace : public Card{
-private:
-    Value value;
-
 public:
     Ace(Color colorToSet);
     ~Ace();
