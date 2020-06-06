@@ -19,6 +19,12 @@ int main(){
 
     int STATE = 0;
     Menu menu(window.getSize().x, window.getSize().y);
+    sf::Texture background_texture;
+    sf::Sprite background;
+    background_texture.loadFromFile("../resources/background.jpg");
+    background.setTexture(background_texture);
+    background.setScale(window.getSize().x, window.getSize().y);
+
     while(window.isOpen()){
 
         sf::Event event;
@@ -63,7 +69,7 @@ int main(){
             }
         }
         window.clear(sf::Color::Black);
-
+        window.draw(background);
         if(STATE == 0){
             menu.draw(window);
         }
@@ -76,10 +82,6 @@ int main(){
             sprite.setPosition(640,250);
             window.draw(sprite);
         }
-
-
-
-
         window.display();
     }
     return 0;

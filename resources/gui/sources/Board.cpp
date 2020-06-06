@@ -4,7 +4,7 @@
 #include "../headers/Board.h"
 //#include "../game_elements/Deck.h"
 Board::Board(float width, float height){
-
+    giveaway();
 }
 
 void Board::giveaway() {
@@ -18,7 +18,4 @@ void Board::giveaway() {
 
 int Board::getPlayerCount() const {
     return players.capacity();
-
-void Board::draw(sf::RenderWindow &window){
-
 }
