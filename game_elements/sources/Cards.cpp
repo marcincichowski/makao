@@ -65,12 +65,14 @@ std::string Card::printValue() {
 }
 
 void Card::setImage() {
-    texture.loadFromFile(this->generatePath());
-    sprite.setTexture(texture);
-    sprite.scale(0.1,0.1);
+
 }
 
 sf::Sprite Card::draw() {
+    texture.loadFromFile(this->generatePath());
+    texture.setSmooth(true);
+    sprite.setTexture(texture);
+    sprite.setScale(0.1,0.1);
     return sprite;
 }
 

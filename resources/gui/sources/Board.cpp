@@ -30,15 +30,15 @@ void Board::draw(sf::RenderWindow &window) {
     int width = window.getSize().x;
     int height = window.getSize().y;
     int count = 1;
-    std::cout << 2;
     for(auto card : activePlayer->hand){
-        std::cout << 3;
-        sf::Sprite toDraw = card->draw();
-        std::cout << 4;
         card->printCard();
-        toDraw.setPosition(sf::Vector2f(width / count * count, height / 5));
+        card->setImage();
+        sf::Sprite toDraw = card->draw();
+        toDraw.setPosition(sf::Vector2f(width / count, height / 5));
         window.draw(toDraw);
         count++;
+
+
     }
 }
 
