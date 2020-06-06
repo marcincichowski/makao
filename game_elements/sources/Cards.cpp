@@ -24,6 +24,10 @@ void Card::setColor(Color colorToSet){
     color = colorToSet;
 }
 
+void Card::printCard() {
+    std::cout  << this->getValue() << this->getColor() << std::endl;
+}
+
 //==================================================================================//
 //                                NumericCard
 //==================================================================================//
@@ -49,10 +53,6 @@ Value NumericCard::getValue() const{
     return this->getValue();
 }
 
-void NumericCard::printCard() {
-    std::cout << this->getValue() << " " << this->getColor() << std::endl;
-}
-
 //==================================================================================//
 
 
@@ -76,10 +76,6 @@ void Jack::initStack(Stack *stackToInitOn) {
     //stackToInitOn->setDesiredValue(valueToSet);
 }
 
-void Jack::printCard() {
-    std::cout << this->getValue() << " " << this->getColor() << std::endl;
-}
-
 ///==================================================================================/
 
 //==================================================================================//
@@ -99,10 +95,6 @@ Value Queen::getValue() const{
 
 void Queen::initStack(Stack *stackToInitOn) {
     stackToInitOn->reset();
-}
-
-void Queen::printCard() {
-    std::cout << this->getValue() << " " << this->getColor() << std::endl;
 }
 
 //==================================================================================//
@@ -131,11 +123,6 @@ void King::initStack(Stack *stackToInitOn) {
 Value King::getValue() const{
     return this->getValue();
 }
-
-void King::printCard() {
-    std::cout << this->getValue() << " " << this->getColor() << std::endl;
-}
-
 ///==================================================================================/
 
 //==================================================================================//
@@ -158,9 +145,6 @@ void Ace::initStack(Stack *stackToInitOn) {
     //stackToInitOn->setDesiredColor(colorToSet);
 }
 
-void Ace::printCard() {
-    std::cout << this->getValue() << " " << this->getColor() << std::endl;
-}
 
 //==================================================================================//
 

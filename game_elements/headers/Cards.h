@@ -19,9 +19,9 @@ public:
     Card();
     ~Card();
 
-    virtual void initStack(Stack* stackToInitOn)=0;                 //kazda karta ma inne "zadania" po wejsciu na stos
-    virtual void printCard()=0;
+    virtual void initStack(Stack* stackToInitOn)=0;//kazda karta ma inne "zadania" po wejsciu na stos
 
+    void printCard();
     std::string generatePath();
 
     Color getColor()const;
@@ -40,7 +40,6 @@ public:
 
     virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
-    virtual void printCard();
 };
 
 class Jack : public Card{
@@ -50,7 +49,6 @@ public:
 
     virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
-    virtual void printCard();
 };
 
 class Queen : public Card{
@@ -60,7 +58,6 @@ public:
 
     virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
-    virtual void printCard();
 };
 
 class King : public Card{
@@ -70,7 +67,6 @@ public:
 
     virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
-    virtual void printCard();
 };
 
 class Ace : public Card{
@@ -80,7 +76,6 @@ public:
 
     virtual Value getValue()const;
     virtual void initStack(Stack* stackToInitOn);
-    virtual void printCard();
 };
 
 /*class Joker : public Card{
