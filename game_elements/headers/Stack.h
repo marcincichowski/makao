@@ -44,6 +44,7 @@ private:
 public:
     Stack();
     ~Stack();
+    std::shared_ptr<Card> topCard();
 
     int getCardCount();
 
@@ -59,9 +60,6 @@ public:
     std::shared_ptr<Card> pullCard();
 
     void pushCard(std::shared_ptr<Card> toAdd);
-
-    std::shared_ptr<Card> topCard();
-
 
     void reset();                             //dama blokuje wojny i tury do odczekania
 

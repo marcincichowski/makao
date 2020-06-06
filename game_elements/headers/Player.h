@@ -23,6 +23,7 @@ public:
     void setFreezedRounds(int freezedRounds);
 
     std::string getNickname() const;
+    int getCardCount() const;
 };
 
 

@@ -13,8 +13,9 @@ Card::Card(){}
 Card::~Card(){}
 
 Color Card::getColor() const{ return color; }
-
+std::string printColor();
 Value Card::getValue() const { return value; }
+std::string printValue();
 
 void Card::setValue(Value valueToSet) {
     value = valueToSet;
@@ -26,6 +27,48 @@ void Card::setColor(Color colorToSet){
 
 void Card::printCard() {
     std::cout  << this->getValue() << this->getColor() << std::endl;
+}
+
+std::string Card::generatePath() {
+    std::string col = this->printColor();
+    std::string val = this->printValue();
+    return ("./resources/cards/"+val+col+".png");
+}
+
+std::string Card::printColor() {
+    switch (color) {
+        case pik: return "S";
+        case kier: return "H";
+        case karo: return "D";
+        case trefl: return "C";
+    }
+}
+
+std::string Card::printValue() {
+    switch (value) {
+        case dwa: return "2";
+        case trzy: return "3";
+        case cztery: return "4";
+        case piec: return "5";
+        case szesc: return "6";
+        case siedem: return "7";
+        case osiem: return "8";
+        case dziewiec: return "9";
+        case dziesiec: return "10";
+        case walet: return "J";
+        case dama: return "Q";
+        case krol: return "K";
+        case as: return "A";
+    }
+}
+
+void Card::setImage() {
+    texture.loadFromFile(this->generatePath());
+    sprite.setTexture(texture);
+}
+
+sf::Sprite Card::draw() {
+    return sprite;
 }
 
 //==================================================================================//

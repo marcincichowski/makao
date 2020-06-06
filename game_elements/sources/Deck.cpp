@@ -6,6 +6,7 @@
 #include <random>
 #include <memory>
 #include <iostream>
+#include <chrono>
 #include "../headers/Deck.h"
 
 class Card;
@@ -30,14 +31,14 @@ void Deck::createCards(){               //tworzenie wszystkich kart
     for (int i = 0; i < Value::walet; ++i) {
         for (auto color : all_Colors) {
             cardCollection.push_back(std::make_shared<NumericCard>(color, (Value) i));
-            std::cout << "Stworzono karte o kolorze " << color << " oraz wartosci " << (Value) i << std::endl;
         }
     }
 }
 
 void Deck::shuffleDeck() {
     if(!cardCollection.empty()) {
-        std::shuffle(std::begin(cardCollection), std::end(cardCollection), std::default_random_engine{});
+        auto rng = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
+        std::shuffle(std::begin(cardCollection), std::end(cardCollection), rng);
     }else{
         std::cout << "Talia jest pusta.\n";
         return;

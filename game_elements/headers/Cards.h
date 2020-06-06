@@ -14,15 +14,22 @@ class Card{
 private:
     Color color;
     Value value;
-    sf::Texture image;
+    sf::Texture texture;
+    sf::Sprite sprite;
 public:
     Card();
     ~Card();
 
-    virtual void initStack(Stack* stackToInitOn)=0;//kazda karta ma inne "zadania" po wejsciu na stos
+    virtual void initStack(Stack* stackToInitOn)=0;            //kazda karta ma inne "zadania" po wejsciu na stos
 
     void printCard();
+
     std::string generatePath();
+    void setImage();
+    sf::Sprite draw();
+
+    std::string printColor();
+    std::string printValue();
 
     Color getColor()const;
     Value getValue()const;

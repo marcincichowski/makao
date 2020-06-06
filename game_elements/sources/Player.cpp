@@ -16,3 +16,7 @@ std::string Player::getNickname() const{ return nickname; }
 void Player::setFreezedRounds(int roundsToSet) {
     Player::freezedRounds = roundsToSet;
 }
+
+int Player::getCardCount() const {
+    return hand.capacity();
+}
