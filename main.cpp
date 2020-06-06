@@ -42,11 +42,11 @@ int main(){
                         }
                         case sf::Keyboard::Return:{
                             if(menu.getPressedItem() == 0){
-                                STATE = 1;
-
-                            }
-                            if(menu.getPressedItem() == 1){
-                                window.close();
+                                STATE = 2;                              //gra
+                            }else if(menu.getPressedItem() == 1) {
+                                //STATE = 1;                              //zasady
+                            }else{
+                                window.close();                         //wyjscie
                             }
                             break;
                         }
@@ -55,21 +55,15 @@ int main(){
                 }
 
             }
-            if(event.type == sf::Event::KeyReleased){
-                if(event.key.code == sf::Keyboard::Up){
-                    menu.MoveUp();
-                }
-                if(event.key.code == sf::Keyboard::Down){
-                    menu.MoveDown();
-                }
-            }
         }
         window.clear();
         window.draw(background);
         if(STATE == 0){
             menu.draw(window);
-        }
-        else{
+        }else if(STATE == 1) {
+            //zasady.draw(window);
+
+        }else if(STATE == 2){
             plansza.draw(window);
         }
         window.display();

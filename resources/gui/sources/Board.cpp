@@ -10,6 +10,8 @@ Board::Board(float width, float height, int playerCount){
         std::cout << "+ Gracz " << i << std::endl;
     }
     activePlayer = *(players.begin());
+    //previousPlayer = *(players.end());
+
     giveaway();
 }
 
@@ -29,19 +31,32 @@ int Board::getPlayerCount() const {
 void Board::draw(sf::RenderWindow &window) {
     int width = window.getSize().x;
     int height = window.getSize().y;
-    int count = 1;
+    float widthBetween = 30;
+    float distance = 0;
     for(auto card : activePlayer->hand){
         card->printCard();
         card->setImage();
         sf::Sprite toDraw = card->draw();
-        toDraw.setPosition(sf::Vector2f(width / count, height / 5));
+        toDraw.setPosition(sf::Vector2f((150+distance), height*0.75));
         window.draw(toDraw);
-        count++;
-
-
+        distance += widthBetween;
     }
+    /*for(auto card : previousPlayer->hand){
+        card->printCard();
+        card->setImage();
+        sf::Sprite toDraw = card->draw();
+        toDraw.setPosition(sf::Vector2f((150+distance), height*0.75));
+        window.draw(toDraw);
+        distance += widthBetween;
+    }*/
 }
 
-Board::~Board() {
+Board::~Board() {}
 
-}
+/*std::shared_ptr<Player> Board::nextPlayer(std::shared_ptr<Player> current) {
+    if(current==players.back()){
+        return players.front();
+    }else{
+        return ;
+    }
+}*/

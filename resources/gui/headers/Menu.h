@@ -6,7 +6,7 @@
 #define MAKAO_MENU_H
 #include "SFML/Graphics.hpp"
 
-#define NUMBER_OF_ITEMS 2
+#define NUMBER_OF_ITEMS 3
 
 class Menu{
 public:

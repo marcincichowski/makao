@@ -13,18 +13,27 @@ Menu::Menu(float width, float height){
     menu[0].setColor(sf::Color::Red);
     sf::String option1(L"Nowa Gra");
     menu[0].setString(option1);
-    menu[0].setPosition(sf::Vector2f(width / 2  - 50, height / (NUMBER_OF_ITEMS + 1) + 60));
+    menu[0].setPosition(sf::Vector2f(width / 2  - 50, height / (NUMBER_OF_ITEMS + 1) + 100));
 
     menu[1].setFont(font);
     menu[1].setColor(sf::Color::White);
-    sf::String option2(L"Wyjście");
+    sf::String option2(L"Zasady gry");
     menu[1].setString(option2);
-    menu[1].setPosition(sf::Vector2f(width / 2 - 35, height / (NUMBER_OF_ITEMS + 1) + 90));
+    menu[1].setPosition(sf::Vector2f(width / 2 - 55, height / (NUMBER_OF_ITEMS + 1) + 150));
+
+    menu[2].setFont(font);
+    menu[2].setColor(sf::Color::White);
+    sf::String option3(L"Wyjście");
+    menu[2].setString(option3);
+    menu[2].setPosition(sf::Vector2f(width / 2 - 35, height / (NUMBER_OF_ITEMS + 1) + 200));
 
     title.setFont(font);
     title.setColor(sf::Color::White);
     title.setString(L"Makao");
-    title.setPosition(sf::Vector2f(width / 2 - 30, height / (NUMBER_OF_ITEMS+ 1)));
+    title.setCharacterSize(100);
+    title.setOutlineColor(sf::Color::Red);
+    title.setOutlineThickness(1);
+    title.setPosition(sf::Vector2f(width / 2 - 120, height / (NUMBER_OF_ITEMS+ 1)-100));
     selectedItemIndex = 0;
 }
 

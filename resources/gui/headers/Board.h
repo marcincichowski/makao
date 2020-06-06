@@ -23,7 +23,7 @@ public:
     Board(float width, float height,int playerCount);
     ~Board();
     void draw(sf::RenderWindow &window);
-    void nextPlayer();
+    std::shared_ptr<Player> nextPlayer(std::shared_ptr<Player>);
     int getPlayerCount() const;
     void giveaway();
 };
