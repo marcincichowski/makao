@@ -22,3 +22,19 @@ void Board::giveaway() {
 int Board::getPlayerCount() const {
     return players.capacity();
 }
+
+void Board::draw(sf::RenderWindow &window) {
+    int width = window.getSize().x;
+    int height = window.getSize().y;
+    int count = 1;
+    for(auto card : activePlayer->hand){
+        sf::Sprite toDraw = card->draw();
+        toDraw.setPosition(sf::Vector2f(width / count * count, height / 5));
+        window.draw(toDraw);
+        count++;
+    }
+}
+
+Board::~Board() {
+
+}

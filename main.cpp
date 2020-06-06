@@ -24,6 +24,8 @@ int main(){
     background_texture.loadFromFile("../resources/background.jpg");
     background.setTexture(background_texture);
 
+    Board board(window.getSize().x, window.getSize().y, 4);
+
     while(window.isOpen()){
 
         sf::Event event;
@@ -73,13 +75,7 @@ int main(){
             menu.draw(window);
         }
         else{
-            sf::Texture tekstura;
-            tekstura.loadFromFile("../resources/cards/card_back_red.png");
-            sf::Sprite sprite = nowy.cardCollection.back()->draw();
-            sprite.setTexture(tekstura);
-            sprite.setScale(0.15,0.15);
-            sprite.setPosition(640,250);
-            window.draw(sprite);
+            board.draw(window);
         }
         window.display();
     }
