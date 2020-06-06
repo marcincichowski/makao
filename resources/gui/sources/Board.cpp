@@ -4,8 +4,11 @@
 #include "../headers/Board.h"
 //#include "../game_elements/Deck.h"
 Board::Board(float width, float height, int playerCount){
+    Deck nowy_deck;
+    deck = &nowy_deck;
     for(int i = 0;i<playerCount;i++) {
-
+        players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i)));
+        std::cout << "+ Gracz " << i << std::endl;
     }
     giveaway();
 }
