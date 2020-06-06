@@ -4,13 +4,12 @@
 #include "../headers/Board.h"
 //#include "../game_elements/Deck.h"
 Board::Board(float width, float height, int playerCount){
-    deck = std::shared_ptr<Deck>();
-
+    deck = std::make_shared<Deck>();
     for(int i = 0;i<playerCount;i++) {
         players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i)));
         std::cout << "+ Gracz " << i << std::endl;
     }
-    //activePlayer = players.front();
+    activePlayer = *(players.begin());
     giveaway();
 }
 
@@ -28,13 +27,16 @@ int Board::getPlayerCount() const {
 }
 
 void Board::draw(sf::RenderWindow &window) {
-    std::cout<<"render";
     int width = window.getSize().x;
     int height = window.getSize().y;
     int count = 1;
+    std::cout << 2;
     for(auto card : activePlayer->hand){
+        std::cout << 3;
         sf::Sprite toDraw = card->draw();
-        toDraw.setPosition(sf::Vector2f(width / count, height / 5));
+        std::cout << 4;
+        card->printCard();
+        toDraw.setPosition(sf::Vector2f(width / count * count, height / 5));
         window.draw(toDraw);
         count++;
     }

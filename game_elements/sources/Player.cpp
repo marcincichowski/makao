@@ -6,7 +6,7 @@
 #include "../headers/Player.h"
 
 Player::Player(std::string nicknameToSet) : nickname(nicknameToSet) {
-    std::cout << "Tworze gracze o nicku " << nickname << std::endl;
+    //std::cout << "Tworze gracze o nicku " << nickname << std::endl;
     freezedRounds = 0;
 }
 Player::~Player() { std::cout << "Usuwam gracze o nicku " << nickname << std::endl; }
