@@ -12,13 +12,13 @@
 class Player {
 private:
     std::string nickname;               //nazwa gracza
-    int playerNo;
+
     int freezedRounds;                   //pozostala liczba rund do odczekania
 
 public:
     Player(std::string nicknameToSet);
     ~Player();
-
+    int playerNo;
     void setFreezedRounds(int freezedRounds);
 
     std::string getNickname() const;

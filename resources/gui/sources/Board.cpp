@@ -5,8 +5,10 @@
 //#include "../game_elements/Deck.h"
 #include <iostream>
 #include <iterator>
+#include <unordered_set>
 
 Board::Board(float width, float height, int playerCount){
+    round=0;
     IS_NEW_ROUND = true;
     deck = std::make_shared<Deck>();
     stack = std::make_shared<Stack>();
@@ -18,8 +20,10 @@ Board::Board(float width, float height, int playerCount){
         players.back()->setNo(i);
         std::cout << "+ Gracz " << i << std::endl;
     }
-    activePlayer = players.front();
-    previousPlayer = players.back();
+    activePlayer = players.at(0);
+    previousPlayer = players.at(3);
+    nextPlayer = players.at(1);
+    lastPlayer = players.at(2);
     giveaway();
 
     //SET PROPERTIES OF BUTTONS
@@ -201,6 +205,7 @@ void Board::throwCard() {
 
 void Board::newRound() {
     IS_NEW_ROUND = true;
+    round++;
     bool found = false;
     /*for(auto player : players){
         std::shared_ptr<Player> current = player;
@@ -208,17 +213,23 @@ void Board::newRound() {
         if(player==activePlayer){found=true;}
     }*/
 
-    activePlayer = players.at(1);
-    previousPlayer = players.at(2);
-    std::cout << activePlayer->getNickname() << previousPlayer->getNickname();
+    auto oldAct = activePlayer;
+    auto oldPrev = previousPlayer;
+    auto oldNext = nextPlayer;
+    auto oldLast = lastPlayer;
+
+    activePlayer = oldNext;
+    nextPlayer = oldLast;
+    lastPlayer = oldPrev;
+    previousPlayer = oldAct;
+
+    std::cout << "Aktywny gracz:" << activePlayer->getNickname();
 
 }
 
 void Board::updateNicknames() {
-    auto it = std::find(players.begin(), players.end(), activePlayer);
-    auto index = std::distance(players.begin(), it);
-    for(int i = 0; i < 4; i++){
-        nicknames[(i+index)%4].setString(players.at(i)->getNickname());
-    }
-
+    nicknames[0].setString(players.at((0+round)%4)->getNickname());
+    nicknames[1].setString(players.at((1+round)%4)->getNickname());
+    nicknames[2].setString(players.at((2+round)%4)->getNickname());
+    nicknames[3].setString(players.at((3+round)%4)->getNickname());
 }

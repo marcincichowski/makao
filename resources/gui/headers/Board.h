@@ -32,6 +32,7 @@ private:
     int activeButton;
     sf::Text newRoundText;
     bool IS_NEW_ROUND;
+    int round;
 public:
     Board(float width, float height,int playerCount);
     ~Board();
