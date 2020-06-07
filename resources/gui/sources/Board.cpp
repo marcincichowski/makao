@@ -61,6 +61,10 @@ int Board::getPlayerCount() const {
     return players.capacity();
 }
 
+int Board::getActivePlayerHandSize(){
+    return activePlayer->hand.size();
+}
+
 void Board::draw(sf::RenderWindow &window) {
     float width = window.getSize().x;
     float height = window.getSize().y;
@@ -148,8 +152,26 @@ void Board::moveLeft() {
     }
 }
 
-void Board::getPressed() {
-    //if(activeOption != ){
+int Board::getPressedOption(){
+    if(activeOption != activePlayer->hand.size() + 1){
+        return activeOption;
+    }
+    else{
+        return activePlayer->hand.size() + activeButton;
+    }
+}
 
-    //}
+std::shared_ptr<Card> Board::getPressedCard() {
+    if(activeOption != activePlayer->hand.size() + 1){
+        return activePlayer->hand.at(activeOption);
+    }
+    else{
+        if(activeOption == 0){
+            //cardDraw();
+        }
+        else{
+            //nextTurn();
+            std::cout<<"1";
+        }
+    }
 }
