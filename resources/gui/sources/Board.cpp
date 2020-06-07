@@ -105,7 +105,7 @@ void Board::moveRight() {
     if(activeOption + 1 < activePlayer->hand.size())
         activeOption++;
     else{
-        activeOption = 5;
+        activeOption = activePlayer->hand.size() + 1;
         if(activeButton == 0){
             if(option){
                 buttons[activeButton].setColor(sf::Color::White);
@@ -130,9 +130,9 @@ void Board::moveRight() {
 }
 
 void Board::moveLeft() {
-    if(activeOption - 1 >= 0 && activeOption !=5)
+    if(activeOption - 1 >= 0 && activeOption != activePlayer->hand.size() + 1)
         activeOption--;
-    if(activeOption == 5){
+    if(activeOption == activePlayer->hand.size() + 1){
         if(activeButton - 1 >= 0){
 
             buttons[activeButton].setColor(sf::Color::White);
@@ -143,11 +143,13 @@ void Board::moveLeft() {
         else{
             buttons[activeButton].setColor(sf::Color::White);
             option = false;
-            activeOption = 4;
+            activeOption = activePlayer->hand.size() - 1;
         }
     }
 }
 
 void Board::getPressed() {
+    //if(activeOption != ){
 
+    //}
 }
