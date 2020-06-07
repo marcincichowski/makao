@@ -37,7 +37,9 @@ public:
     void giveaway();
     void moveRight();
     void moveLeft();
+    void throwCard();
     std::shared_ptr<Card> getPressedCard();
+
     int getPressedOption();
     int getActivePlayerHandSize();
 };

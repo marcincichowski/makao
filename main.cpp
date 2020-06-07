@@ -30,7 +30,7 @@ int main(){
                     window.close();
                     break;
                 }
-                case sf::Event::KeyPressed:{
+                case sf::Event::KeyReleased:{
                     switch(event.key.code){
                         case sf::Keyboard::Up:{
                             menu.MoveUp();
@@ -49,14 +49,19 @@ int main(){
                             break;
                         }
                         case sf::Keyboard::Return:{
-                            if(menu.getPressedItem() == 0){
-                                STATE = 2;                              //gra
-                            }else if(menu.getPressedItem() == 1) {
-                                //
-                                // STATE = 1;                              //zasady
-                            }else{
-                                window.close();                         //wyjscie
+                            if(STATE == 2){
+                                plansza.throwCard();
                             }
+                            else{
+                                if(menu.getPressedItem() == 0){
+                                    STATE = 2;                              //gra
+                                }else if(menu.getPressedItem() == 1) {
+                                    //STATE = 1;                              //zasady
+                                }else{
+                                    window.close();                         //wyjscie
+                                }
+                            }
+
                             break;
                         }
                     }

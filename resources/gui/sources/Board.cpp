@@ -26,13 +26,13 @@ Board::Board(float width, float height, int playerCount){
 
     buttons[0].setFont(font);
     buttons[0].setColor(sf::Color::White);
-    buttons[0].setString(L"Dobierz Kartę");
-    buttons[0].setPosition(sf::Vector2f(width/1.5,height*0.75));
-
+    buttons[0].setString(L"Dobierz kartę i zakończ turę");
+    buttons[0].setPosition(sf::Vector2f(width/1.5,10+160*3));
+/*
     buttons[1].setFont(font);
     buttons[1].setColor(sf::Color::White);
     buttons[1].setString(L"Koniec Tury");
-    buttons[1].setPosition(sf::Vector2f(width/1.5,height*0.75 + 60));
+    buttons[1].setPosition(sf::Vector2f(width/1.5,height*0.75 + 60));*/
 
     for(int i = 0; i < 4; i++){
         nicknames[i].setFont(font);
@@ -120,19 +120,15 @@ void Board::moveRight() {
         if(activeButton == 0){
             if(option){
                 buttons[activeButton].setColor(sf::Color::White);
-                activeButton = 1;
                 buttons[activeButton].setColor(sf::Color::Red);
             }
             else{
                 option = true;
-                std::cout<<activeButton<<std::endl;
                 buttons[activeButton].setColor(sf::Color::Red);
-                activeButton = 1;
             }
         }
         else{
             if(activeButton == 1){
-                std::cout<<activeButton;
                 buttons[0].setColor(sf::Color::White);
                 buttons[1].setColor(sf::Color::Red);
             }
@@ -145,11 +141,8 @@ void Board::moveLeft() {
         activeOption--;
     if(activeOption == activePlayer->hand.size() + 1){
         if(activeButton - 1 >= 0){
-
             buttons[activeButton].setColor(sf::Color::White);
-            activeButton--;
             buttons[activeButton].setColor(sf::Color::Red);
-            std::cout<<activeButton;
         }
         else{
             buttons[activeButton].setColor(sf::Color::White);
@@ -160,7 +153,7 @@ void Board::moveLeft() {
 }
 
 int Board::getPressedOption(){
-    if(activeOption != activePlayer->hand.size() + 1){
+    if(activeOption < activePlayer->hand.size() + 1){
         return activeOption;
     }
     else{
@@ -173,12 +166,19 @@ std::shared_ptr<Card> Board::getPressedCard() {
         return activePlayer->hand.at(activeOption);
     }
     else{
-        if(activeOption == 0){
-            //cardDraw();
-        }
-        else{
-            //nextTurn();
-            std::cout<<"1";
+
+    }
+}
+
+void Board::throwCard() {
+    if(getPressedOption() < getActivePlayerHandSize()){
+        //getPressedCard();
+        std::cout<<"throw a card"<<std::endl;
+    }
+    else{
+        if(getPressedOption() == getActivePlayerHandSize()){
+            //dobierzKarte();
+            std::cout<<"draw"<<std::endl;
         }
     }
 }
