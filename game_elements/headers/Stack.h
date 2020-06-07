@@ -8,6 +8,7 @@
 #include <stack>
 #include <iostream>
 #include <memory>
+#include <SFML/Graphics.hpp>
 
 class Card;
 
@@ -63,6 +64,7 @@ public:
 
     void reset();                             //dama blokuje wojny i tury do odczekania
 
+    void drawStack(sf::RenderWindow);
 };
 
 

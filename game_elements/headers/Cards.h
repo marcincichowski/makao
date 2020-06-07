@@ -25,8 +25,8 @@ public:
     void printCard();
 
     std::string generatePath();
-    sf::Sprite draw();
-    sf::Sprite drawHidden();
+    sf::Sprite draw(float scale);
+    sf::Sprite drawHidden(float scale);
 
     std::string printColor();
     std::string printValue();

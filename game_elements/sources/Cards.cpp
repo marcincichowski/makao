@@ -64,19 +64,19 @@ std::string Card::printValue() {
     }
 }
 
-sf::Sprite Card::draw() {
+sf::Sprite Card::draw(float scale) {
     texture.loadFromFile(this->generatePath());
     texture.setSmooth(true);
     sprite.setTexture(texture);
-    sprite.setScale(0.15,0.15);
+    sprite.setScale(scale,scale);
     return sprite;
 }
 
-sf::Sprite Card::drawHidden() {
+sf::Sprite Card::drawHidden(float scale) {
     texture.loadFromFile("../resources/cards/reverse.png");
     texture.setSmooth(true);
     sprite.setTexture(texture);
-    sprite.setScale(0.10,0.10);
+    sprite.setScale(scale,scale);
     return sprite;
 }
 

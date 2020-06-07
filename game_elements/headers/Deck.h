@@ -14,6 +14,7 @@ public:
 
     void createCards();                         //tworzenie kart
     void shuffleDeck();                         //tasowanie kart
+    void drawDeck(sf::RenderWindow &window);
 };
 
 

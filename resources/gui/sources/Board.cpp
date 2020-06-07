@@ -49,13 +49,13 @@ void Board::draw(sf::RenderWindow &window) {
     float height = window.getSize().y;
     float widthBetween = 30;
     float distance = 0;
-    sf::Texture deckTexture;
+    /*sf::Texture deckTexture;
     deckTexture.loadFromFile("../resources/cards/reverse.png");
     sf::Sprite deckSprite;
     deckSprite.setTexture(deckTexture);
     deckSprite.setScale(0.1,0.1);
     deckSprite.setPosition(sf::Vector2f(width/2, height/2 -100));
-    window.draw(deckSprite);
+    window.draw(deckSprite);*/
     activePlayer->drawHand(window);
     for(auto player : players){
         if(player==activePlayer){ continue;}
@@ -63,6 +63,7 @@ void Board::draw(sf::RenderWindow &window) {
             player->drawHiddenHand(window);
         }
     }
+    deck->drawDeck(window);
 
 
     //buttons nastepna tura + dobierz

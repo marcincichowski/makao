@@ -44,3 +44,19 @@ void Deck::shuffleDeck() {
         return;
     }
 }
+
+void Deck::drawDeck(sf::RenderWindow &window) {
+    float width = window.getSize().x;
+    float height = window.getSize().y;
+    float widthBetween = 5;
+    float distance = 0;
+    int counter = 0;
+    float scale = 0.15;
+    for(auto card : this->cardCollection){
+        if(counter>=5 || card==cardCollection.back()) {break;}else{ counter++; }
+        sf::Sprite toDraw = card->drawHidden(scale);
+        toDraw.setPosition(sf::Vector2f((1100 + distance), 50+distance));
+        window.draw(toDraw);
+        distance += widthBetween;
+    }
+}
