@@ -11,7 +11,6 @@ void debug(){
 }
 
 int main(){
-
     sf::RenderWindow window(sf::VideoMode(1280,720),"Makao");
 
     int STATE = 0;

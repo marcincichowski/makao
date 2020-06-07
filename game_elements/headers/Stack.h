@@ -57,6 +57,7 @@ public:
     bool isLegit(std::shared_ptr<Card>&);
     bool throwToStack(std::shared_ptr<Card>);
     void update();
+    bool getWar() const;
 };
 
 

@@ -34,12 +34,11 @@ Board::Board(float width, float height, int playerCount){
     buttons[0].setFont(font);
     buttons[0].setColor(sf::Color::White);
     buttons[0].setString(L"Dobierz kartę i zakończ turę");
-    buttons[0].setPosition(sf::Vector2f(width/1.5,10+160*3));
-/*
+    buttons[0].setPosition(sf::Vector2f(800,10 + 160 * 3));
+
     buttons[1].setFont(font);
     buttons[1].setColor(sf::Color::White);
-    buttons[1].setString(L"Koniec Tury");
-    buttons[1].setPosition(sf::Vector2f(width/1.5,height*0.75 + 60));*/
+    buttons[1].setPosition(sf::Vector2f(800,10 + 160 * 3));
 
     for(int i = 0; i < 4; i++){
         nicknames[i].setFont(font);
@@ -104,8 +103,18 @@ void Board::draw(sf::RenderWindow &window) {
             window.draw(nicknames[i]);
         }
 
-        window.draw(buttons[0]);
-        window.draw(buttons[1]);
+
+
+        if(stack->getWar()){
+            std::cout<<stack->getWar();
+            buttons[0].setString("Pobierz karne karty: "+std::to_string(stack->getCardsToPull()));
+            window.draw(buttons[0]);
+        }
+        else{
+            buttons[0].setString(L"Dobierz kartę i zakończ turę");
+            window.draw(buttons[0]);
+        }
+
     }
     else{
         window.draw(newRoundText);
@@ -190,7 +199,6 @@ void Board::throwCard() {
 
     std::cout << "Runda numer: " << round << std::endl;
     if(getPressedOption() < getActivePlayerHandSize()){
-        //getPressedCard();
         std::cout<<"Wyrzucono: ";
         getPressedCard()->printCard();
 
@@ -203,9 +211,17 @@ void Board::throwCard() {
     }
     else{
         if(getPressedOption() == getActivePlayerHandSize()){
-            drawCard();
-            newRound();
-            std::cout<<"draw"<<std::endl;
+            if(!(stack->getWar())){
+                drawCard();
+                newRound();
+                std::cout<<"draw"<<std::endl;
+            }
+            else{
+                for(int i = 0; i < stack->getCardsToPull(); i++){
+                    drawCard();
+                }
+                newRound();
+            }
         }
     }
 }

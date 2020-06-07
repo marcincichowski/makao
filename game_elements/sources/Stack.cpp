@@ -129,31 +129,32 @@ bool Stack::throwToStack(std::shared_ptr<Card> cardToCheck){
 }
 
 void Stack::update() {
-    if(this->topCard()->printValue()=="2"){
+
+    if(this->boardStack.back()->printValue()=="2"){
         addCardsToPull(2);
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    else if(this->topCard()->printValue()=="3"){
+    else if(this->boardStack.back()->printValue()=="3"){
         addCardsToPull(3);
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    else if(this->topCard()->printValue()=="K" || this->topCard()->printColor()=="H"){
+    else if(this->boardStack.back()->printValue()=="K" || this->topCard()->printColor()=="H"){
         addCardsToPull(5);
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    else if(this->topCard()->printValue()=="K" || this->topCard()->printColor()=="S"){
+    else if(this->boardStack.back()->printValue()=="K" || this->topCard()->printColor()=="S"){
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    else if(this->topCard()->printValue()=="Q"){
+    else if(this->boardStack.back()->printValue()=="Q"){
         reset();
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    else if(this->topCard()->printValue()=="4"){
+    else if(this->boardStack.back()->printValue()=="4"){
         addRoundsToWait(1);
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
@@ -175,4 +176,7 @@ Value Stack::getDesideredValue() const {
     return desiredValue;
 }
 
+bool Stack::getWar() const {
+    return war;
+}
 
