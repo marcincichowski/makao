@@ -22,6 +22,7 @@ private:
     sf::Sprite backgroundSprite;
     sf::Text buttons[NUMBER_OF_BUTTONS];
     sf::Font font;
+    sf::Text nicknames[4];
     int activeOption;
 public:
     Board(float width, float height,int playerCount);
@@ -30,5 +31,8 @@ public:
     std::shared_ptr<Player> nextPlayer(std::shared_ptr<Player>);
     int getPlayerCount() const;
     void giveaway();
+    void moveRight();
+    void moveLeft();
+    void getPressed();
 };
 #endif //MAKAO_BOARD_H

@@ -26,7 +26,7 @@ public:
     int getCardCount() const;
     std::vector<std::shared_ptr<Card>> hand; //reka gracza
 
-    void drawHand(sf::RenderWindow&);
+    void drawHand(sf::RenderWindow&, int activeOption);
     void drawHiddenHand(sf::RenderWindow &window);
 
     void setNo(int);

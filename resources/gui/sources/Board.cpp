@@ -3,10 +3,11 @@
 //
 #include "../headers/Board.h"
 //#include "../game_elements/Deck.h"
+#include <iostream>
 Board::Board(float width, float height, int playerCount){
     deck = std::make_shared<Deck>();
     for(int i = 0;i<playerCount;i++) {
-        players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i)));
+        players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1)));
         players.back()->setNo(i);
         std::cout << "+ Gracz " << i << std::endl;
     }
@@ -29,6 +30,19 @@ Board::Board(float width, float height, int playerCount){
     buttons[1].setString(L"Koniec Tury");
     buttons[1].setPosition(sf::Vector2f(width/1.5,height*0.75 + 60));
 
+    for(int i = 0; i < 4; i++){
+        nicknames[i].setFont(font);
+        nicknames[i].setColor(sf::Color::White);
+        nicknames[i].setString(players.at(i)->getNickname());
+
+    }
+    nicknames[0].setPosition(sf::Vector2f(20, 10 + 160 * 3));
+
+    nicknames[1].setPosition(sf::Vector2f(20, 10 + 160 * 0));
+    nicknames[2].setPosition(sf::Vector2f(20, 10 + 160 * 1));
+    nicknames[3].setPosition(sf::Vector2f(20, 10 + 160 * 2));
+
+    activeOption = 0;
 }
 
 void Board::giveaway() {
@@ -49,14 +63,7 @@ void Board::draw(sf::RenderWindow &window) {
     float height = window.getSize().y;
     float widthBetween = 30;
     float distance = 0;
-    /*sf::Texture deckTexture;
-    deckTexture.loadFromFile("../resources/cards/reverse.png");
-    sf::Sprite deckSprite;
-    deckSprite.setTexture(deckTexture);
-    deckSprite.setScale(0.1,0.1);
-    deckSprite.setPosition(sf::Vector2f(width/2, height/2 -100));
-    window.draw(deckSprite);*/
-    activePlayer->drawHand(window);
+    activePlayer->drawHand(window, activeOption);
     for(auto player : players){
         if(player==activePlayer){ continue;}
         else{
@@ -64,8 +71,9 @@ void Board::draw(sf::RenderWindow &window) {
         }
     }
     deck->drawDeck(window);
-
-
+    for(int i = 0; i < 4; i++){
+        window.draw(nicknames[i]);
+    }
     //buttons nastepna tura + dobierz
 
     window.draw(buttons[0]);
@@ -90,3 +98,16 @@ Board::~Board() {}
         return ;
     }
 }*/
+void Board::moveRight() {
+    if(activeOption + 1 < activePlayer->hand.capacity())
+        activeOption++;
+}
+
+void Board::moveLeft() {
+    if(activeOption - 1 >= 0)
+        activeOption--;
+}
+
+void Board::getPressed() {
+
+}

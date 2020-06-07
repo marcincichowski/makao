@@ -22,17 +22,21 @@ int Player::getCardCount() const {
     return hand.capacity();
 }
 
-void Player::drawHand(sf::RenderWindow &window) {
+void Player::drawHand(sf::RenderWindow &window, int activeOption) {
     float width = window.getSize().x;
     float height = window.getSize().y;
     float widthBetween = 30;
     float distance = 0;
     float scale = 0.15;
+    int i = 0;
     for(auto card : this->hand){
         sf::Sprite toDraw = card->draw(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), height*0.75));
+        if(activeOption == i)
+            toDraw.setColor(sf::Color(255,100,100));
         window.draw(toDraw);
         distance += widthBetween;
+        i++;
     }
 }
 
