@@ -7,6 +7,7 @@ Board::Board(float width, float height, int playerCount){
     deck = std::make_shared<Deck>();
     for(int i = 0;i<playerCount;i++) {
         players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i)));
+        players.back()->setNo(i);
         std::cout << "+ Gracz " << i << std::endl;
     }
     activePlayer = *(players.begin());
@@ -56,6 +57,12 @@ void Board::draw(sf::RenderWindow &window) {
     deckSprite.setPosition(sf::Vector2f(width/2, height/2 -100));
     window.draw(deckSprite);
     activePlayer->drawHand(window);
+    for(auto player : players){
+        if(player==activePlayer){ continue;}
+        else{
+            player->drawHiddenHand(window);
+        }
+    }
 
 
     //buttons nastepna tura + dobierz

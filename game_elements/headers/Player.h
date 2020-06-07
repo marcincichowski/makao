@@ -12,6 +12,7 @@
 class Player {
 private:
     std::string nickname;               //nazwa gracza
+    int playerNo;
 
     int freezedRounds;                   //pozostala liczba rund do odczekania
 
@@ -27,6 +28,8 @@ public:
 
     void drawHand(sf::RenderWindow&);
     void drawHiddenHand(sf::RenderWindow &window);
+
+    void setNo(int);
 };
 
 

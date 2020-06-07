@@ -43,8 +43,12 @@ void Player::drawHiddenHand(sf::RenderWindow &window) {
     for(auto card : this->hand){
         card->printCard();
         sf::Sprite toDraw = card->drawHidden();
-        toDraw.setPosition(sf::Vector2f((width/2 - 100 + distance), height*0.75));
+        toDraw.setPosition(sf::Vector2f((width/7 - 100 + distance), height*0.1+100*playerNo));
         window.draw(toDraw);
         distance += widthBetween;
     }
+}
+
+void Player::setNo(int val) {
+    playerNo = val;
 }

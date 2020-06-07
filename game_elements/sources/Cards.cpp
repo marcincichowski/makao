@@ -76,7 +76,7 @@ sf::Sprite Card::drawHidden() {
     texture.loadFromFile("../resources/cards/reverse.png");
     texture.setSmooth(true);
     sprite.setTexture(texture);
-    sprite.setScale(0.15,0.15);
+    sprite.setScale(0.10,0.10);
     return sprite;
 }
 
