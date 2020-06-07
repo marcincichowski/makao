@@ -97,28 +97,31 @@ Board::~Board() {}
     }
 }*/
 void Board::moveRight() {
-    //std::cout<<activePlayer->hand.size()<<std::endl;
-    //std::cout<<activeOption<<std::endl;
-
     if(activeOption + 1 < activePlayer->hand.size())
         activeOption++;
     else{
         activeOption = 5;
         if(activeButton == 0){
-            std::cout<<activeButton<<std::endl;
-            buttons[activeButton].setColor(sf::Color::Red);
-            activeButton++;
+            if(option){
+                buttons[activeButton].setColor(sf::Color::White);
+                activeButton = 1;
+                buttons[activeButton].setColor(sf::Color::Red);
+            }
+            else{
+                option = true;
+                std::cout<<activeButton<<std::endl;
+                buttons[activeButton].setColor(sf::Color::Red);
+                activeButton = 1;
+            }
         }
         else{
-            if(activeButton != 0){
+            if(activeButton == 1){
+                std::cout<<activeButton;
                 buttons[0].setColor(sf::Color::White);
                 buttons[1].setColor(sf::Color::Red);
             }
-
         }
-
     }
-
 }
 
 void Board::moveLeft() {
@@ -126,12 +129,15 @@ void Board::moveLeft() {
         activeOption--;
     if(activeOption == 5){
         if(activeButton - 1 >= 0){
+
             buttons[activeButton].setColor(sf::Color::White);
             activeButton--;
             buttons[activeButton].setColor(sf::Color::Red);
+            std::cout<<activeButton;
         }
         else{
             buttons[activeButton].setColor(sf::Color::White);
+            option = false;
             activeOption = 4;
         }
     }
