@@ -26,6 +26,7 @@ public:
 
     std::string generatePath();
     sf::Sprite draw();
+    sf::Sprite drawHidden();
 
     std::string printColor();
     std::string printValue();

@@ -72,6 +72,14 @@ sf::Sprite Card::draw() {
     return sprite;
 }
 
+sf::Sprite Card::drawHidden() {
+    texture.loadFromFile("../resources/cards/reverse.png");
+    texture.setSmooth(true);
+    sprite.setTexture(texture);
+    sprite.setScale(0.15,0.15);
+    return sprite;
+}
+
 //==================================================================================//
 //                                NumericCard
 //==================================================================================//
