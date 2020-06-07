@@ -49,20 +49,14 @@ void Board::draw(sf::RenderWindow &window) {
     float widthBetween = 30;
     float distance = 0;
     sf::Texture deckTexture;
-    deckTexture.loadFromFile("../resources/cards/card_back_red.png");
+    deckTexture.loadFromFile("../resources/cards/reverse.png");
     sf::Sprite deckSprite;
     deckSprite.setTexture(deckTexture);
     deckSprite.setScale(0.1,0.1);
     deckSprite.setPosition(sf::Vector2f(width/2, height/2 -100));
     window.draw(deckSprite);
-    for(auto card : activePlayer->hand){
-        card->printCard();
-        card->setImage();
-        sf::Sprite toDraw = card->draw();
-        toDraw.setPosition(sf::Vector2f((width/2 - 100 + distance), height*0.75));
-        window.draw(toDraw);
-        distance += widthBetween;
-    }
+    activePlayer->drawHand(window);
+
 
     //buttons nastepna tura + dobierz
 
