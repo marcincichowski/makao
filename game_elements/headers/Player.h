@@ -26,7 +26,7 @@ public:
     std::vector<std::shared_ptr<Card>> hand; //reka gracza
 
     void drawHand(sf::RenderWindow&, int activeOption);
-    void drawHiddenHand(sf::RenderWindow &window);
+    void drawHiddenHand(sf::RenderWindow &window, int);
 
     void setNo(int);
     void skippedRound(){

@@ -4,6 +4,8 @@
 #include "../headers/Board.h"
 //#include "../game_elements/Deck.h"
 #include <iostream>
+#include <iterator>
+
 Board::Board(float width, float height, int playerCount){
     IS_NEW_ROUND = true;
     deck = std::make_shared<Deck>();
@@ -16,8 +18,8 @@ Board::Board(float width, float height, int playerCount){
         players.back()->setNo(i);
         std::cout << "+ Gracz " << i << std::endl;
     }
-    activePlayer = *(players.begin());
-    //previousPlayer = *(players.end());
+    activePlayer = players.front();
+    previousPlayer = players.back();
     giveaway();
 
     //SET PROPERTIES OF BUTTONS
@@ -42,7 +44,6 @@ Board::Board(float width, float height, int playerCount){
 
     }
     nicknames[0].setPosition(sf::Vector2f(20, 10 + 160 * 3));
-
     nicknames[1].setPosition(sf::Vector2f(20, 10 + 160 * 0));
     nicknames[2].setPosition(sf::Vector2f(20, 10 + 160 * 1));
     nicknames[3].setPosition(sf::Vector2f(20, 10 + 160 * 2));
@@ -80,14 +81,17 @@ void Board::draw(sf::RenderWindow &window) {
     float height = window.getSize().y;
     float widthBetween = 30;
     float distance = 0;
+    int no = 0;
     if(!IS_NEW_ROUND){
         activePlayer->drawHand(window, activeOption);
         for(auto player : players){
             if(player==activePlayer){ continue;}
             else{
-                player->drawHiddenHand(window);
+                player->drawHiddenHand(window,no);
             }
+            no++;
         }
+        updateNicknames();
         deck->drawDeck(window);
         //std::cout << stack->getCardCount();
         stack->drawStack(window);
@@ -181,7 +185,11 @@ std::shared_ptr<Card> Board::getPressedCard() {
 void Board::throwCard() {
     if(getPressedOption() < getActivePlayerHandSize()){
         //getPressedCard();
-        std::cout<<"throw a card"<<std::endl;
+        std::cout<<"Wyrzucono: ";
+        getPressedCard()->printCard();
+        stack->boardStack.push_back(getPressedCard());
+        activePlayer->hand.erase(std::find(activePlayer->hand.begin(),activePlayer->hand.end(),getPressedCard()));
+        newRound();
     }
     else{
         if(getPressedOption() == getActivePlayerHandSize()){
@@ -189,4 +197,28 @@ void Board::throwCard() {
             std::cout<<"draw"<<std::endl;
         }
     }
+}
+
+void Board::newRound() {
+    IS_NEW_ROUND = true;
+    bool found = false;
+    /*for(auto player : players){
+        std::shared_ptr<Player> current = player;
+        if(found){previousPlayer = activePlayer; activePlayer = current;}
+        if(player==activePlayer){found=true;}
+    }*/
+
+    activePlayer = players.at(1);
+    previousPlayer = players.at(2);
+    std::cout << activePlayer->getNickname() << previousPlayer->getNickname();
+
+}
+
+void Board::updateNicknames() {
+    auto it = std::find(players.begin(), players.end(), activePlayer);
+    auto index = std::distance(players.begin(), it);
+    for(int i = 0; i < 4; i++){
+        nicknames[(i+index)%4].setString(players.at(i)->getNickname());
+    }
+
 }
