@@ -8,6 +8,7 @@
 #ifndef MAKAO_BOARD_H
 #define MAKAO_BOARD_H
 
+#define NUMBER_OF_BUTTONS 2
 
 class Board{
 private:
@@ -19,6 +20,9 @@ private:
     int playerCount;
     sf::Texture background;
     sf::Sprite backgroundSprite;
+    sf::Text buttons[NUMBER_OF_BUTTONS];
+    sf::Font font;
+    int activeOption;
 public:
     Board(float width, float height,int playerCount);
     ~Board();

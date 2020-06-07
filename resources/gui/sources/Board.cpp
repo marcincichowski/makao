@@ -11,8 +11,23 @@ Board::Board(float width, float height, int playerCount){
     }
     activePlayer = *(players.begin());
     //previousPlayer = *(players.end());
-
     giveaway();
+
+    //SET PROPERTIES OF BUTTONS
+    if(!font.loadFromFile("../assets/fonts/arial.TTF")){
+        std::cout<<"error font loading";
+    }
+
+    buttons[0].setFont(font);
+    buttons[0].setColor(sf::Color::White);
+    buttons[0].setString(L"Dobierz Kartę");
+    buttons[0].setPosition(sf::Vector2f(width/1.5,height*0.75));
+
+    buttons[1].setFont(font);
+    buttons[1].setColor(sf::Color::White);
+    buttons[1].setString(L"Koniec Tury");
+    buttons[1].setPosition(sf::Vector2f(width/1.5,height*0.75 + 60));
+
 }
 
 void Board::giveaway() {
@@ -29,18 +44,31 @@ int Board::getPlayerCount() const {
 }
 
 void Board::draw(sf::RenderWindow &window) {
-    int width = window.getSize().x;
-    int height = window.getSize().y;
+    float width = window.getSize().x;
+    float height = window.getSize().y;
     float widthBetween = 30;
     float distance = 0;
+    sf::Texture deckTexture;
+    deckTexture.loadFromFile("../resources/cards/card_back_red.png");
+    sf::Sprite deckSprite;
+    deckSprite.setTexture(deckTexture);
+    deckSprite.setScale(0.1,0.1);
+    deckSprite.setPosition(sf::Vector2f(width/2, height/2 -100));
+    window.draw(deckSprite);
     for(auto card : activePlayer->hand){
         card->printCard();
         card->setImage();
         sf::Sprite toDraw = card->draw();
-        toDraw.setPosition(sf::Vector2f((150+distance), height*0.75));
+        toDraw.setPosition(sf::Vector2f((width/2 - 100 + distance), height*0.75));
         window.draw(toDraw);
         distance += widthBetween;
     }
+
+    //buttons nastepna tura + dobierz
+
+    window.draw(buttons[0]);
+    window.draw(buttons[1]);
+
     /*for(auto card : previousPlayer->hand){
         card->printCard();
         card->setImage();
