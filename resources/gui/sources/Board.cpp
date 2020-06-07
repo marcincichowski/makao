@@ -5,6 +5,7 @@
 //#include "../game_elements/Deck.h"
 #include <iostream>
 Board::Board(float width, float height, int playerCount){
+    IS_NEW_ROUND = true;
     deck = std::make_shared<Deck>();
     stack = std::make_shared<Stack>();
 
@@ -46,6 +47,11 @@ Board::Board(float width, float height, int playerCount){
     nicknames[2].setPosition(sf::Vector2f(20, 10 + 160 * 1));
     nicknames[3].setPosition(sf::Vector2f(20, 10 + 160 * 2));
 
+    newRoundText.setFont(font);
+    newRoundText.setColor(sf::Color::White);
+    newRoundText.setString(L"Naciśnij spację aby przejść do następnego gracza");
+    newRoundText.setPosition(sf::Vector2f(width/2 - 350, height/2 - 20));
+
     activeButton = 0;
     activeOption = 0;
     option = false;
@@ -74,33 +80,31 @@ void Board::draw(sf::RenderWindow &window) {
     float height = window.getSize().y;
     float widthBetween = 30;
     float distance = 0;
-    activePlayer->drawHand(window, activeOption);
-    for(auto player : players){
-        if(player==activePlayer){ continue;}
-        else{
-            player->drawHiddenHand(window);
+    if(!IS_NEW_ROUND){
+        activePlayer->drawHand(window, activeOption);
+        for(auto player : players){
+            if(player==activePlayer){ continue;}
+            else{
+                player->drawHiddenHand(window);
+            }
         }
+        deck->drawDeck(window);
+        //std::cout << stack->getCardCount();
+        stack->drawStack(window);
+
+        for(int i = 0; i < 4; i++){
+            window.draw(nicknames[i]);
+        }
+
+        window.draw(buttons[0]);
+        window.draw(buttons[1]);
     }
-    deck->drawDeck(window);
-    //std::cout << stack->getCardCount();
-    stack->drawStack(window);
-
-    for(int i = 0; i < 4; i++){
-        window.draw(nicknames[i]);
+    else{
+        window.draw(newRoundText);
     }
-    //buttons nastepna tura + dobierz
 
-    window.draw(buttons[0]);
-    window.draw(buttons[1]);
 
-    /*for(auto card : previousPlayer->hand){
-        card->printCard();
-        card->setImage();
-        sf::Sprite toDraw = card->draw();
-        toDraw.setPosition(sf::Vector2f((150+distance), height*0.75));
-        window.draw(toDraw);
-        distance += widthBetween;
-    }*/
+
 }
 
 Board::~Board() {}
@@ -134,6 +138,10 @@ void Board::moveRight() {
             }
         }
     }
+}
+
+void Board::pressSpace() {
+    IS_NEW_ROUND = false;
 }
 
 void Board::moveLeft() {

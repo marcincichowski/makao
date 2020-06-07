@@ -22,7 +22,6 @@ int main(){
     background.setTexture(background_texture);
     Board plansza(window.getSize().x, window.getSize().y, 4);
     while(window.isOpen()){
-
         sf::Event event;
         while(window.pollEvent(event)) {
             switch(event.type){
@@ -46,6 +45,10 @@ int main(){
                         }
                         case sf::Keyboard::Right:{
                             plansza.moveRight();
+                            break;
+                        }
+                        case sf::Keyboard::Space:{
+                            plansza.pressSpace();
                             break;
                         }
                         case sf::Keyboard::Return:{

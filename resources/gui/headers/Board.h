@@ -28,6 +28,8 @@ private:
     int activeOption;
     bool option;
     int activeButton;
+    sf::Text newRoundText;
+    bool IS_NEW_ROUND;
 public:
     Board(float width, float height,int playerCount);
     ~Board();
@@ -39,7 +41,7 @@ public:
     void moveLeft();
     void throwCard();
     std::shared_ptr<Card> getPressedCard();
-
+    void pressSpace();
     int getPressedOption();
     int getActivePlayerHandSize();
 };
