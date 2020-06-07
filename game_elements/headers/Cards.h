@@ -5,10 +5,31 @@
 #ifndef MAKAO_CARDS_H
 #define MAKAO_CARDS_H
 
-#include "Stack.h"
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 class Stack;
+
+enum Color{ pik = 0, kier, karo, trefl};
+enum Value{ dwa = 0,
+    trzy,
+    cztery,
+    piec,
+    szesc,
+    siedem,
+    osiem,
+    dziewiec,
+    dziesiec,
+    walet,
+    dama,
+    krol,
+    as};
+
+constexpr std::initializer_list<Value> all_Values = {dwa,trzy,cztery,piec,szesc,siedem,osiem,dziewiec,dziesiec,walet,dama,krol,as};
+constexpr std::initializer_list<Color > all_Colors = {pik,kier,karo,trefl};
+
+std::ostream& operator<< (std::ostream& out, const Color& color);
+std::ostream& operator<< (std::ostream& out, const Value& color);
 
 class Card{
 private:
@@ -19,8 +40,6 @@ private:
 public:
     Card();
     ~Card();
-
-    virtual void initStack(Stack* stackToInitOn)=0;            //kazda karta ma inne "zadania" po wejsciu na stos
 
     void printCard();
 
@@ -36,6 +55,7 @@ public:
 
     void setColor(Color);
     void setValue(Value);
+
 };
 
 
@@ -46,7 +66,6 @@ public:
     ~NumericCard();
 
     virtual Value getValue()const;
-    virtual void initStack(Stack* stackToInitOn);
 };
 
 class Jack : public Card{
@@ -55,7 +74,6 @@ public:
     ~Jack();
 
     virtual Value getValue()const;
-    virtual void initStack(Stack* stackToInitOn);
 };
 
 class Queen : public Card{
@@ -64,7 +82,6 @@ public:
     ~Queen();
 
     virtual Value getValue()const;
-    virtual void initStack(Stack* stackToInitOn);
 };
 
 class King : public Card{
@@ -73,7 +90,6 @@ public:
     ~King();
 
     virtual Value getValue()const;
-    virtual void initStack(Stack* stackToInitOn);
 };
 
 class Ace : public Card{
@@ -82,22 +98,6 @@ public:
     ~Ace();
 
     virtual Value getValue()const;
-    virtual void initStack(Stack* stackToInitOn);
 };
-
-/*class Joker : public Card{
-private:
-    Value value;
-
-public:
-    Joker(Color colorToSet);
-    ~Joker();
-
-    virtual Value getValue()const;
-    virtual void initStack(Stack* stackToInitOn);
-    virtual void printCard();
-};*/
-
-
 
 #endif //MAKAO_CARDS_H

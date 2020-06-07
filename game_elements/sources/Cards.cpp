@@ -80,6 +80,39 @@ sf::Sprite Card::drawHidden(float scale) {
     return sprite;
 }
 
+std::ostream& operator<< (std::ostream& out, const Color& color)
+{
+    switch(color)
+    {
+        case pik: out << "pik"; break;
+        case kier: out << "kier"; break;
+        case karo: out << "karo"; break;
+        case trefl: out << "trefl"; break;
+    }
+    return out;
+}
+
+std::ostream& operator<< (std::ostream& out, const Value& value)
+{
+    switch(value)
+    {
+        case dwa: out << "dwa"; break;
+        case trzy: out << "trzy"; break;
+        case cztery: out << "cztery"; break;
+        case piec: out << "piec"; break;
+        case szesc: out << "szesc"; break;
+        case siedem: out << "siedem"; break;
+        case osiem: out << "osiem"; break;
+        case dziewiec: out << "dziewiec"; break;
+        case dziesiec: out << "dziesiec"; break;
+        case walet: out << "walet"; break;
+        case dama: out << "dama"; break;
+        case krol: out << "krol"; break;
+        case as: out << "as"; break;
+    }
+    return out;
+}
+
 //==================================================================================//
 //                                NumericCard
 //==================================================================================//
@@ -91,15 +124,6 @@ NumericCard::NumericCard(Color colorToSet, Value valueToSet) {
 };
 NumericCard::~NumericCard(){}
 
-void NumericCard::initStack(Stack *stackToInitOn) {
-      if(this->getValue() == 2 || this->getValue() == 3){
-          stackToInitOn->addCardsToPull(this->getValue());
-      }else if(this->getValue() == 4){
-          stackToInitOn->addRoundsToWait(1);
-      }else{
-          return;
-      }
-}
 
 Value NumericCard::getValue() const{
     return this->getValue();
@@ -123,10 +147,6 @@ Value Jack::getValue() const{
     return this->getValue();
 }
 
-void Jack::initStack(Stack *stackToInitOn) {
-    //TODO                                                      //okno wyboru żądanej wartosci karty od 5 do 10, krole karo i trefl
-    //stackToInitOn->setDesiredValue(valueToSet);
-}
 
 ///==================================================================================/
 
@@ -145,9 +165,7 @@ Value Queen::getValue() const{
     return this->getValue();
 }
 
-void Queen::initStack(Stack *stackToInitOn) {
-    stackToInitOn->reset();
-}
+
 
 //==================================================================================//
 
@@ -162,15 +180,7 @@ King::King(Color colorToSet) {
 };
 King::~King(){}
 
-void King::initStack(Stack *stackToInitOn) {
-    if(this->getColor()==kier){
-        stackToInitOn->addCardsToPull(5);
-    }else if(this->getColor()==pik){
-        //TODO                                              //ciagniecie kart przez poprzedniego
-    }else{
-        return;
-    }
-}
+
 
 Value King::getValue() const{
     return this->getValue();
@@ -192,10 +202,7 @@ Value Ace::getValue() const{
     return this->getValue();
 }
 
-void Ace::initStack(Stack *stackToInitOn) {
-    //TODO                                       //okno wyboru zadanego koloru, zadajacy musi go miec
-    //stackToInitOn->setDesiredColor(colorToSet);
-}
+
 
 
 //==================================================================================//

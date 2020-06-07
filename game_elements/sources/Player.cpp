@@ -9,7 +9,8 @@ Player::Player(std::string nicknameToSet) : nickname(nicknameToSet) {
     //std::cout << "Tworze gracze o nicku " << nickname << std::endl;
     freezedRounds = 0;
 }
-Player::~Player() { std::cout << "Usuwam gracze o nicku " << nickname << std::endl; }
+Player::~Player() { //std::cout << "Usuwam gracze o nicku " << nickname << std::endl;
+     }
 
 std::string Player::getNickname() const{ return nickname; }
 
@@ -28,7 +29,6 @@ void Player::drawHand(sf::RenderWindow &window) {
     float distance = 0;
     float scale = 0.15;
     for(auto card : this->hand){
-        card->printCard();
         sf::Sprite toDraw = card->draw(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), height*0.75));
         window.draw(toDraw);
@@ -43,9 +43,8 @@ void Player::drawHiddenHand(sf::RenderWindow &window) {
     float distance = 0;
     float scale = 0.1;
     for(auto card : this->hand){
-        card->printCard();
         sf::Sprite toDraw = card->drawHidden(scale);
-        toDraw.setPosition(sf::Vector2f((20 + distance), 40+160*(playerNo-1)));
+        toDraw.setPosition(sf::Vector2f((20 + distance), 50+160*(playerNo-1)));
         window.draw(toDraw);
         distance += widthBetween;
     }

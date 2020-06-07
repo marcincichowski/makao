@@ -9,33 +9,12 @@
 #include <iostream>
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include "Cards.h"
 
-class Card;
 
-enum Color{ pik = 0, kier, karo, trefl};
-enum Value{ dwa = 0,
-    trzy,
-    cztery,
-    piec,
-    szesc,
-    siedem,
-    osiem,
-    dziewiec,
-    dziesiec,
-    walet,
-    dama,
-    krol,
-    as};
-
-constexpr std::initializer_list<Value> all_Values = {dwa,trzy,cztery,piec,szesc,siedem,osiem,dziewiec,dziesiec,walet,dama,krol,as};
-constexpr std::initializer_list<Color > all_Colors = {pik,kier,karo,trefl};
-
-std::ostream& operator<< (std::ostream& out, const Color& color);
-std::ostream& operator<< (std::ostream& out, const Value& color);
 
 class Stack {
 private:
-    std::stack<std::shared_ptr<Card>> boardStack;           //karty lezace na stole
     int cardCount;                         //liczba kart na stosie
     int cardsToPull;                       //liczba kart to pociagniecia, w przypadku 2,3 i krola kier
     int roundsToWait;                     //liczba tur ktore musi przeczekac kolejny gracz bez karty ochronnej gdy >0
@@ -43,6 +22,8 @@ private:
     Value desiredValue;
 
 public:
+    friend class Card;
+    std::vector<std::shared_ptr<Card>> boardStack;           //karty lezace na stole
     Stack();
     ~Stack();
     std::shared_ptr<Card> topCard();
@@ -65,6 +46,14 @@ public:
     void reset();                             //dama blokuje wojny i tury do odczekania
 
     void drawStack(sf::RenderWindow);
+
+
+    //INITS
+    void initStack(NumericCard &card);
+    void initStack(Jack &card);
+    void initStack(Queen &card);
+    void initStack(King &card);
+    void initStack(Ace &card);
 };
 
 
