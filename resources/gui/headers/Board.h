@@ -24,6 +24,8 @@ private:
     sf::Font font;
     sf::Text nicknames[4];
     int activeOption;
+    bool option;
+    int activeButton;
 public:
     Board(float width, float height,int playerCount);
     ~Board();
