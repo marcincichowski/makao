@@ -100,7 +100,7 @@ void Stack::initStack(Ace &card) {
 
 bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
     Value valueToCheck = cardToCheck->getValue();
-    std::cout << valueToCheck;
+    std::cout << valueToCheck << "|";
     Color colorToCheck = cardToCheck->getColor();
     std::cout << colorToCheck;
 
@@ -118,7 +118,7 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
 
 }
 
-bool Stack::throwCard(std::shared_ptr<Card> &cardToCheck){
+bool Stack::throwToStack(std::shared_ptr<Card> &cardToCheck){
     if(isLegit(cardToCheck)){
         boardStack.push_back(cardToCheck);
         return true;

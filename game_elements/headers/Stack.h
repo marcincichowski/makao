@@ -53,7 +53,7 @@ public:
     void initStack(Ace &card);
 
     bool isLegit(std::shared_ptr<Card>&);
-    bool throwCard(std::shared_ptr<Card>&);
+    bool throwToStack(std::shared_ptr<Card>&);
     void update();
 };
 
