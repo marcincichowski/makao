@@ -187,17 +187,24 @@ std::shared_ptr<Card> Board::getPressedCard() {
 }
 
 void Board::throwCard() {
+
+    std::cout << "Runda numer: " << round << std::endl;
     if(getPressedOption() < getActivePlayerHandSize()){
         //getPressedCard();
         std::cout<<"Wyrzucono: ";
         getPressedCard()->printCard();
-        stack->boardStack.push_back(getPressedCard());
-        activePlayer->hand.erase(std::find(activePlayer->hand.begin(),activePlayer->hand.end(),getPressedCard()));
-        newRound();
+
+        if(stack->throwToStack(getPressedCard())){
+            activePlayer->hand.erase(std::find(activePlayer->hand.begin(),activePlayer->hand.end(),getPressedCard()));
+            newRound();
+        }else{
+            return;
+        }
     }
     else{
         if(getPressedOption() == getActivePlayerHandSize()){
-            //dobierzKarte();
+            drawCard();
+            newRound();
             std::cout<<"draw"<<std::endl;
         }
     }
@@ -207,6 +214,8 @@ void Board::newRound() {
     IS_NEW_ROUND = true;
     round++;
     bool found = false;
+    stack->update();
+    std::cout << "KOLOR: " << stack->getDesideredColor() << " WARTOSC: " << stack->getDesideredValue() << std::endl;
     /*for(auto player : players){
         std::shared_ptr<Player> current = player;
         if(found){previousPlayer = activePlayer; activePlayer = current;}
@@ -232,4 +241,9 @@ void Board::updateNicknames() {
     nicknames[1].setString(players.at((1+round)%4)->getNickname());
     nicknames[2].setString(players.at((2+round)%4)->getNickname());
     nicknames[3].setString(players.at((3+round)%4)->getNickname());
+}
+
+void Board::drawCard() {
+    activePlayer->hand.push_back(deck->cardCollection.back());
+    deck->cardCollection.pop_back();
 }

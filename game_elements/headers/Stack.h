@@ -13,7 +13,6 @@
 
 class Stack {
 private:
-    int cardCount;                         //liczba kart na stosie
     int cardsToPull;                       //liczba kart to pociagniecia, w przypadku 2,3 i krola kier
     int roundsToWait;                     //liczba tur ktore musi przeczekac kolejny gracz bez karty ochronnej gdy >0
     Color desiredColor;
@@ -27,6 +26,9 @@ public:
     std::shared_ptr<Card> topCard();
 
     int getCardCount();
+
+    Color getDesideredColor() const;
+    Value getDesideredValue() const;
 
     void addCardsToPull(int amountToAdd);
     void addRoundsToWait(int amountToAdd);
@@ -53,7 +55,7 @@ public:
     void initStack(Ace &card);
 
     bool isLegit(std::shared_ptr<Card>&);
-    bool throwToStack(std::shared_ptr<Card>&);
+    bool throwToStack(std::shared_ptr<Card>);
     void update();
 };
 

@@ -6,7 +6,6 @@
 
 Stack::Stack() {
     roundsToWait = 0;
-    cardCount = 0;
     cardsToPull = 0;
 }
 Stack::~Stack() {}
@@ -34,10 +33,11 @@ int Stack::getRoundsToWait() const {
 void Stack::reset() {
     cardsToPull = 0;
     roundsToWait = 0;
+    war=false;
 }
 
 std::shared_ptr<Card> Stack::topCard() {
-   if(cardCount>0){return boardStack.back();}
+   if(boardStack.size()>0){return boardStack.back();}
    else{ return nullptr; }
 }
 
@@ -118,7 +118,7 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
 
 }
 
-bool Stack::throwToStack(std::shared_ptr<Card> &cardToCheck){
+bool Stack::throwToStack(std::shared_ptr<Card> cardToCheck){
     if(isLegit(cardToCheck)){
         boardStack.push_back(cardToCheck);
         return true;
@@ -129,16 +129,50 @@ bool Stack::throwToStack(std::shared_ptr<Card> &cardToCheck){
 }
 
 void Stack::update() {
-    if(this->topCard()->printValue()=="2"){addCardsToPull(2);}
-    else if(this->topCard()->printValue()=="3"){addCardsToPull(3);}
-    else if(this->topCard()->printValue()=="K" || this->topCard()->printColor()=="H"){addCardsToPull(5);}
-    else if(this->topCard()->printValue()=="K" || this->topCard()->printColor()=="S"){}
-    else if(this->topCard()->printValue()=="Q"){reset();}
-    else if(this->topCard()->printValue()=="4"){addRoundsToWait(1);}
+    if(this->topCard()->printValue()=="2"){
+        addCardsToPull(2);
+        setDesiredValue(topCard()->getValue());
+        setDesiredColor(topCard()->getColor());
+    }
+    else if(this->topCard()->printValue()=="3"){
+        addCardsToPull(3);
+        setDesiredValue(topCard()->getValue());
+        setDesiredColor(topCard()->getColor());
+    }
+    else if(this->topCard()->printValue()=="K" || this->topCard()->printColor()=="H"){
+        addCardsToPull(5);
+        setDesiredValue(topCard()->getValue());
+        setDesiredColor(topCard()->getColor());
+    }
+    else if(this->topCard()->printValue()=="K" || this->topCard()->printColor()=="S"){
+        setDesiredValue(topCard()->getValue());
+        setDesiredColor(topCard()->getColor());
+    }
+    else if(this->topCard()->printValue()=="Q"){
+        reset();
+        setDesiredValue(topCard()->getValue());
+        setDesiredColor(topCard()->getColor());
+    }
+    else if(this->topCard()->printValue()=="4"){
+        addRoundsToWait(1);
+        setDesiredValue(topCard()->getValue());
+        setDesiredColor(topCard()->getColor());
+    }
     else{
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
+    if(cardsToPull=0){
+        war=false;
+    }
+}
+
+Color Stack::getDesideredColor() const {
+    return desiredColor;
+}
+
+Value Stack::getDesideredValue() const {
+    return desiredValue;
 }
 
 
