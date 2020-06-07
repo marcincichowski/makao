@@ -25,7 +25,6 @@ public:
     void printCard();
 
     std::string generatePath();
-    void setImage();
     sf::Sprite draw();
 
     std::string printColor();
