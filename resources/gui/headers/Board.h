@@ -4,6 +4,8 @@
 #include "SFML/Graphics.hpp"
 #include "../../../game_elements/headers/Player.h"
 #include "../../../game_elements/headers/Deck.h"
+#include "../../../game_elements/headers/Stack.h"
+#include <iostream>
 
 #ifndef MAKAO_BOARD_H
 #define MAKAO_BOARD_H

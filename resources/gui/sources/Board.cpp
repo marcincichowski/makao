@@ -1,11 +1,12 @@
-//
-// Created by marci on 06.06.2020.
-//
 #include "../headers/Board.h"
 //#include "../game_elements/Deck.h"
 #include <iostream>
 Board::Board(float width, float height, int playerCount){
     deck = std::make_shared<Deck>();
+    stack = std::make_shared<Stack>();
+
+    stack->boardStack.push_back(deck->cardCollection.back());
+    deck->cardCollection.pop_back();
     for(int i = 0;i<playerCount;i++) {
         players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1)));
         players.back()->setNo(i);
@@ -71,22 +72,16 @@ void Board::draw(sf::RenderWindow &window) {
         }
     }
     deck->drawDeck(window);
+    //std::cout << stack->getCardCount();
+    stack->drawStack(window);
+
     for(int i = 0; i < 4; i++){
         window.draw(nicknames[i]);
     }
-    //buttons nastepna tura + dobierz
 
+    //buttons nastepna tura + dobierz
     window.draw(buttons[0]);
     window.draw(buttons[1]);
-
-    /*for(auto card : previousPlayer->hand){
-        card->printCard();
-        card->setImage();
-        sf::Sprite toDraw = card->draw();
-        toDraw.setPosition(sf::Vector2f((150+distance), height*0.75));
-        window.draw(toDraw);
-        distance += widthBetween;
-    }*/
 }
 
 Board::~Board() {}

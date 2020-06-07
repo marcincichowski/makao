@@ -30,7 +30,7 @@ int main(){
                     window.close();
                     break;
                 }
-                case sf::Event::KeyReleased:{
+                case sf::Event::KeyPressed:{
                     switch(event.key.code){
                         case sf::Keyboard::Up:{
                             menu.MoveUp();
@@ -52,7 +52,8 @@ int main(){
                             if(menu.getPressedItem() == 0){
                                 STATE = 2;                              //gra
                             }else if(menu.getPressedItem() == 1) {
-                                //STATE = 1;                              //zasady
+                                //
+                                // STATE = 1;                              //zasady
                             }else{
                                 window.close();                         //wyjscie
                             }
