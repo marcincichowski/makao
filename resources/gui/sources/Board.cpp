@@ -1,3 +1,6 @@
+//
+// Created by marci on 06.06.2020.
+//
 #include "../headers/Board.h"
 //#include "../game_elements/Deck.h"
 #include <iostream>
@@ -62,6 +65,10 @@ int Board::getPlayerCount() const {
     return players.capacity();
 }
 
+int Board::getActivePlayerHandSize(){
+    return activePlayer->hand.size();
+}
+
 void Board::draw(sf::RenderWindow &window) {
     float width = window.getSize().x;
     float height = window.getSize().y;
@@ -81,10 +88,19 @@ void Board::draw(sf::RenderWindow &window) {
     for(int i = 0; i < 4; i++){
         window.draw(nicknames[i]);
     }
-
     //buttons nastepna tura + dobierz
+
     window.draw(buttons[0]);
     window.draw(buttons[1]);
+
+    /*for(auto card : previousPlayer->hand){
+        card->printCard();
+        card->setImage();
+        sf::Sprite toDraw = card->draw();
+        toDraw.setPosition(sf::Vector2f((150+distance), height*0.75));
+        window.draw(toDraw);
+        distance += widthBetween;
+    }*/
 }
 
 Board::~Board() {}
@@ -100,7 +116,7 @@ void Board::moveRight() {
     if(activeOption + 1 < activePlayer->hand.size())
         activeOption++;
     else{
-        activeOption = 5;
+        activeOption = activePlayer->hand.size() + 1;
         if(activeButton == 0){
             if(option){
                 buttons[activeButton].setColor(sf::Color::White);
@@ -125,9 +141,9 @@ void Board::moveRight() {
 }
 
 void Board::moveLeft() {
-    if(activeOption - 1 >= 0 && activeOption !=5)
+    if(activeOption - 1 >= 0 && activeOption != activePlayer->hand.size() + 1)
         activeOption--;
-    if(activeOption == 5){
+    if(activeOption == activePlayer->hand.size() + 1){
         if(activeButton - 1 >= 0){
 
             buttons[activeButton].setColor(sf::Color::White);
@@ -138,11 +154,31 @@ void Board::moveLeft() {
         else{
             buttons[activeButton].setColor(sf::Color::White);
             option = false;
-            activeOption = 4;
+            activeOption = activePlayer->hand.size() - 1;
         }
     }
 }
 
-void Board::getPressed() {
+int Board::getPressedOption(){
+    if(activeOption != activePlayer->hand.size() + 1){
+        return activeOption;
+    }
+    else{
+        return activePlayer->hand.size() + activeButton;
+    }
+}
 
+std::shared_ptr<Card> Board::getPressedCard() {
+    if(activeOption != activePlayer->hand.size() + 1){
+        return activePlayer->hand.at(activeOption);
+    }
+    else{
+        if(activeOption == 0){
+            //cardDraw();
+        }
+        else{
+            //nextTurn();
+            std::cout<<"1";
+        }
+    }
 }

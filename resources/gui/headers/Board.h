@@ -37,6 +37,8 @@ public:
     void giveaway();
     void moveRight();
     void moveLeft();
-    void getPressed();
+    std::shared_ptr<Card> getPressedCard();
+    int getPressedOption();
+    int getActivePlayerHandSize();
 };
 #endif //MAKAO_BOARD_H
