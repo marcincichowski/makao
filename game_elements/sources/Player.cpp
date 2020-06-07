@@ -19,7 +19,7 @@ void Player::setFreezedRounds(int roundsToSet) {
 }
 
 int Player::getCardCount() const {
-    return hand.capacity();
+    return hand.size();
 }
 
 void Player::drawHand(sf::RenderWindow &window, int activeOption) {

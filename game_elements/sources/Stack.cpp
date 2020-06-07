@@ -11,9 +11,9 @@ Stack::Stack() {
 }
 Stack::~Stack() {}
 
-int Stack::getCardCount() { return boardStack.capacity(); }
+int Stack::getCardCount() { return boardStack.size(); }
 
-void Stack::addCardsToPull(int amountToAdd) { cardsToPull+=amountToAdd; }
+void Stack::addCardsToPull(int amountToAdd) { cardsToPull+=amountToAdd; war=true;}
 void Stack::addRoundsToWait(int amountToAdd) { roundsToWait+=amountToAdd; }
 
 void Stack::pushCard(std::shared_ptr<Card> toAdd) { boardStack.push_back(toAdd); }
@@ -97,4 +97,48 @@ void Stack::initStack(Ace &card) {
     //TODO                                       //okno wyboru zadanego koloru, zadajacy musi go miec
     //stackToInitOn->setDesiredColor(colorToSet);
 }
+
+bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
+    Value valueToCheck = cardToCheck->getValue();
+    std::cout << valueToCheck;
+    Color colorToCheck = cardToCheck->getColor();
+    std::cout << colorToCheck;
+
+    if(this->topCard()->getValue()!=valueToCheck && this->topCard()->getColor()!=colorToCheck){
+        return false;
+    }else if(war){
+        if(this->topCard()->printValue()!="2" || this->topCard()->printValue()!="3" || this->topCard()->printValue()!="K"){
+            return false;
+        }else{
+            return true;
+        }
+    }else{
+        return true;
+    }
+
+}
+
+bool Stack::throwCard(std::shared_ptr<Card> &cardToCheck){
+    if(isLegit(cardToCheck)){
+        boardStack.push_back(cardToCheck);
+        return true;
+    }else{
+        std::cout << "Ta karta nie moze zostac wyrzucona na stos!\n";
+        return false;
+    }
+}
+
+void Stack::update() {
+    if(this->topCard()->printValue()=="2"){addCardsToPull(2);}
+    else if(this->topCard()->printValue()=="3"){addCardsToPull(3);}
+    else if(this->topCard()->printValue()=="K" || this->topCard()->printColor()=="H"){addCardsToPull(5);}
+    else if(this->topCard()->printValue()=="K" || this->topCard()->printColor()=="S"){}
+    else if(this->topCard()->printValue()=="Q"){reset();}
+    else if(this->topCard()->printValue()=="4"){addRoundsToWait(1);}
+    else{
+        setDesiredValue(topCard()->getValue());
+        setDesiredColor(topCard()->getColor());
+    }
+}
+
 

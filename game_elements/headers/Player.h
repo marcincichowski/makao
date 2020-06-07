@@ -29,6 +29,9 @@ public:
     void drawHiddenHand(sf::RenderWindow &window);
 
     void setNo(int);
+    void skippedRound(){
+
+    }
 };
 
 
