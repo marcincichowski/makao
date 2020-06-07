@@ -43,7 +43,10 @@ Board::Board(float width, float height, int playerCount){
     nicknames[2].setPosition(sf::Vector2f(20, 10 + 160 * 1));
     nicknames[3].setPosition(sf::Vector2f(20, 10 + 160 * 2));
 
+    activeButton = 0;
     activeOption = 0;
+    option = false;
+
 }
 
 void Board::giveaway() {
@@ -94,13 +97,44 @@ Board::~Board() {}
     }
 }*/
 void Board::moveRight() {
-    if(activeOption + 1 < activePlayer->hand.capacity())
+    //std::cout<<activePlayer->hand.size()<<std::endl;
+    //std::cout<<activeOption<<std::endl;
+
+    if(activeOption + 1 < activePlayer->hand.size())
         activeOption++;
+    else{
+        activeOption = 5;
+        if(activeButton == 0){
+            std::cout<<activeButton<<std::endl;
+            buttons[activeButton].setColor(sf::Color::Red);
+            activeButton++;
+        }
+        else{
+            if(activeButton != 0){
+                buttons[0].setColor(sf::Color::White);
+                buttons[1].setColor(sf::Color::Red);
+            }
+
+        }
+
+    }
+
 }
 
 void Board::moveLeft() {
-    if(activeOption - 1 >= 0)
+    if(activeOption - 1 >= 0 && activeOption !=5)
         activeOption--;
+    if(activeOption == 5){
+        if(activeButton - 1 >= 0){
+            buttons[activeButton].setColor(sf::Color::White);
+            activeButton--;
+            buttons[activeButton].setColor(sf::Color::Red);
+        }
+        else{
+            buttons[activeButton].setColor(sf::Color::White);
+            activeOption = 4;
+        }
+    }
 }
 
 void Board::getPressed() {
