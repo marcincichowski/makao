@@ -29,7 +29,7 @@ void Player::drawHand(sf::RenderWindow &window, int activeOption) {
     float distance = 0;
     float scale = 0.15;
     int i = 0;
-    for(auto card : this->hand){
+    for(auto &card : this->hand){
         sf::Sprite toDraw = card->draw(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), height*0.75));
         if(activeOption == i)
@@ -46,7 +46,7 @@ void Player::drawHiddenHand(sf::RenderWindow &window) {
     float widthBetween = 30;
     float distance = 0;
     float scale = 0.1;
-    for(auto card : this->hand){
+    for(auto &card : this->hand){
         sf::Sprite toDraw = card->drawHidden(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), 50+160*(playerNo-1)));
         window.draw(toDraw);

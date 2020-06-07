@@ -9,8 +9,15 @@
 ///                                    Card
 ///==================================================================================/
 
-Card::Card(){
-
+Card::Card(Color colorToSet, Value valueToSet) {
+    setColor(colorToSet);
+    setValue(valueToSet);
+    texture.loadFromFile(this->generatePath());
+    texture.setSmooth(true);
+    sprite.setTexture(texture);
+    reverse.loadFromFile("../resources/cards/reverse.png");
+    reverse.setSmooth(true);
+    reverseSprite.setTexture(reverse);
 }
 Card::~Card(){}
 
@@ -65,19 +72,13 @@ std::string Card::printValue() {
 }
 
 sf::Sprite Card::draw(float scale) {
-    texture.loadFromFile(this->generatePath());
-    texture.setSmooth(true);
-    sprite.setTexture(texture);
     sprite.setScale(scale,scale);
     return sprite;
 }
 
 sf::Sprite Card::drawHidden(float scale) {
-    texture.loadFromFile("../resources/cards/reverse.png");
-    texture.setSmooth(true);
-    sprite.setTexture(texture);
-    sprite.setScale(scale,scale);
-    return sprite;
+    reverseSprite.setScale(scale,scale);
+    return reverseSprite;
 }
 
 std::ostream& operator<< (std::ostream& out, const Color& color)
@@ -117,11 +118,7 @@ std::ostream& operator<< (std::ostream& out, const Value& value)
 //                                NumericCard
 //==================================================================================//
 
-NumericCard::NumericCard(Color colorToSet, Value valueToSet) {
-    Card::setColor(colorToSet);
-    Card::setValue(valueToSet);
-    //std::cout << "Stworzono Karte o kolorze " << colorToSet << " oraz wartosci " << valueToSet << std::endl;
-};
+NumericCard::NumericCard(Color colorToSet, Value valueToSet):Card(colorToSet,valueToSet){};
 NumericCard::~NumericCard(){}
 
 
@@ -136,11 +133,7 @@ Value NumericCard::getValue() const{
 ///                                    Jack
 ///==================================================================================/
 
-Jack::Jack(Color colorToSet) {
-    Card::setColor(colorToSet);
-    Card::setValue(Value::walet);
-    //std::cout << "Stworzono Waleta o kolorze " << colorToSet << std::endl;
-};
+Jack::Jack(Color colorToSet):Card(colorToSet,walet) {};
 Jack::~Jack(){}
 
 Value Jack::getValue() const{
@@ -154,11 +147,7 @@ Value Jack::getValue() const{
 //                                    Queen
 //==================================================================================//
 
-Queen::Queen(Color colorToSet) {
-    Card::setColor(colorToSet);
-    Card::setValue(Value::dama);
-    //std::cout << "Stworzono Dame o kolorze " << colorToSet << std::endl;
-};
+Queen::Queen(Color colorToSet) :Card(colorToSet,dama){};
 Queen::~Queen(){}
 
 Value Queen::getValue() const{
@@ -173,11 +162,7 @@ Value Queen::getValue() const{
 ///                                    King
 ///==================================================================================/
 
-King::King(Color colorToSet) {
-    Card::setColor(colorToSet);
-    Card::setValue(Value::krol);
-    //std::cout << "Stworzono Krola o kolorze " << colorToSet << std::endl;
-};
+King::King(Color colorToSet) :Card(colorToSet,krol){};
 King::~King(){}
 
 
@@ -191,11 +176,7 @@ Value King::getValue() const{
 //                                     Ace
 //==================================================================================//
 
-Ace::Ace(Color colorToSet) {
-    Card::setColor(colorToSet);
-    Card::setValue(Value::as);
-    //std::cout << "Stworzono Asa o kolorze " << colorToSet << std::endl;
-};
+Ace::Ace(Color colorToSet) :Card(colorToSet,as){};
 Ace::~Ace(){}
 
 Value Ace::getValue() const{

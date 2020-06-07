@@ -13,7 +13,6 @@ class Player {
 private:
     std::string nickname;               //nazwa gracza
     int playerNo;
-
     int freezedRounds;                   //pozostala liczba rund do odczekania
 
 public:

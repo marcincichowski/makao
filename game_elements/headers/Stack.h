@@ -22,7 +22,6 @@ private:
     Value desiredValue;
 
 public:
-    friend class Card;
     std::vector<std::shared_ptr<Card>> boardStack;           //karty lezace na stole
     Stack();
     ~Stack();
@@ -45,8 +44,7 @@ public:
 
     void reset();                             //dama blokuje wojny i tury do odczekania
 
-    void drawStack(sf::RenderWindow);
-
+    void drawStack(sf::RenderWindow &window);
 
     //INITS
     void initStack(NumericCard &card);

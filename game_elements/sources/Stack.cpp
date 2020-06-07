@@ -11,7 +11,7 @@ Stack::Stack() {
 }
 Stack::~Stack() {}
 
-int Stack::getCardCount() { return cardCount; }
+int Stack::getCardCount() { return boardStack.capacity(); }
 
 void Stack::addCardsToPull(int amountToAdd) { cardsToPull+=amountToAdd; }
 void Stack::addRoundsToWait(int amountToAdd) { roundsToWait+=amountToAdd; }
@@ -49,22 +49,19 @@ void Stack::setDesiredValue(Value colorToSet) {
     Stack::desiredValue = colorToSet;
 }
 
-void Stack::drawStack(sf::RenderWindow window) {
-    if(this->getCardCount()==0){ return; }
-    else {
-        float width = window.getSize().x;
-        float height = window.getSize().y;
-        float widthBetween = 5;
-        float distance = 0;
-        int counter = 0;
-        float scale = 0.15;
-        for (auto &card : this->boardStack) {
-            if (counter >= 5 || card == boardStack.back()) { break; } else { counter++; }
-            sf::Sprite toDraw = card->draw(scale);
-            toDraw.setPosition(sf::Vector2f((1100 + distance), 50 + distance));
-            window.draw(toDraw);
-            distance += widthBetween;
-        }
+void Stack::drawStack(sf::RenderWindow &window) {
+    float width = window.getSize().x;
+    float height = window.getSize().y;
+    float widthBetween = 5;
+    float distance = 0;
+    int counter = 0;
+    float scale = 0.15;
+    for (auto &card : this->boardStack) {
+        if (counter >= 5) { break; } else { counter++; }
+        sf::Sprite toDraw = card->draw(scale);
+        toDraw.setPosition(sf::Vector2f(width/2-50, height/2-140));
+        window.draw(toDraw);
+        distance += widthBetween;
     }
 }
 
@@ -77,6 +74,7 @@ void Stack::initStack(NumericCard &card) {
         return;
     }
 }
+
 void Stack::initStack(Jack &card) {
     //TODO                                           //okno wyboru żądanej wartosci karty od 5 do 10, krole karo i trefl
     //stackToInitOn->setDesiredValue(valueToSet);

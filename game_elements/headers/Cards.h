@@ -37,8 +37,11 @@ private:
     Value value;
     sf::Texture texture;
     sf::Sprite sprite;
+    sf::Texture reverse;
+    sf::Sprite reverseSprite;
 public:
-    Card();
+    Card(Color, Value);
+    Card(const Card&)=delete;
     ~Card();
 
     void printCard();
@@ -55,7 +58,6 @@ public:
 
     void setColor(Color);
     void setValue(Value);
-
 };
 
 
