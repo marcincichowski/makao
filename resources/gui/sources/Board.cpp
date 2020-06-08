@@ -239,13 +239,13 @@ void Board::throwCard() {
                 }
                 stack->boardStack.push_back(topCard);
                 deck->shuffleDeck();
-
                 for(int j = 0; j < toPull; j++){
                     drawCard();
                 }
 
-                stack->cancelWar();
                 newRound();
+
+                stack->cancelWar();
             }
         }
     }

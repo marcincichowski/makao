@@ -162,6 +162,8 @@ void Stack::update() {
     }else{
         emptyStack = false;
     }
+    if(war){cancelWar();
+        return;}
     if(this->boardStack.back()->printValue()=="2"){
         addCardsToPull(2);
         setDesiredValue(topCard()->getValue());
