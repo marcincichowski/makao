@@ -61,10 +61,6 @@ void Stack::drawStack(sf::RenderWindow &window) {
     float scale = 0.15;
     int n = boardStack.size();
     int total = (n < 5 ? n = boardStack.size() : 5);
-    boardStack[0]->draw(scale);
-    sf::Sprite toDraw = boardStack[0]->draw(scale);
-    toDraw.setPosition(sf::Vector2f(width / 2 - 50, height / 2 - 140));
-    window.draw(toDraw);
     int x = (boardStack.size() - 1) >= 5 ? 5 : boardStack.size() - 1;
     if (boardStack.size() - 1 > 0) {
         for (int i = 0; i < x; i++) {
@@ -74,6 +70,11 @@ void Stack::drawStack(sf::RenderWindow &window) {
             distance += widthBetween;
         }
     }
+    boardStack.back()->draw(scale);
+    sf::Sprite toDraw = boardStack.back()->draw(scale);
+    toDraw.setPosition(sf::Vector2f(width / 2 +distance- 50, height / 2+distance - 140));
+
+    window.draw(toDraw);
 }
 
 void Stack::initStack(NumericCard &card) {
@@ -124,6 +125,7 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
     }else{
         return true;
     }*/
+    if(emptyStack==true){ return  true;}
     if (war == true) {
         if ((valueToCheck == "2") || (valueToCheck == "3") || (valueToCheck == "K" && colorToCheck == "D") ||
             (valueToCheck == "Q" && colorToCheck == "H")) {
@@ -162,8 +164,6 @@ void Stack::update() {
     }else{
         emptyStack = false;
     }
-    if(war){cancelWar();
-        return;}
     if(this->boardStack.back()->printValue()=="2"){
         addCardsToPull(2);
         setDesiredValue(topCard()->getValue());

@@ -212,7 +212,7 @@ void Board::throwCard() {
     }
     else{
         if(getPressedOption() == getActivePlayerHandSize()){
-            if(!(stack->getWar())){
+            /*if(!(stack->getWar())){
                 drawCard();
                 newRound();
                 std::cout<<"draw"<<std::endl;
@@ -220,8 +220,8 @@ void Board::throwCard() {
             else{
                 int extraPull=0, toPull = 0;
                 if(stack->getCardsToPull()>deck->cardCollection.size()){
-                    extraPull = (stack->getCardsToPull())-deck->cardCollection.size();
-                    toPull = deck->cardCollection.size();
+                    extraPull = deck->cardCollection.size();
+                    toPull = stack->getCardsToPull()-extraPull;
                 }else{
                     toPull = stack->getCardsToPull();
                 }
@@ -231,24 +231,47 @@ void Board::throwCard() {
                     drawCard();
                 }
                 auto topCard = stack->boardStack.back();
-                stack->boardStack.pop_back();
-
+                if(extraPull>0){
+                    stack->boardStack.pop_back();
+                }
                 for(auto card : stack->boardStack){
                     deck->cardCollection.push_back(stack->boardStack.back());
                     stack->boardStack.pop_back();
                 }
-                stack->boardStack.push_back(topCard);
-                deck->shuffleDeck();
+                if(extraPull>0) {
+                    stack->boardStack.push_back(topCard);
+                    deck->shuffleDeck();
+                }
                 for(int j = 0; j < toPull; j++){
                     drawCard();
                 }
-
+                stack->cancelWar();
                 newRound();
-
                 stack->cancelWar();
             }
+
+            /*if(deck->cardCollection.empty()){
+                moveStackToDeck();
+            }else{
+                for(auto card : deck->cardCollection){
+                    activePlayer->hand.push_back(card);
+                    deck->cardCollection.erase(std::find(deck->cardCollection.begin(),deck->cardCollection.end(),card));
+                }
+            }*///TODO TO REWORK
         }
     }
+}
+
+void Board::moveStackToDeck() {
+    auto topCard = stack->boardStack.back();
+    stack->boardStack.pop_back();
+
+    for (auto card : stack->boardStack){
+        deck->cardCollection.push_back(card);
+        stack->boardStack.erase(std::find(stack->boardStack.begin(),stack->boardStack.end(),card));
+    }
+    stack->boardStack.push_back(topCard);
+    deck->shuffleDeck();
 }
 
 void Board::newRound() {

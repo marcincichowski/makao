@@ -49,5 +49,7 @@ public:
     int getActivePlayerHandSize();
     void updateNicknames();
     void drawCard();
+
+    void moveStackToDeck();
 };
 #endif //MAKAO_BOARD_H
