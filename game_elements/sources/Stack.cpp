@@ -7,6 +7,7 @@
 Stack::Stack() {
     roundsToWait = 0;
     cardsToPull = 0;
+    emptyStack = true;
 }
 Stack::~Stack() {}
 
@@ -50,6 +51,9 @@ void Stack::setDesiredValue(Value colorToSet) {
 }
 
 void Stack::drawStack(sf::RenderWindow &window) {
+    if(boardStack.empty()){
+        return;
+    }
     float width = window.getSize().x;
     float height = window.getSize().y;
     float widthBetween = 5;
@@ -106,12 +110,10 @@ void Stack::initStack(Ace &card) {
 }
 
 bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
-    Value valueToCheck = cardToCheck->getValue();
-    std::cout << valueToCheck << "|";
-    Color colorToCheck = cardToCheck->getColor();
-    std::cout << colorToCheck;
+    std::string valueToCheck = cardToCheck->printValue();
+    std::string colorToCheck = cardToCheck->printColor();
 
-    if(this->topCard()->getValue()!=valueToCheck && this->topCard()->getColor()!=colorToCheck){
+    /*if(this->topCard()->getValue()!=valueToCheck && this->topCard()->getColor()!=colorToCheck && war){
         return false;
     }else if(war){
         if(this->topCard()->printValue()!="2" || this->topCard()->printValue()!="3" || this->topCard()->printValue()!="K"){
@@ -121,9 +123,28 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
         }
     }else{
         return true;
+    }*/
+    if (war == true) {
+        if ((valueToCheck == "2") || (valueToCheck == "3") || (valueToCheck == "K" && colorToCheck == "D") ||
+            (valueToCheck == "Q" && colorToCheck == "H")) {
+            std::cout << "Wojna git";
+            return true;
+        } else {
+            std::cout << "Wojna zle";
+            return false;
+        }
+    } else {
+        if (this->topCard()->getValue() == cardToCheck->getValue() ||
+            this->topCard()->getColor() == cardToCheck->getColor()) {
+            std::cout << "Nie wojna git";
+            return true;
+        } else {
+            std::cout << "Nie wojna zle";
+            return false;
+        }
     }
-
 }
+
 
 bool Stack::throwToStack(std::shared_ptr<Card> cardToCheck){
     if(isLegit(cardToCheck)){
@@ -136,7 +157,11 @@ bool Stack::throwToStack(std::shared_ptr<Card> cardToCheck){
 }
 
 void Stack::update() {
-
+    if(boardStack.empty()){
+        emptyStack = true;
+    }else{
+        emptyStack = false;
+    }
     if(this->boardStack.back()->printValue()=="2"){
         addCardsToPull(2);
         setDesiredValue(topCard()->getValue());
@@ -152,7 +177,7 @@ void Stack::update() {
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    else if(this->boardStack.back()->printValue()=="Q"){
+    else if(this->boardStack.back()->printValue()=="Q"&& this->topCard()->printColor()=="D"){
         reset();
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
@@ -168,7 +193,10 @@ void Stack::update() {
     }
     if(cardsToPull==0){
         war=false;
+    }else{
+        war = true;
     }
+
 }
 
 Color Stack::getDesideredColor() const {
@@ -181,5 +209,18 @@ Value Stack::getDesideredValue() const {
 
 bool Stack::getWar() const {
     return war;
+}
+
+void Stack::cancelWar() {
+    war = false;
+    cardsToPull = 0;
+}
+
+bool Stack::isEmpty() {
+    return emptyStack;
+}
+
+void Stack::setWar() {
+    war = true;
 }
 

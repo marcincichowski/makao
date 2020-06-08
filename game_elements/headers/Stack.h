@@ -17,6 +17,7 @@ private:
     int roundsToWait;                     //liczba tur ktore musi przeczekac kolejny gracz bez karty ochronnej gdy >0
     Color desiredColor;
     Value desiredValue;
+    bool emptyStack;
     bool war;
 
 public:
@@ -58,6 +59,10 @@ public:
     bool throwToStack(std::shared_ptr<Card>);
     void update();
     bool getWar() const;
+    void cancelWar();
+    void setWar();
+
+    bool isEmpty();
 };
 
 

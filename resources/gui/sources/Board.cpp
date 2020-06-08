@@ -15,6 +15,7 @@ Board::Board(float width, float height, int playerCount){
 
     stack->boardStack.push_back(deck->cardCollection.back());
     deck->cardCollection.pop_back();
+    stack->update();
     for(int i = 0;i<playerCount;i++) {
         players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1)));
         players.back()->setNo(i);
@@ -53,7 +54,7 @@ Board::Board(float width, float height, int playerCount){
 
     newRoundText.setFont(font);
     newRoundText.setColor(sf::Color::White);
-    newRoundText.setString(L"Naciśnij spację aby przejść do następnego gracza");
+    newRoundText.setString(L"Rozpoczyna Gracz 1. Naciśnij spację aby rozpocząć grę...");
     newRoundText.setPosition(sf::Vector2f(width/2 - 350, height/2 - 20));
 
     activeButton = 0;
@@ -217,9 +218,33 @@ void Board::throwCard() {
                 std::cout<<"draw"<<std::endl;
             }
             else{
-                for(int i = 0; i < stack->getCardsToPull(); i++){
+                int extraPull=0, toPull = 0;
+                if(stack->getCardsToPull()>deck->cardCollection.size()){
+                    extraPull = (stack->getCardsToPull())-deck->cardCollection.size();
+                    toPull = deck->cardCollection.size();
+                }else{
+                    toPull = stack->getCardsToPull();
+                }
+                std::cout << toPull;
+                std::cout << extraPull;
+                for(int i = 0; i < extraPull; i++){
                     drawCard();
                 }
+                auto topCard = stack->boardStack.back();
+                stack->boardStack.pop_back();
+
+                for(auto card : stack->boardStack){
+                    deck->cardCollection.push_back(stack->boardStack.back());
+                    stack->boardStack.pop_back();
+                }
+                stack->boardStack.push_back(topCard);
+                deck->shuffleDeck();
+
+                for(int j = 0; j < toPull; j++){
+                    drawCard();
+                }
+
+                stack->cancelWar();
                 newRound();
             }
         }
@@ -248,6 +273,9 @@ void Board::newRound() {
     lastPlayer = oldPrev;
     previousPlayer = oldAct;
 
+    std::string toDisplay = "Tura Gracza "+(std::to_string(activePlayer->playerNo+1))+". Nacisnij spacje aby kontynuowac...";
+    newRoundText.setString(toDisplay);
+
     std::cout << "Aktywny gracz:" << activePlayer->getNickname();
 
 }
@@ -259,7 +287,8 @@ void Board::updateNicknames() {
     nicknames[3].setString(players.at((3+round)%4)->getNickname());
 }
 
-void Board::drawCard() {
+void Board::drawCard(){
     activePlayer->hand.push_back(deck->cardCollection.back());
     deck->cardCollection.pop_back();
 }
+
