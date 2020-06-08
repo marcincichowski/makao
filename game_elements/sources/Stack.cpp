@@ -22,7 +22,7 @@ std::shared_ptr<Card> Stack::pullCard() {
     boardStack.pop_back();
 }
 
-int Stack::getCardsToPull() const {
+int Stack::getCardsToPull(){
     return cardsToPull;
 }
 
@@ -144,7 +144,6 @@ void Stack::update() {
     }
     else if(this->boardStack.back()->printValue()=="3"){
         addCardsToPull(3);
-
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
@@ -167,7 +166,7 @@ void Stack::update() {
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    if(cardsToPull=0){
+    if(cardsToPull==0){
         war=false;
     }
 }

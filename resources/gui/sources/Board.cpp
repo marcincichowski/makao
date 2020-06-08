@@ -106,9 +106,9 @@ void Board::draw(sf::RenderWindow &window) {
 
 
         if(stack->getWar()){
-            std::cout<<stack->getWar();
             buttons[0].setString("Pobierz karne karty: "+std::to_string(stack->getCardsToPull()));
             window.draw(buttons[0]);
+
         }
         else{
             buttons[0].setString(L"Dobierz kartę i zakończ turę");

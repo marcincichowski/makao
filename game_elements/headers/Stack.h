@@ -33,7 +33,7 @@ public:
     void addCardsToPull(int amountToAdd);
     void addRoundsToWait(int amountToAdd);
 
-    int getCardsToPull() const;
+    int getCardsToPull();
     int getRoundsToWait() const;
 
     void setDesiredColor(Color desiredColor);
