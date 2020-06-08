@@ -53,15 +53,22 @@ void Stack::drawStack(sf::RenderWindow &window) {
     float width = window.getSize().x;
     float height = window.getSize().y;
     float widthBetween = 5;
-    float distance = 0;
-    int counter = 0;
+    float distance = 5;
     float scale = 0.15;
-    for (auto &card : this->boardStack) {
-        if (counter >= 5) { break; } else { counter++; }
-        sf::Sprite toDraw = card->draw(scale);
-        toDraw.setPosition(sf::Vector2f(width/2-50, height/2-140));
-        window.draw(toDraw);
-        distance += widthBetween;
+    int n = boardStack.size();
+    int total = (n < 5 ? n = boardStack.size() : 5);
+    boardStack[0]->draw(scale);
+    sf::Sprite toDraw = boardStack[0]->draw(scale);
+    toDraw.setPosition(sf::Vector2f(width / 2 - 50, height / 2 - 140));
+    window.draw(toDraw);
+    int x = (boardStack.size() - 1) >= 5 ? 5 : boardStack.size() - 1;
+    if (boardStack.size() - 1 > 0) {
+        for (int i = 0; i < x; i++) {
+            sf::Sprite toDraw = boardStack[i + 1]->draw(scale);
+            toDraw.setPosition(sf::Vector2f(width / 2 + distance - 50, height / 2 + distance - 140));
+            window.draw(toDraw);
+            distance += widthBetween;
+        }
     }
 }
 
@@ -137,15 +144,12 @@ void Stack::update() {
     }
     else if(this->boardStack.back()->printValue()=="3"){
         addCardsToPull(3);
+
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    else if(this->boardStack.back()->printValue()=="K" || this->topCard()->printColor()=="H"){
+    else if(this->boardStack.back()->printValue()=="K" && this->topCard()->printColor()=="H"){
         addCardsToPull(5);
-        setDesiredValue(topCard()->getValue());
-        setDesiredColor(topCard()->getColor());
-    }
-    else if(this->boardStack.back()->printValue()=="K" || this->topCard()->printColor()=="S"){
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
