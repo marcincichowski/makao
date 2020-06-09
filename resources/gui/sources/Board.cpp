@@ -247,7 +247,13 @@ void Board::newRound() {
     IS_NEW_ROUND = true;
     round++;
     bool found = false;
+    std::cout << "update..";
     stack->update();
+    buttons[0].setColor(sf::Color::White);
+    activeOption = 0;
+    activeButton = 0;
+
+    std::cout << "..update";
     std::cout << "KOLOR: " << stack->getDesideredColor() << " WARTOSC: " << stack->getDesideredValue() << std::endl;
     /*for(auto player : players){
         std::shared_ptr<Player> current = player;
@@ -280,9 +286,13 @@ void Board::updateNicknames() {
 }
 
 void Board::drawCard() { //TODO TO REWORK
+    std::cout << "XXX" << deck->cardCollection.size();
     if(checkDeck()){
+        std::cout << "wchodze po checkDeck do drawowania";
         activePlayer->hand.push_back(deck->cardCollection.back());
+        std::cout << "wrzucilem na reke";
         deck->cardCollection.pop_back();
+        std::cout << "usunelem z talii";
     }else{
         std::cout << "Brak kart do ciagniecia.";
         return;
@@ -290,8 +300,8 @@ void Board::drawCard() { //TODO TO REWORK
 }
 
 bool Board::checkDeck() {
-    if(deck->cardCollection.empty() && stack->boardStack.size()==0){return false;}
-    else if(deck->cardCollection.empty()) {
+    if(deck->cardCollection.size()==0 && stack->boardStack.size()<=1){return false;}
+    else if(deck->cardCollection.size()==0) {
         std::shared_ptr<Card> topCard = stack->topCard();
         stack->boardStack.pop_back();
 
@@ -299,8 +309,9 @@ bool Board::checkDeck() {
             deck->cardCollection.push_back(stack->boardStack.back());
             stack->boardStack.pop_back();
         }
+        stack->boardStack.push_back(topCard);
 
-        std::cout << "Przelozone karty";
+        std::cout << "\nsPrzelozone karty, teraz:" << deck->cardCollection.size();
         return true;
     }else{
         std::cout << "Deck jest git";

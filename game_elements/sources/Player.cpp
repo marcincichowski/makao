@@ -46,7 +46,9 @@ void Player::drawHiddenHand(sf::RenderWindow &window, int no) {
     float widthBetween = 30;
     float distance = 0;
     float scale = 0.1;
+    int counter = 0;
     for(auto &card : this->hand){
+        if(counter>=15){return;}else{counter++;}
         sf::Sprite toDraw = card->drawHidden(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), 50+160*(no)));
         window.draw(toDraw);
