@@ -160,14 +160,10 @@ void Board::draw(sf::RenderWindow &window) {
 
     //choose window draw
     //shapes
-    //for(int i = 0; i < 4; i++)
-      //  window.draw(shapes[i]);
-    //window.draw(chooseShape);
+
 
     //numbers
-    for(int i = 0; i < 6; i++)
-        window.draw(numbers[i]);
-    window.draw(chooseNumber);
+
 
 }
 
@@ -180,6 +176,19 @@ Board::~Board() {}
         return ;
     }
 }*/
+
+void Board::drawChooseShape(sf::RenderWindow window){
+    for(int i = 0; i < 4; i++)
+      window.draw(shapes[i]);
+    window.draw(chooseShape);
+}
+
+void Board::drawChooseNumber(sf::RenderWindow window){
+    for(int i = 0; i < 6; i++)
+        window.draw(numbers[i]);
+    window.draw(chooseNumber);
+}
+
 void Board::moveRight() {
     if(activeOption + 1 < activePlayer->hand.size())
         activeOption++;

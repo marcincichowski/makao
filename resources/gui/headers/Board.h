@@ -61,5 +61,7 @@ public:
     bool checkDeck();
     bool getIsNewRound() const;
     void moveStackToDeck();
+    void drawChooseShape(sf::RenderWindow window);
+    void drawChooseNumber(sf::RenderWindow window);
 };
 #endif //MAKAO_BOARD_H
