@@ -212,52 +212,18 @@ void Board::throwCard() {
     }
     else{
         if(getPressedOption() == getActivePlayerHandSize()){
-            /*if(!(stack->getWar())){
+            if(!(stack->getWar())){
                 drawCard();
                 newRound();
                 std::cout<<"draw"<<std::endl;
             }
             else{
-                int extraPull=0, toPull = 0;
-                if(stack->getCardsToPull()>deck->cardCollection.size()){
-                    extraPull = deck->cardCollection.size();
-                    toPull = stack->getCardsToPull()-extraPull;
-                }else{
-                    toPull = stack->getCardsToPull();
-                }
-                std::cout << toPull;
-                std::cout << extraPull;
-                for(int i = 0; i < extraPull; i++){
+                for(int i = 0;i<stack->getCardsToPull();i++){
                     drawCard();
                 }
-                auto topCard = stack->boardStack.back();
-                if(extraPull>0){
-                    stack->boardStack.pop_back();
-                }
-                for(auto card : stack->boardStack){
-                    deck->cardCollection.push_back(stack->boardStack.back());
-                    stack->boardStack.pop_back();
-                }
-                if(extraPull>0) {
-                    stack->boardStack.push_back(topCard);
-                    deck->shuffleDeck();
-                }
-                for(int j = 0; j < toPull; j++){
-                    drawCard();
-                }
-                stack->cancelWar();
                 newRound();
                 stack->cancelWar();
             }
-
-            /*if(deck->cardCollection.empty()){
-                moveStackToDeck();
-            }else{
-                for(auto card : deck->cardCollection){
-                    activePlayer->hand.push_back(card);
-                    deck->cardCollection.erase(std::find(deck->cardCollection.begin(),deck->cardCollection.end(),card));
-                }
-            }*///TODO TO REWORK
         }
     }
 }
@@ -310,7 +276,7 @@ void Board::updateNicknames() {
     nicknames[3].setString(players.at((3+round)%4)->getNickname());
 }
 
-void Board::drawCard(){
+void Board::drawCard(){ //TODO TO REWORK
     activePlayer->hand.push_back(deck->cardCollection.back());
     deck->cardCollection.pop_back();
 }

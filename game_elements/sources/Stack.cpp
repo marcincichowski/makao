@@ -110,7 +110,7 @@ void Stack::initStack(Ace &card) {
     //stackToInitOn->setDesiredColor(colorToSet);
 }
 
-bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
+bool Stack::isLegit(std::shathred_ptr<Card> &cardToCheck) {
     std::string valueToCheck = cardToCheck->printValue();
     std::string colorToCheck = cardToCheck->printColor();
 
