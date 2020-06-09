@@ -60,10 +60,43 @@ Board::Board(float width, float height, int playerCount){
 
     activeButton = 0;
     activeOption = 0;
+    activeShape = 0;
+    activeNumber = 0;
     option = false;
 
+    //load choose cards
+    shapesTextures[0].loadFromFile("../resources/cards/color_D.png");
+    shapesTextures[1].loadFromFile("../resources/cards/color_C.png");
+    shapesTextures[2].loadFromFile("../resources/cards/color_H.png");
+    shapesTextures[3].loadFromFile("../resources/cards/color_S.png");
+    numbersTextures[0].loadFromFile("../resources/cards/value_5.png");
+    numbersTextures[1].loadFromFile("../resources/cards/value_6.png");
+    numbersTextures[2].loadFromFile("../resources/cards/value_7.png");
+    numbersTextures[3].loadFromFile("../resources/cards/value_8.png");
+    numbersTextures[4].loadFromFile("../resources/cards/value_9.png");
+    numbersTextures[5].loadFromFile("../resources/cards/value_10.png");
+    for(int i = 0; i < 4; i++){
+        shapes[i].setTexture(shapesTextures[i]);
+        shapes[i].setScale(0.15,0.15);
+        shapes[i].setPosition(sf::Vector2f(920 + 25*i,300));
+    }
+    for(int i = 0; i < 6; i++){
+        numbers[i].setTexture(numbersTextures[i]);
+        numbers[i].setScale(0.15, 0.15);
+        numbers[i].setPosition(sf::Vector2f(920 + 25*i,300));
+    }
 
+    //load choose Text;
 
+    chooseShape.setFont(font);
+    chooseShape.setColor(sf::Color::White);
+    chooseShape.setString(L"Wybierz żądany kolor:");
+    chooseShape.setPosition(sf::Vector2f(850, 250));
+
+    chooseNumber.setFont(font);
+    chooseNumber.setColor(sf::Color::White);
+    chooseNumber.setString(L"Wybierz żądaną liczbę:");
+    chooseNumber.setPosition(sf::Vector2f(880, 250));
 
 }
 
@@ -125,7 +158,16 @@ void Board::draw(sf::RenderWindow &window) {
         window.draw(newRoundText);
     }
 
+    //choose window draw
+    //shapes
+    //for(int i = 0; i < 4; i++)
+      //  window.draw(shapes[i]);
+    //window.draw(chooseShape);
 
+    //numbers
+    for(int i = 0; i < 6; i++)
+        window.draw(numbers[i]);
+    window.draw(chooseNumber);
 
 }
 

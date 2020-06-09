@@ -27,12 +27,21 @@ private:
     sf::Text buttons[NUMBER_OF_BUTTONS];
     sf::Font font;
     sf::Text nicknames[4];
+    int activeShape;
+    int activeNumber;
+    sf::Sprite shapes[4];
+    sf::Sprite numbers[6];
+    sf::Texture shapesTextures[4];
+    sf::Texture numbersTextures[6];
+
     int activeOption;
     bool option;
     int activeButton;
     sf::Text newRoundText;
     bool IS_NEW_ROUND;
     int round;
+    sf::Text chooseNumber;
+    sf::Text chooseShape;
 public:
     Board(float width, float height,int playerCount);
     ~Board();
