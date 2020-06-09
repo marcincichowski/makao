@@ -19,6 +19,14 @@ int main(){
     sf::Sprite background;
     background_texture.loadFromFile("../resources/background.jpg");
     background.setTexture(background_texture);
+
+    sf::Texture logo;
+    sf::Sprite logoImage;
+    logo.loadFromFile("../resources/cards/aces.png");
+    logoImage.setTexture(logo);
+    logoImage.setScale(0.2,0.2);
+    logoImage.setPosition(sf::Vector2f(window.getSize().x/2+130, window.getSize().y/2-200));
+
     Board plansza(window.getSize().x, window.getSize().y, 4);
     while(window.isOpen()){
         sf::Event event;
@@ -74,6 +82,7 @@ int main(){
         }
         window.clear();
         window.draw(background);
+        window.draw(logoImage);
         if(STATE == 0){
             menu.draw(window);
         }else if(STATE == 1) {

@@ -22,6 +22,9 @@ private:
     sf::Text title;
     sf::Font font;
     sf::Text menu[NUMBER_OF_ITEMS];
+
+    sf::Texture logo;
+    sf::Sprite logoImage;
 };
 
 #endif //MAKAO_MENU_H
