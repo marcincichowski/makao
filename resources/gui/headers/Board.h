@@ -49,6 +49,7 @@ public:
     int getActivePlayerHandSize();
     void updateNicknames();
     void drawCard();
+    bool checkDeck();
 
     void moveStackToDeck();
 };

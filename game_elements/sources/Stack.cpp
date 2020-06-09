@@ -8,6 +8,7 @@ Stack::Stack() {
     roundsToWait = 0;
     cardsToPull = 0;
     emptyStack = true;
+
 }
 Stack::~Stack() {}
 
@@ -77,40 +78,8 @@ void Stack::drawStack(sf::RenderWindow &window) {
     window.draw(toDraw);
 }
 
-void Stack::initStack(NumericCard &card) {
-    if(card.getValue() == 2 || card.getValue() == 3){
-        addCardsToPull(card.getValue());
-    }else if(card.getValue() == 4){
 
-    }else{
-        return;
-    }
-}
-
-void Stack::initStack(Jack &card) {
-    //TODO                                           //okno wyboru żądanej wartosci karty od 5 do 10, krole karo i trefl
-    //stackToInitOn->setDesiredValue(valueToSet);
-}
-void Stack::initStack(Queen &card) {
-    reset();
-}
-
-void Stack::initStack(King &card) {
-    if(card.getColor()==kier){
-        addCardsToPull(5);
-    }else if(card.getColor()==pik){
-        //TODO                                              //ciagniecie kart przez poprzedniego
-    }else{
-        return;
-    }
-}
-
-void Stack::initStack(Ace &card) {
-    //TODO                                       //okno wyboru zadanego koloru, zadajacy musi go miec
-    //stackToInitOn->setDesiredColor(colorToSet);
-}
-
-bool Stack::isLegit(std::shathred_ptr<Card> &cardToCheck) {
+bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
     std::string valueToCheck = cardToCheck->printValue();
     std::string colorToCheck = cardToCheck->printColor();
 
@@ -127,7 +96,7 @@ bool Stack::isLegit(std::shathred_ptr<Card> &cardToCheck) {
     }*/
     if(emptyStack==true){ return  true;}
     if (war == true) {
-        if ((valueToCheck == "2") || (valueToCheck == "3") || (valueToCheck == "K" && colorToCheck == "D") ||
+        if ((valueToCheck == "2") || (valueToCheck == "3") || (valueToCheck == "K" && colorToCheck == "H") ||
             (valueToCheck == "Q" && colorToCheck == "H")) {
             std::cout << "Wojna git";
             return true;
@@ -151,6 +120,7 @@ bool Stack::isLegit(std::shathred_ptr<Card> &cardToCheck) {
 bool Stack::throwToStack(std::shared_ptr<Card> cardToCheck){
     if(isLegit(cardToCheck)){
         boardStack.push_back(cardToCheck);
+        fresh=true;
         return true;
     }else{
         std::cout << "Ta karta nie moze zostac wyrzucona na stos!\n";
@@ -224,5 +194,13 @@ bool Stack::isEmpty() {
 
 void Stack::setWar() {
     war = true;
+}
+
+void Stack::setFresh() {
+    fresh = true;
+}
+
+void Stack::unsetFresh() {
+    fresh = false;
 }
 

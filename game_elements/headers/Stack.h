@@ -19,6 +19,7 @@ private:
     Value desiredValue;
     bool emptyStack;
     bool war;
+    bool fresh;
 
 public:
     std::vector<std::shared_ptr<Card>> boardStack;           //karty lezace na stole
@@ -48,19 +49,14 @@ public:
 
     void drawStack(sf::RenderWindow &window);
 
-    //INITS
-    void initStack(NumericCard &card);
-    void initStack(Jack &card);
-    void initStack(Queen &card);
-    void initStack(King &card);
-    void initStack(Ace &card);
-
     bool isLegit(std::shared_ptr<Card>&);
     bool throwToStack(std::shared_ptr<Card>);
     void update();
     bool getWar() const;
     void cancelWar();
     void setWar();
+    void setFresh();
+    void unsetFresh();
 
     bool isEmpty();
 };

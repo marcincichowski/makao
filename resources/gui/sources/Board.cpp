@@ -14,6 +14,7 @@ Board::Board(float width, float height, int playerCount){
     stack = std::make_shared<Stack>();
 
     stack->boardStack.push_back(deck->cardCollection.back());
+    stack->setFresh();
     deck->cardCollection.pop_back();
     stack->update();
     for(int i = 0;i<playerCount;i++) {
@@ -215,6 +216,7 @@ void Board::throwCard() {
             if(!(stack->getWar())){
                 drawCard();
                 newRound();
+                stack->cancelWar();
                 std::cout<<"draw"<<std::endl;
             }
             else{
@@ -237,6 +239,7 @@ void Board::moveStackToDeck() {
         stack->boardStack.erase(std::find(stack->boardStack.begin(),stack->boardStack.end(),card));
     }
     stack->boardStack.push_back(topCard);
+    stack->setFresh();
     deck->shuffleDeck();
 }
 
@@ -276,8 +279,34 @@ void Board::updateNicknames() {
     nicknames[3].setString(players.at((3+round)%4)->getNickname());
 }
 
-void Board::drawCard(){ //TODO TO REWORK
-    activePlayer->hand.push_back(deck->cardCollection.back());
-    deck->cardCollection.pop_back();
+void Board::drawCard() { //TODO TO REWORK
+    if(checkDeck()){
+        activePlayer->hand.push_back(deck->cardCollection.back());
+        deck->cardCollection.pop_back();
+    }else{
+        std::cout << "Brak kart do ciagniecia.";
+        return;
+    }
 }
+
+bool Board::checkDeck() {
+    if(deck->cardCollection.empty() && stack->boardStack.size()==0){return false;}
+    else if(deck->cardCollection.empty()) {
+        std::shared_ptr<Card> topCard = stack->topCard();
+        stack->boardStack.pop_back();
+
+        while (!(stack->boardStack.empty())) {
+            deck->cardCollection.push_back(stack->boardStack.back());
+            stack->boardStack.pop_back();
+        }
+
+        std::cout << "Przelozone karty";
+        return true;
+    }else{
+        std::cout << "Deck jest git";
+        return true;
+    }
+}
+
+
 
