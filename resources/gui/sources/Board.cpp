@@ -13,20 +13,19 @@ Board::Board(float width, float height, int playerCount){
     deck = std::make_shared<Deck>();
     stack = std::make_shared<Stack>();
 
-    stack->boardStack.push_back(deck->getCardCollection()->back());
-    stack->setFresh();
+    stack->getBoardStack()->push_back(deck->getCardCollection()->back());
     deck->getCardCollection()->pop_back();
     stack->update();
     for(int i = 0;i<playerCount;i++) {
         players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1), i+1));
-        std::cout << "+ Gracz " << i << std::endl;
+        //std::cout << "+ Gracz " << i << std::endl;
     }
     activePlayer = players.at((round)%4);
     giveaway();
 
     //SET PROPERTIES OF BUTTONS
     if(!font.loadFromFile("../assets/fonts/arial.TTF")){
-        std::cout<<"error font loading";
+        //std::cout<<"error font loading";
     }
 
     buttons[0].setFont(font);
@@ -90,7 +89,7 @@ Board::~Board() {}
 
 void Board::draw(sf::RenderWindow &window) {
     int no = 0;
-    if(!IS_NEW_ROUND){
+     if(!IS_NEW_ROUND){
         for(auto player : players) {
             if (player == activePlayer) {
                 player->drawHand(window, 3);
@@ -190,6 +189,7 @@ void Board::moveLeft() {
 
 void Board::newRound() {
     IS_NEW_ROUND = true;
+
     round++;
     stack->update();
     buttons[0].setColor(sf::Color::White);
@@ -200,34 +200,34 @@ void Board::newRound() {
     std::string toDisplay = "Tura Gracza "+(std::to_string(activePlayer->getPlayerNo()))+". Nacisnij spacje aby kontynuowac...";
     newRoundText.setString(toDisplay);
 
-    std::cout << "Aktywny gracz:" << activePlayer->getNickname();
-
+    //std::cout << "Aktywny gracz:" << activePlayer->getNickname();
 }
+
+
 
 void Board::throwCard() {
 
-    std::cout << "Runda numer: " << round << std::endl;
-    if(getPressedOption() < getActivePlayerHandSize()){
-        std::cout<<"Wyrzucono: ";
+    //std::cout << "Runda numer: " << round << std::endl;
+    if (getPressedOption() < getActivePlayerHandSize()) {
+        //std::cout<<"Wyrzucono: ";
         getPressedCard()->printCard();
 
-        if(stack->throwToStack(getPressedCard())){
-            activePlayer->getHand()->erase(std::find(activePlayer->getHand()->begin(),activePlayer->getHand()->end(),getPressedCard()));
+        if (stack->throwToStack(getPressedCard())) {
+            activePlayer->getHand()->erase(
+                    std::find(activePlayer->getHand()->begin(), activePlayer->getHand()->end(), getPressedCard()));
             newRound();
-        }else{
+        } else {
             return;
         }
-    }
-    else{
-        if(getPressedOption() == getActivePlayerHandSize()){
-            if(!(stack->getWar())){
+    } else {
+        if (getPressedOption() == getActivePlayerHandSize()) {
+            if (!(stack->getWar())) {
                 drawCard();
                 newRound();
                 stack->cancelWar();
-                std::cout<<"draw"<<std::endl;
-            }
-            else{
-                for(int i = 0;i<stack->getCardsToPull();i++){
+            } else {
+                //std::cout<<"draw"<<std::endl;}
+                for (int i = 0; i < stack->getCardsToPull(); i++) {
                     drawCard();
                 }
                 newRound();
@@ -271,21 +271,21 @@ void Board::drawCard() {
 }
 
 bool Board::checkDeck() {
-    if(deck->getCardCollection()->size()==0 && stack->boardStack.size()<=1){return false;}
+    if(deck->getCardCollection()->size()==0 && stack->getBoardStack()->size()<=1){return false;}
     else if(deck->getCardCollection()->size()==0) {
         std::shared_ptr<Card> topCard = stack->topCard();
-        stack->boardStack.pop_back();
+        stack->getBoardStack()->pop_back();
 
-        while (!(stack->boardStack.empty())) {
-            deck->getCardCollection()->push_back(stack->boardStack.back());
-            stack->boardStack.pop_back();
+        while (!(stack->getBoardStack()->empty())) {
+            deck->getCardCollection()->push_back(stack->getBoardStack()->back());
+            stack->getBoardStack()->pop_back();
         }
-        stack->boardStack.push_back(topCard);
+        stack->getBoardStack()->push_back(topCard);
 
-        std::cout << "\nsPrzelozone karty, teraz:" << deck->getCardCollection()->size();
+        //std::cout << "\nsPrzelozone karty, teraz:" << deck->getCardCollection()->size();
         return true;
     }else{
-        std::cout << "Deck jest git";
+        //std::cout << "Deck jest git";
         return true;
     }
 }
@@ -305,6 +305,9 @@ void Board::drawChooseNumber(sf::RenderWindow window){
         window.draw(numbers[i]);
     window.draw(chooseNumber);
 }
+
+
+
 
 
 

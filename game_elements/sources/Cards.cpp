@@ -35,7 +35,7 @@ void Card::setColor(Color colorToSet){
 }
 
 void Card::printCard() {
-    std::cout  << this->getValue() << this->getColor() << std::endl;
+    //std::cout  << this->getValue() << this->getColor() << std::endl;
 }
 
 std::string Card::generatePath() {
@@ -207,7 +207,7 @@ void Joker::initStack(Stack *stackToInitOn) {
 }
 
 void Joker::printCard() {
-    std::cout << this->getValue() << " " << this->getColor() << std::endl;
+    //std::cout << this->getValue() << " " << this->getColor() << std::endl;
 }*/
 
 ///==================================================================================/

@@ -12,6 +12,7 @@ void debug(){
 
 int main(){
     sf::RenderWindow window(sf::VideoMode(1280,720),"Makao");
+    window.setFramerateLimit( 30 );
 
     int STATE = 0;
     Menu menu(window.getSize().x, window.getSize().y);

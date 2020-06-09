@@ -6,7 +6,7 @@
 #include <iostream>
 Menu::Menu(float width, float height){
     if(!font.loadFromFile("../assets/fonts/arial.TTF")){
-        std::cout<<"error font loading";
+        //std::cout<<"error font loading";
     }
 
     for(int i = 0;i<NUMBER_OF_ITEMS;i++){

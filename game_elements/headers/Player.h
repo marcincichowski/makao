@@ -26,6 +26,7 @@ public:
     void drawHiddenHand(sf::RenderWindow &window, int);
     int getPlayerNo()const;
     std::vector<std::shared_ptr<Card>>* getHand();
+    int getFreezedRounds();
 };
 
 

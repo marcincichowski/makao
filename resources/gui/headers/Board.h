@@ -35,6 +35,7 @@ private:
     bool IS_NEW_ROUND;
     int round;
 
+
 public:
     Board(float width, float height,int playerCount);
     ~Board();
@@ -56,5 +57,6 @@ public:
     void moveStackToDeck();
     void drawChooseShape(sf::RenderWindow window);
     void drawChooseNumber(sf::RenderWindow window);
+
 };
 #endif //MAKAO_BOARD_H

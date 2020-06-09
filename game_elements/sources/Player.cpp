@@ -53,3 +53,7 @@ int Player::getPlayerNo() const {
 std::vector<std::shared_ptr<Card>> *Player::getHand() {
     return &hand;
 }
+
+int Player::getFreezedRounds() {
+    return freezedRounds;
+}
