@@ -50,7 +50,7 @@ public:
     void updateNicknames();
     void drawCard();
     bool checkDeck();
-
+    bool getIsNewRound() const;
     void moveStackToDeck();
 };
 #endif //MAKAO_BOARD_H

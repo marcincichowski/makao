@@ -44,6 +44,14 @@ void Menu::draw(sf::RenderWindow &window){
     for(int i = 0; i < NUMBER_OF_ITEMS; i++){
         window.draw(menu[i]);
     }
+    sf::Texture logo;
+    sf::Sprite logoImage;
+    logo.loadFromFile("../resources/cards/aces.png");
+    logoImage.setTexture(logo);
+    logoImage.setScale(0.2,0.2);
+    logoImage.setPosition(sf::Vector2f(window.getSize().x/2+130, window.getSize().y/2-200));
+
+    window.draw(logoImage);
 }
 
 void Menu::MoveUp(){

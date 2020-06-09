@@ -62,6 +62,9 @@ Board::Board(float width, float height, int playerCount){
     activeOption = 0;
     option = false;
 
+
+
+
 }
 
 void Board::giveaway() {
@@ -317,6 +320,10 @@ bool Board::checkDeck() {
         std::cout << "Deck jest git";
         return true;
     }
+}
+
+bool Board::getIsNewRound() const {
+    return IS_NEW_ROUND;
 }
 
 
