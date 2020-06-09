@@ -149,7 +149,7 @@ void Stack::update() {
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
-    else if(this->boardStack.back()->printValue()=="Q"&& this->topCard()->printColor()=="D"){
+    else if(this->boardStack.back()->printValue()=="Q"&& this->topCard()->printColor()=="H"){
         reset();
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());

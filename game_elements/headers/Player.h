@@ -12,26 +12,20 @@
 class Player {
 private:
     std::string nickname;               //nazwa gracza
-
     int freezedRounds;                   //pozostala liczba rund do odczekania
-
-public:
-    Player(std::string nicknameToSet);
-    ~Player();
     int playerNo;
-    void setFreezedRounds(int freezedRounds);
-
-    std::string getNickname() const;
-    int getCardCount() const;
     std::vector<std::shared_ptr<Card>> hand; //reka gracza
 
+public:
+    Player(std::string nicknameToSet, int index);
+    ~Player();
+
+    void setFreezedRounds(int freezedRounds);
+    std::string getNickname() const;
     void drawHand(sf::RenderWindow&, int activeOption);
     void drawHiddenHand(sf::RenderWindow &window, int);
-
-    void setNo(int);
-    void skippedRound(){
-
-    }
+    int getPlayerNo()const;
+    std::vector<std::shared_ptr<Card>>* getHand();
 };
 
 

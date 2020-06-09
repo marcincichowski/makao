@@ -13,19 +13,15 @@ Board::Board(float width, float height, int playerCount){
     deck = std::make_shared<Deck>();
     stack = std::make_shared<Stack>();
 
-    stack->boardStack.push_back(deck->cardCollection.back());
+    stack->boardStack.push_back(deck->getCardCollection()->back());
     stack->setFresh();
-    deck->cardCollection.pop_back();
+    deck->getCardCollection()->pop_back();
     stack->update();
     for(int i = 0;i<playerCount;i++) {
-        players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1)));
-        players.back()->setNo(i);
+        players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1), i+1));
         std::cout << "+ Gracz " << i << std::endl;
     }
-    activePlayer = players.at(0);
-    previousPlayer = players.at(3);
-    nextPlayer = players.at(1);
-    lastPlayer = players.at(2);
+    activePlayer = players.at((round)%4);
     giveaway();
 
     //SET PROPERTIES OF BUTTONS
@@ -42,16 +38,9 @@ Board::Board(float width, float height, int playerCount){
     buttons[1].setColor(sf::Color::White);
     buttons[1].setPosition(sf::Vector2f(800,10 + 160 * 3));
 
-    for(int i = 0; i < 4; i++){
-        nicknames[i].setFont(font);
-        nicknames[i].setColor(sf::Color::White);
-        nicknames[i].setString(players.at(i)->getNickname());
+    nickname.setFont(font);
+    nickname.setColor(sf::Color::White);
 
-    }
-    nicknames[0].setPosition(sf::Vector2f(20, 10 + 160 * 3));
-    nicknames[1].setPosition(sf::Vector2f(20, 10 + 160 * 0));
-    nicknames[2].setPosition(sf::Vector2f(20, 10 + 160 * 1));
-    nicknames[3].setPosition(sf::Vector2f(20, 10 + 160 * 2));
 
     newRoundText.setFont(font);
     newRoundText.setColor(sf::Color::White);
@@ -60,8 +49,6 @@ Board::Board(float width, float height, int playerCount){
 
     activeButton = 0;
     activeOption = 0;
-    activeShape = 0;
-    activeNumber = 0;
     option = false;
 
     //load choose cards
@@ -99,49 +86,30 @@ Board::Board(float width, float height, int playerCount){
     chooseNumber.setPosition(sf::Vector2f(880, 250));
 
 }
-
-void Board::giveaway() {
-    for(auto player : players){
-        for(int i = 0;i<5;i++){
-            player->hand.push_back(deck->cardCollection.back());
-            deck->cardCollection.pop_back();
-        }
-    }
-}
-
-int Board::getPlayerCount() const {
-    return players.capacity();
-}
-
-int Board::getActivePlayerHandSize(){
-    return activePlayer->hand.size();
-}
+Board::~Board() {}
 
 void Board::draw(sf::RenderWindow &window) {
-    float width = window.getSize().x;
-    float height = window.getSize().y;
-    float widthBetween = 30;
-    float distance = 0;
     int no = 0;
     if(!IS_NEW_ROUND){
-        activePlayer->drawHand(window, activeOption);
-        for(auto player : players){
-            if(player==activePlayer){ continue;}
-            else{
-                player->drawHiddenHand(window,no);
+        for(auto player : players) {
+            if (player == activePlayer) {
+                player->drawHand(window, 3);
+                nickname.setString(player->getNickname());
+                nickname.setPosition(sf::Vector2f(20, 10 + 160 * 3));
+                window.draw(nickname);
             }
-            no++;
+            else {
+                player->drawHiddenHand(window, no);
+                nickname.setString(player->getNickname());
+                nickname.setPosition(sf::Vector2f(20, 10 + 160 * no));
+                window.draw(nickname);
+                no++;
+            }
         }
-        updateNicknames();
+
+        activePlayer->drawHand(window, activeOption);
         deck->drawDeck(window);
-        //std::cout << stack->getCardCount();
         stack->drawStack(window);
-
-        for(int i = 0; i < 4; i++){
-            window.draw(nicknames[i]);
-        }
-
-
 
         if(stack->getWar()){
             buttons[0].setString("Pobierz karne karty: "+std::to_string(stack->getCardsToPull()));
@@ -167,33 +135,24 @@ void Board::draw(sf::RenderWindow &window) {
 
 }
 
-Board::~Board() {}
-
-/*std::shared_ptr<Player> Board::nextPlayer(std::shared_ptr<Player> current) {
-    if(current==players.back()){
-        return players.front();
-    }else{
-        return ;
-    }
-}*/
-
-void Board::drawChooseShape(sf::RenderWindow window){
-    for(int i = 0; i < 4; i++)
-      window.draw(shapes[i]);
-    window.draw(chooseShape);
+int Board::getPlayerCount() const {
+    return players.capacity();
 }
 
-void Board::drawChooseNumber(sf::RenderWindow window){
-    for(int i = 0; i < 6; i++)
-        window.draw(numbers[i]);
-    window.draw(chooseNumber);
+void Board::giveaway() {
+    for(auto player : players){
+        for(int i = 0;i<5;i++){
+            player->getHand()->push_back(deck->getCardCollection()->back());
+            deck->getCardCollection()->pop_back();
+        }
+    }
 }
 
 void Board::moveRight() {
-    if(activeOption + 1 < activePlayer->hand.size())
+    if(activeOption + 1 < activePlayer->getHand()->size())
         activeOption++;
     else{
-        activeOption = activePlayer->hand.size() + 1;
+        activeOption = activePlayer->getHand()->size() + 1;
         if(activeButton == 0){
             if(option){
                 buttons[activeButton].setColor(sf::Color::White);
@@ -213,14 +172,10 @@ void Board::moveRight() {
     }
 }
 
-void Board::pressSpace() {
-    IS_NEW_ROUND = false;
-}
-
 void Board::moveLeft() {
-    if(activeOption - 1 >= 0 && activeOption != activePlayer->hand.size() + 1)
+    if(activeOption - 1 >= 0 && activeOption != activePlayer->getHand()->size() + 1)
         activeOption--;
-    if(activeOption == activePlayer->hand.size() + 1){
+    if(activeOption == activePlayer->getHand()->size() + 1){
         if(activeButton - 1 >= 0){
             buttons[activeButton].setColor(sf::Color::White);
             buttons[activeButton].setColor(sf::Color::Red);
@@ -228,27 +183,25 @@ void Board::moveLeft() {
         else{
             buttons[activeButton].setColor(sf::Color::White);
             option = false;
-            activeOption = activePlayer->hand.size() - 1;
+            activeOption = activePlayer->getHand()->size() - 1;
         }
     }
 }
 
-int Board::getPressedOption(){
-    if(activeOption < activePlayer->hand.size() + 1){
-        return activeOption;
-    }
-    else{
-        return activePlayer->hand.size() + activeButton;
-    }
-}
+void Board::newRound() {
+    IS_NEW_ROUND = true;
+    round++;
+    stack->update();
+    buttons[0].setColor(sf::Color::White);
+    activeOption = 0;
+    activeButton = 0;
+    activePlayer = players.at((round)%4);
 
-std::shared_ptr<Card> Board::getPressedCard() {
-    if(activeOption != activePlayer->hand.size() + 1){
-        return activePlayer->hand.at(activeOption);
-    }
-    else{
+    std::string toDisplay = "Tura Gracza "+(std::to_string(activePlayer->getPlayerNo()))+". Nacisnij spacje aby kontynuowac...";
+    newRoundText.setString(toDisplay);
 
-    }
+    std::cout << "Aktywny gracz:" << activePlayer->getNickname();
+
 }
 
 void Board::throwCard() {
@@ -259,7 +212,7 @@ void Board::throwCard() {
         getPressedCard()->printCard();
 
         if(stack->throwToStack(getPressedCard())){
-            activePlayer->hand.erase(std::find(activePlayer->hand.begin(),activePlayer->hand.end(),getPressedCard()));
+            activePlayer->getHand()->erase(std::find(activePlayer->getHand()->begin(),activePlayer->getHand()->end(),getPressedCard()));
             newRound();
         }else{
             return;
@@ -284,88 +237,52 @@ void Board::throwCard() {
     }
 }
 
-void Board::moveStackToDeck() {
-    auto topCard = stack->boardStack.back();
-    stack->boardStack.pop_back();
-
-    for (auto card : stack->boardStack){
-        deck->cardCollection.push_back(card);
-        stack->boardStack.erase(std::find(stack->boardStack.begin(),stack->boardStack.end(),card));
+std::shared_ptr<Card> Board::getPressedCard() {
+    if(activeOption != activePlayer->getHand()->size() + 1){
+        return activePlayer->getHand()->at(activeOption);
     }
-    stack->boardStack.push_back(topCard);
-    stack->setFresh();
-    deck->shuffleDeck();
-}
+    else{
 
-void Board::newRound() {
-    IS_NEW_ROUND = true;
-    round++;
-    bool found = false;
-    std::cout << "update..";
-    stack->update();
-    buttons[0].setColor(sf::Color::White);
-    activeOption = 0;
-    activeButton = 0;
-
-    std::cout << "..update";
-    std::cout << "KOLOR: " << stack->getDesideredColor() << " WARTOSC: " << stack->getDesideredValue() << std::endl;
-    /*for(auto player : players){
-        std::shared_ptr<Player> current = player;
-        if(found){previousPlayer = activePlayer; activePlayer = current;}
-        if(player==activePlayer){found=true;}
-    }*/
-
-    auto oldAct = activePlayer;
-    auto oldPrev = previousPlayer;
-    auto oldNext = nextPlayer;
-    auto oldLast = lastPlayer;
-
-    activePlayer = oldNext;
-    nextPlayer = oldLast;
-    lastPlayer = oldPrev;
-    previousPlayer = oldAct;
-
-    std::string toDisplay = "Tura Gracza "+(std::to_string(activePlayer->playerNo+1))+". Nacisnij spacje aby kontynuowac...";
-    newRoundText.setString(toDisplay);
-
-    std::cout << "Aktywny gracz:" << activePlayer->getNickname();
-
-}
-
-void Board::updateNicknames() {
-    nicknames[0].setString(players.at((0+round)%4)->getNickname());
-    nicknames[1].setString(players.at((1+round)%4)->getNickname());
-    nicknames[2].setString(players.at((2+round)%4)->getNickname());
-    nicknames[3].setString(players.at((3+round)%4)->getNickname());
-}
-
-void Board::drawCard() { //TODO TO REWORK
-    std::cout << "XXX" << deck->cardCollection.size();
-    if(checkDeck()){
-        std::cout << "wchodze po checkDeck do drawowania";
-        activePlayer->hand.push_back(deck->cardCollection.back());
-        std::cout << "wrzucilem na reke";
-        deck->cardCollection.pop_back();
-        std::cout << "usunelem z talii";
-    }else{
-        std::cout << "Brak kart do ciagniecia.";
-        return;
     }
+}
+
+void Board::pressSpace() {
+    IS_NEW_ROUND = false;
+}
+
+int Board::getPressedOption(){
+    if(activeOption < activePlayer->getHand()->size() + 1){
+        return activeOption;
+    }
+    else{
+        return activePlayer->getHand()->size() + activeButton;
+    }
+}
+
+int Board::getActivePlayerHandSize(){
+    return activePlayer->getHand()->size();
+}
+
+void Board::drawCard() {
+    checkDeck();
+    activePlayer->getHand()->push_back(deck->getCardCollection()->back());
+    deck->getCardCollection()->pop_back();
+    checkDeck();
 }
 
 bool Board::checkDeck() {
-    if(deck->cardCollection.size()==0 && stack->boardStack.size()<=1){return false;}
-    else if(deck->cardCollection.size()==0) {
+    if(deck->getCardCollection()->size()==0 && stack->boardStack.size()<=1){return false;}
+    else if(deck->getCardCollection()->size()==0) {
         std::shared_ptr<Card> topCard = stack->topCard();
         stack->boardStack.pop_back();
 
         while (!(stack->boardStack.empty())) {
-            deck->cardCollection.push_back(stack->boardStack.back());
+            deck->getCardCollection()->push_back(stack->boardStack.back());
             stack->boardStack.pop_back();
         }
         stack->boardStack.push_back(topCard);
 
-        std::cout << "\nsPrzelozone karty, teraz:" << deck->cardCollection.size();
+        std::cout << "\nsPrzelozone karty, teraz:" << deck->getCardCollection()->size();
         return true;
     }else{
         std::cout << "Deck jest git";
@@ -376,6 +293,38 @@ bool Board::checkDeck() {
 bool Board::getIsNewRound() const {
     return IS_NEW_ROUND;
 }
+
+void Board::drawChooseShape(sf::RenderWindow window){
+    for(int i = 0; i < 4; i++)
+      window.draw(shapes[i]);
+    window.draw(chooseShape);
+}
+
+void Board::drawChooseNumber(sf::RenderWindow window){
+    for(int i = 0; i < 6; i++)
+        window.draw(numbers[i]);
+    window.draw(chooseNumber);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

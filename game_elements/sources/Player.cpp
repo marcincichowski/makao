@@ -5,22 +5,14 @@
 #include <iostream>
 #include "../headers/Player.h"
 
-Player::Player(std::string nicknameToSet) : nickname(nicknameToSet) {
-    //std::cout << "Tworze gracze o nicku " << nickname << std::endl;
-    freezedRounds = 0;
-}
-Player::~Player() { //std::cout << "Usuwam gracze o nicku " << nickname << std::endl;
-     }
-
-std::string Player::getNickname() const{ return nickname; }
+Player::Player(std::string nicknameToSet, int index) : nickname(nicknameToSet),playerNo(index), freezedRounds(0){}
+Player::~Player() {}
 
 void Player::setFreezedRounds(int roundsToSet) {
     Player::freezedRounds = roundsToSet;
 }
 
-int Player::getCardCount() const {
-    return hand.size();
-}
+std::string Player::getNickname() const{ return nickname; }
 
 void Player::drawHand(sf::RenderWindow &window, int activeOption) {
     float width = window.getSize().x;
@@ -32,8 +24,7 @@ void Player::drawHand(sf::RenderWindow &window, int activeOption) {
     for(auto &card : this->hand){
         sf::Sprite toDraw = card->draw(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), height*0.75));
-        if(activeOption == i)
-            toDraw.setColor(sf::Color(255,100,100));
+        if(activeOption == i) { toDraw.setColor(sf::Color(255, 100, 100)); }
         window.draw(toDraw);
         distance += widthBetween;
         i++;
@@ -41,8 +32,6 @@ void Player::drawHand(sf::RenderWindow &window, int activeOption) {
 }
 
 void Player::drawHiddenHand(sf::RenderWindow &window, int no) {
-    float width = window.getSize().x;
-    float height = window.getSize().y;
     float widthBetween = 30;
     float distance = 0;
     float scale = 0.1;
@@ -57,6 +46,10 @@ void Player::drawHiddenHand(sf::RenderWindow &window, int no) {
 
 }
 
-void Player::setNo(int val) {
-    playerNo = val;
+int Player::getPlayerNo() const {
+    return playerNo;
+}
+
+std::vector<std::shared_ptr<Card>> *Player::getHand() {
+    return &hand;
 }

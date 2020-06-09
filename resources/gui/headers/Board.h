@@ -15,36 +15,30 @@
 class Board{
 private:
     std::vector<std::shared_ptr<Player>> players;
-    std::shared_ptr<Player> previousPlayer;
     std::shared_ptr<Player> activePlayer;
-    std::shared_ptr<Player> nextPlayer;
-    std::shared_ptr<Player> lastPlayer;
     std::shared_ptr<Stack> stack;
     std::shared_ptr<Deck> deck;
-    int playerCount;
-    sf::Texture background;
-    sf::Sprite backgroundSprite;
     sf::Text buttons[NUMBER_OF_BUTTONS];
     sf::Font font;
-    sf::Text nicknames[4];
-    int activeShape;
-    int activeNumber;
+    sf::Text nickname;
     sf::Sprite shapes[4];
     sf::Sprite numbers[6];
     sf::Texture shapesTextures[4];
     sf::Texture numbersTextures[6];
+    sf::Text chooseNumber;
+    sf::Text chooseShape;
+    sf::Text newRoundText;
 
     int activeOption;
     bool option;
     int activeButton;
-    sf::Text newRoundText;
     bool IS_NEW_ROUND;
     int round;
-    sf::Text chooseNumber;
-    sf::Text chooseShape;
+
 public:
     Board(float width, float height,int playerCount);
     ~Board();
+
     void draw(sf::RenderWindow &window);
     int getPlayerCount() const;
     void giveaway();
@@ -56,7 +50,6 @@ public:
     void pressSpace();
     int getPressedOption();
     int getActivePlayerHandSize();
-    void updateNicknames();
     void drawCard();
     bool checkDeck();
     bool getIsNewRound() const;
