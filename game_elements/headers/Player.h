@@ -22,7 +22,7 @@ public:
 
     void setFreezedRounds(int freezedRounds);
     std::string getNickname() const;
-    void drawHand(sf::RenderWindow&, int activeOption);
+    void drawHand(sf::RenderWindow&, int activeOption, sf::Time, sf::Clock);
     void drawHiddenHand(sf::RenderWindow &window, int);
     int getPlayerNo()const;
     std::vector<std::shared_ptr<Card>>* getHand();

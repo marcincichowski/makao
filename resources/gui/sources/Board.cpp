@@ -94,7 +94,7 @@ Board::Board(float width, float height, int playerCount){
     skippedRoundText[0].setColor(sf::Color::White);
     skippedRoundText[0].setPosition(sf::Vector2f(width/2 - 260, height/2 - 20));
 
-
+    zegar.restart();
 }
 Board::~Board() {}
 
@@ -108,7 +108,7 @@ void Board::draw(sf::RenderWindow &window) {
          }
         for(auto player : players) {
             if (player == activePlayer) {
-                player->drawHand(window, 3);
+                //player->drawHand(window, 3,secondsWrong, zegar);
                 nickname.setString(player->getNickname());
                 nickname.setPosition(sf::Vector2f(20, 10 + 160 * 3));
                 window.draw(nickname);
@@ -122,7 +122,7 @@ void Board::draw(sf::RenderWindow &window) {
             }
         }
 
-        activePlayer->drawHand(window, activeOption);
+        activePlayer->drawHand(window, activeOption,secondsWrong, zegar);
         deck->drawDeck(window);
         stack->drawStack(window);
         if(stack->getBoardStack()->size()==1 && deck->getCardCollection()->size()==0){
@@ -233,7 +233,7 @@ void Board::newRound() {
         std::cout << "WCHODZE";
     }
     stack->update();
-
+    zegar.restart();
     //std::cout << "Aktywny gracz:" << activePlayer->getNickname();
 }
 
@@ -251,6 +251,7 @@ void Board::throwCard() {
             activePlayer->getHand()->erase(std::find(activePlayer->getHand()->begin(), activePlayer->getHand()->end(), getPressedCard()));
             newRound();
         } else {
+            secondsWrong = zegar.getElapsedTime();
             return;
         }
     } else {

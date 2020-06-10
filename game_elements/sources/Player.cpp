@@ -14,7 +14,7 @@ void Player::setFreezedRounds(int roundsToSet) {
 
 std::string Player::getNickname() const{ return nickname; }
 
-void Player::drawHand(sf::RenderWindow &window, int activeOption) {
+void Player::drawHand(sf::RenderWindow &window, int activeOption, sf::Time czas, sf::Clock zegar) {
     float width = window.getSize().x;
     float height = window.getSize().y;
     float widthBetween = 30;
@@ -24,7 +24,14 @@ void Player::drawHand(sf::RenderWindow &window, int activeOption) {
     for(auto &card : this->hand){
         sf::Sprite toDraw = card->draw(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), height*0.75));
-        if(activeOption == i) { toDraw.setColor(sf::Color(255, 100, 100)); }
+        if(activeOption == i) {
+            if((zegar.getElapsedTime().asMilliseconds()-czas.asMilliseconds()) <= 300){
+                toDraw.setColor(sf::Color(255, 100, 100));
+            }
+            else{
+                toDraw.setColor(sf::Color(100, 255, 100));
+            }
+        }
         window.draw(toDraw);
         distance += widthBetween;
         i++;

@@ -29,6 +29,8 @@ private:
     sf::Text chooseShape;
     sf::Text newRoundText;
     sf::Text skippedRoundText[2];
+    sf::Time secondsWrong;
+    sf::Clock zegar;
 
     bool skippedRound;
     int activeOption;
