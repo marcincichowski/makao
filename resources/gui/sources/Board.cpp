@@ -129,7 +129,9 @@ void Board::draw(sf::RenderWindow &window) {
             buttons[0].setString(L"Zakończ turę");
             window.draw(buttons[0]);
         }else if(stack->getWar()){
-            buttons[0].setString("Pobierz karne karty: "+std::to_string(stack->getCardsToPull()));
+            int count = (stack->getCardsToPull()>((stack->getBoardStack()->size()-1)+deck->getCardCollection()->size())?(stack->getBoardStack()->size()-1)+deck->getCardCollection()->size():stack->getCardsToPull());
+            std::string cardsCount = std::to_string(count);
+            buttons[0].setString("Pobierz karne karty: "+cardsCount);
             window.draw(buttons[0]);
 
         }
