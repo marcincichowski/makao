@@ -28,6 +28,7 @@ private:
     sf::Text chooseNumber;
     sf::Text chooseShape;
     sf::Text newRoundText;
+    sf::Text skippedRoundText[2];
 
     bool skippedRound;
     int activeOption;

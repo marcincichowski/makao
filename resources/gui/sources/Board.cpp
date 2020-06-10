@@ -12,7 +12,7 @@ Board::Board(float width, float height, int playerCount){
     IS_NEW_ROUND = true;
     deck = std::make_shared<Deck>();
     stack = std::make_shared<Stack>();
-
+    skippedRound =false;
     stack->getBoardStack()->push_back(deck->getCardCollection()->back());
     deck->getCardCollection()->pop_back();
     stack->update();
@@ -84,6 +84,17 @@ Board::Board(float width, float height, int playerCount){
     chooseNumber.setString(L"Wybierz żądaną liczbę:");
     chooseNumber.setPosition(sf::Vector2f(880, 250));
 
+    skippedRoundText[1].setFont(font);
+    skippedRoundText[1].setColor(sf::Color::White);
+    skippedRoundText[1].setString(L"Naciśnij spację aby kontynuować...");
+    skippedRoundText[1].setPosition(sf::Vector2f(width/2 - 240, height/2 +20));
+
+
+    skippedRoundText[0].setFont(font);
+    skippedRoundText[0].setColor(sf::Color::White);
+    skippedRoundText[0].setPosition(sf::Vector2f(width/2 - 260, height/2 - 20));
+
+
 }
 Board::~Board() {}
 
@@ -92,7 +103,6 @@ void Board::draw(sf::RenderWindow &window) {
      if(!IS_NEW_ROUND){
          if(activePlayer->getFreezedRounds()>0) {
             activePlayer->setFreezedRounds((activePlayer->getFreezedRounds()-1));
-            skippedRound = true;
             newRound();
             return;
          }
@@ -128,6 +138,7 @@ void Board::draw(sf::RenderWindow &window) {
 
     }
     else{
+        if(skippedRound){window.draw(skippedRoundText[0]);window.draw(skippedRoundText[1]);return;}
         window.draw(newRoundText);
     }
 
@@ -211,10 +222,12 @@ void Board::newRound() {
         std::string toDisplay =
                 "Tura Gracza " + (std::to_string(activePlayer->getPlayerNo())) + ". Nacisnij spacje aby kontynuowac...";
         newRoundText.setString(toDisplay);
+        std::cout << "NIE WCHODZE";
     }else{
-        std::string toDisplay =
-                "Gracz " + (std::to_string(activePlayer->getPlayerNo())) + " musi czekac ta kolejke. Pozostalo kolejek: "+(std::to_string(activePlayer->getFreezedRounds()))+". Nacisnij spacje aby kontynuowac...";
-        newRoundText.setString(toDisplay);//TODO POZYCJONOWANIE
+        std::string toDisplay ="Gracz " + (std::to_string(activePlayer->getPlayerNo())) + " musi czekac. Pozostalo tur: "+(std::to_string(activePlayer->getFreezedRounds()));
+        skippedRoundText[0].setString(toDisplay);
+        skippedRoundText[0].setString(toDisplay);
+        std::cout << "WCHODZE";
     }
 
     //std::cout << "Aktywny gracz:" << activePlayer->getNickname();
