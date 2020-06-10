@@ -92,10 +92,7 @@ void Board::draw(sf::RenderWindow &window) {
      if(!IS_NEW_ROUND){
          if(activePlayer->getFreezedRounds()>0) {
             activePlayer->setFreezedRounds((activePlayer->getFreezedRounds()-1));
-            newRoundText.setString(L"POMIJAM");
-            window.draw(newRoundText);
-            stack->skippedRound = true;
-            //TODO WAIT FOR SPACE
+            skippedRound = true;
             newRound();
             return;
          }
@@ -205,13 +202,19 @@ void Board::newRound() {
     activeOption = 0;
     activeButton = 0;
     activePlayer = players.at((round)%4);
+    if(activePlayer->getFreezedRounds()>0){
+        skippedRound=true;
+    }else{
+        skippedRound = false;}
 
-    if(stack->skippedRound) {
+    if(!skippedRound) {
         std::string toDisplay =
                 "Tura Gracza " + (std::to_string(activePlayer->getPlayerNo())) + ". Nacisnij spacje aby kontynuowac...";
         newRoundText.setString(toDisplay);
     }else{
-        stack->skippedRound = false;
+        std::string toDisplay =
+                "Gracz " + (std::to_string(activePlayer->getPlayerNo())) + " musi czekac ta kolejke. Pozostalo kolejek: "+(std::to_string(activePlayer->getFreezedRounds()))+". Nacisnij spacje aby kontynuowac...";
+        newRoundText.setString(toDisplay);//TODO POZYCJONOWANIE
     }
 
     //std::cout << "Aktywny gracz:" << activePlayer->getNickname();

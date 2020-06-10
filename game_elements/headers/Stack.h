@@ -23,7 +23,6 @@ private:
     bool freshFour;
 
 public:
-    bool skippedRound;
     Stack();
     ~Stack();
     std::vector<std::shared_ptr<Card>>* getBoardStack();

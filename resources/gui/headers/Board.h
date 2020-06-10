@@ -29,6 +29,7 @@ private:
     sf::Text chooseShape;
     sf::Text newRoundText;
 
+    bool skippedRound;
     int activeOption;
     bool option;
     int activeButton;
