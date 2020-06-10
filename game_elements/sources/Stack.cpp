@@ -146,7 +146,7 @@ void Stack::update() {
         setDesiredColor(topCard()->getColor());
     }
     else if(this->getBoardStack()->back()->printValue()=="4"){
-        addRoundsToWait(1);
+        if(freshFour) { addRoundsToWait(1); }
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
@@ -192,26 +192,14 @@ std::vector<std::shared_ptr<Card>> *Stack::getBoardStack() {
 }
 
 bool Stack::getThrownFour() {
-    return thrownFour;
+    return freshFour;
 }
 
-bool Stack::getGivenRounds() {
-    return givenRounds;
+void Stack::unsetFreshFour() {
+    freshFour =false;
 }
 
-void Stack::setGivenRounds() {
-    givenRounds = true;
-}
-
-void Stack::unsetGivenRounds() {
-    givenRounds = false;
-}
-
-void Stack::unsetThrownFour() {
-    thrownFour =false;
-}
-
-void Stack::setThrownFour() {
-    thrownFour = true;
+void Stack::setFreshFour() {
+    freshFour = true;
 }
 

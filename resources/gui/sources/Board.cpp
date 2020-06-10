@@ -90,6 +90,15 @@ Board::~Board() {}
 void Board::draw(sf::RenderWindow &window) {
     int no = 0;
      if(!IS_NEW_ROUND){
+         if(activePlayer->getFreezedRounds()>0) {
+            activePlayer->setFreezedRounds((activePlayer->getFreezedRounds()-1));
+            newRoundText.setString(L"POMIJAM");
+            window.draw(newRoundText);
+            stack->skippedRound = true;
+            //TODO WAIT FOR SPACE
+            newRound();
+            return;
+         }
         for(auto player : players) {
             if (player == activePlayer) {
                 player->drawHand(window, 3);
@@ -197,8 +206,13 @@ void Board::newRound() {
     activeButton = 0;
     activePlayer = players.at((round)%4);
 
-    std::string toDisplay = "Tura Gracza "+(std::to_string(activePlayer->getPlayerNo()))+". Nacisnij spacje aby kontynuowac...";
-    newRoundText.setString(toDisplay);
+    if(stack->skippedRound) {
+        std::string toDisplay =
+                "Tura Gracza " + (std::to_string(activePlayer->getPlayerNo())) + ". Nacisnij spacje aby kontynuowac...";
+        newRoundText.setString(toDisplay);
+    }else{
+        stack->skippedRound = false;
+    }
 
     //std::cout << "Aktywny gracz:" << activePlayer->getNickname();
 }
@@ -213,8 +227,8 @@ void Board::throwCard() {
         getPressedCard()->printCard();
 
         if (stack->throwToStack(getPressedCard())) {
-            activePlayer->getHand()->erase(
-                    std::find(activePlayer->getHand()->begin(), activePlayer->getHand()->end(), getPressedCard()));
+            if(getPressedCard()->printValue()=="4"){stack->setFreshFour();}
+            activePlayer->getHand()->erase(std::find(activePlayer->getHand()->begin(), activePlayer->getHand()->end(), getPressedCard()));
             newRound();
         } else {
             return;
@@ -223,6 +237,11 @@ void Board::throwCard() {
         if (getPressedOption() == getActivePlayerHandSize()) {
             if (!(stack->getWar())) {
                 drawCard();
+                if(stack->getRoundsToWait()>0 && activePlayer->getFreezedRounds()==0){
+                    activePlayer->setFreezedRounds(stack->getRoundsToWait());
+                    stack->unsetFreshFour();
+                    stack->resetRoundsToWait();
+                }
                 newRound();
                 stack->cancelWar();
             } else {

@@ -20,10 +20,10 @@ private:
     Value desiredValue;
     bool emptyStack;
     bool war;
-    bool thrownFour;
-    bool givenRounds;
-public:
+    bool freshFour;
 
+public:
+    bool skippedRound;
     Stack();
     ~Stack();
     std::vector<std::shared_ptr<Card>>* getBoardStack();
@@ -53,8 +53,8 @@ public:
     void setGivenRounds();
     void unsetGivenRounds();
     void resetRoundsToWait();
-    void unsetThrownFour();
-    void setThrownFour();
+    void unsetFreshFour();
+    void setFreshFour();
 };
 
 
