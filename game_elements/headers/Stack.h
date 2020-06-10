@@ -10,6 +10,7 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include "Cards.h"
+#include "Player.h"
 
 class Stack {
 private:
@@ -22,6 +23,7 @@ private:
     bool war;
     bool freshFour;
     bool coldWar;
+    bool freezedBefore;
 
 public:
     Stack();
@@ -43,7 +45,7 @@ public:
     void drawStack(sf::RenderWindow &window);
     bool isLegit(std::shared_ptr<Card>&);
     bool throwToStack(std::shared_ptr<Card>);
-    void update();
+    void update(bool);
     bool getWar() const;
     void cancelWar();
     void setWar();
@@ -57,6 +59,9 @@ public:
     void setFreshFour();
     void setColdWar();
     void unsetColdWar();
+    void setFreezedBefore();
+    void unsetFreezenBefore();
+    bool getFreezedBefore();
 };
 
 

@@ -89,7 +89,7 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
 
     if(emptyStack==true){
         return true;
-    }else if(coldWar){
+    }else if(freshFour){
         if(valueToCheck=="4" || (valueToCheck=="Q" && colorToCheck=="H")){
             return true;
         }else{
@@ -127,7 +127,7 @@ bool Stack::throwToStack(std::shared_ptr<Card> cardToCheck){
     }
 }
 
-void Stack::update() {
+void Stack::update(bool freezedBefore) {
     if(getBoardStack()->empty()){
         emptyStack = true;
     }else{
@@ -154,7 +154,7 @@ void Stack::update() {
         setDesiredColor(topCard()->getColor());
     }
     else if(this->getBoardStack()->back()->printValue()=="4"){
-        if(freshFour) { addRoundsToWait(1); }
+        if(freshFour && (!freezedBefore)){ addRoundsToWait(1); }
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
@@ -217,5 +217,17 @@ void Stack::setColdWar() {
 
 void Stack::unsetColdWar() {
     coldWar = false;
+}
+
+void Stack::setFreezedBefore() {
+    freezedBefore = true;
+}
+
+void Stack::unsetFreezenBefore() {
+    freezedBefore = false;
+}
+
+bool Stack::getFreezedBefore() {
+    return freezedBefore;
 }
 

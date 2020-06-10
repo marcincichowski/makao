@@ -16,12 +16,9 @@ int main(){
 
     int STATE = 0;
     Menu menu(window.getSize().x, window.getSize().y);
-    sf::Texture background_texture;
-    sf::Sprite background;
-    background_texture.loadFromFile("../resources/background.jpg");
-    background.setTexture(background_texture);
 
-    Board plansza(window.getSize().x, window.getSize().y, 4);
+
+    Board plansza(window.getSize().x, window.getSize().y, 3);
     while(window.isOpen()){
         sf::Event event;
         while(window.pollEvent(event)) {
@@ -77,7 +74,7 @@ int main(){
             }
         }
         window.clear();
-        window.draw(background);
+        window.draw(plansza.getBackground());
         if(STATE == 0){
             menu.draw(window);
         }else if(STATE == 1) {

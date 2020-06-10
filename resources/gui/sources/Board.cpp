@@ -15,12 +15,12 @@ Board::Board(float width, float height, int playerCount){
     skippedRound =false;
     stack->getBoardStack()->push_back(deck->getCardCollection()->back());
     deck->getCardCollection()->pop_back();
-    stack->update();
+    stack->update(stack->getFreezedBefore());
     for(int i = 0;i<playerCount;i++) {
         players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1), i+1));
         //std::cout << "+ Gracz " << i << std::endl;
     }
-    activePlayer = players.at((round)%4);
+    activePlayer = players.at((round)%playerCount);
     giveaway();
 
     //SET PROPERTIES OF BUTTONS
@@ -94,18 +94,26 @@ Board::Board(float width, float height, int playerCount){
     skippedRoundText[0].setColor(sf::Color::White);
     skippedRoundText[0].setPosition(sf::Vector2f(width/2 - 260, height/2 - 20));
 
+
+    background_texture.loadFromFile("../resources/background.jpg");
+    game_background_texture.loadFromFile("../resources/game_background.jpg");
+    background.setTexture(background_texture);
+
     zegar.restart();
 }
 Board::~Board() {}
 
 void Board::draw(sf::RenderWindow &window) {
     int no = 0;
+
      if(!IS_NEW_ROUND){
          if(activePlayer->getFreezedRounds()>0) {
             activePlayer->setFreezedRounds((activePlayer->getFreezedRounds()-1));
             newRound();
             return;
          }
+
+         background.setTexture(game_background_texture);
         for(auto player : players) {
             if (player == activePlayer) {
                 //player->drawHand(window, 3,secondsWrong, zegar);
@@ -142,6 +150,7 @@ void Board::draw(sf::RenderWindow &window) {
 
     }
     else{
+        background.setTexture(background_texture);
         if(skippedRound){window.draw(skippedRoundText[0]);window.draw(skippedRoundText[1]);return;}
         window.draw(newRoundText);
     }
@@ -156,7 +165,7 @@ void Board::draw(sf::RenderWindow &window) {
 }
 
 int Board::getPlayerCount() const {
-    return players.capacity();
+    return players.size();
 }
 
 void Board::giveaway() {
@@ -215,12 +224,11 @@ void Board::newRound() {
     buttons[0].setColor(sf::Color::White);
     activeOption = 0;
     activeButton = 0;
-    activePlayer = players.at((round)%4);
+    activePlayer = players.at((round)%getPlayerCount());
     if(activePlayer->getFreezedRounds()>0){
         skippedRound=true;
     }else{
         skippedRound = false;}
-
     if(!skippedRound) {
         std::string toDisplay =
                 "Tura Gracza " + (std::to_string(activePlayer->getPlayerNo())) + ". Nacisnij spacje aby kontynuowac...";
@@ -231,13 +239,13 @@ void Board::newRound() {
         skippedRoundText[0].setString(toDisplay);
         skippedRoundText[0].setString(toDisplay);
         std::cout << "WCHODZE";
+        stack->setFreezedBefore();
     }
-    stack->update();
+    stack->update(stack->getFreezedBefore());
+    stack->unsetFreezenBefore();
     zegar.restart();
     //std::cout << "Aktywny gracz:" << activePlayer->getNickname();
 }
-
-
 
 void Board::throwCard() {
 
@@ -261,8 +269,8 @@ void Board::throwCard() {
             }else if (!(stack->getWar())) {
                 drawCard();
                 if(stack->getRoundsToWait()>0 && activePlayer->getFreezedRounds()==0){
-                    activePlayer->setFreezedRounds(stack->getRoundsToWait());
                     stack->unsetFreshFour();
+                    activePlayer->setFreezedRounds(stack->getRoundsToWait());
                     stack->resetRoundsToWait();
                 }
                 newRound();
@@ -350,6 +358,10 @@ void Board::drawChooseNumber(sf::RenderWindow window){
     for(int i = 0; i < 6; i++)
         window.draw(numbers[i]);
     window.draw(chooseNumber);
+}
+
+sf::Sprite Board::getBackground() {
+    return background;
 }
 
 

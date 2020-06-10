@@ -31,6 +31,9 @@ private:
     sf::Text skippedRoundText[2];
     sf::Time secondsWrong;
     sf::Clock zegar;
+    sf::Texture background_texture;
+    sf::Texture game_background_texture;
+    sf::Sprite background;
 
     bool skippedRound;
     int activeOption;
@@ -61,6 +64,7 @@ public:
     void moveStackToDeck();
     void drawChooseShape(sf::RenderWindow window);
     void drawChooseNumber(sf::RenderWindow window);
+    sf::Sprite getBackground();
 
 };
 #endif //MAKAO_BOARD_H
