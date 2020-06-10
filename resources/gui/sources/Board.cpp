@@ -125,8 +125,10 @@ void Board::draw(sf::RenderWindow &window) {
         activePlayer->drawHand(window, activeOption);
         deck->drawDeck(window);
         stack->drawStack(window);
-
-        if(stack->getWar()){
+        if(stack->getBoardStack()->size()==1 && deck->getCardCollection()->size()==0){
+            buttons[0].setString(L"Zakończ turę");
+            window.draw(buttons[0]);
+        }else if(stack->getWar()){
             buttons[0].setString("Pobierz karne karty: "+std::to_string(stack->getCardsToPull()));
             window.draw(buttons[0]);
 
@@ -208,7 +210,6 @@ void Board::newRound() {
     IS_NEW_ROUND = true;
 
     round++;
-    stack->update();
     buttons[0].setColor(sf::Color::White);
     activeOption = 0;
     activeButton = 0;
@@ -229,6 +230,7 @@ void Board::newRound() {
         skippedRoundText[0].setString(toDisplay);
         std::cout << "WCHODZE";
     }
+    stack->update();
 
     //std::cout << "Aktywny gracz:" << activePlayer->getNickname();
 }
@@ -251,7 +253,9 @@ void Board::throwCard() {
         }
     } else {
         if (getPressedOption() == getActivePlayerHandSize()) {
-            if (!(stack->getWar())) {
+            if(stack->getBoardStack()->size()==1 && deck->getCardCollection()->size()==0){
+                newRound();
+            }else if (!(stack->getWar())) {
                 drawCard();
                 if(stack->getRoundsToWait()>0 && activePlayer->getFreezedRounds()==0){
                     activePlayer->setFreezedRounds(stack->getRoundsToWait());
@@ -299,10 +303,14 @@ int Board::getActivePlayerHandSize(){
 }
 
 void Board::drawCard() {
-    checkDeck();
-    activePlayer->getHand()->push_back(deck->getCardCollection()->back());
-    deck->getCardCollection()->pop_back();
-    checkDeck();
+    if(!(stack->getBoardStack()->size()==1 && deck->getCardCollection()->size()==0)){
+        checkDeck();
+        activePlayer->getHand()->push_back(deck->getCardCollection()->back());
+        deck->getCardCollection()->pop_back();
+        checkDeck();
+    }else{
+        return;
+    }
 }
 
 bool Board::checkDeck() {

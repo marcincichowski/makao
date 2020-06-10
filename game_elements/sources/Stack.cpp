@@ -8,7 +8,8 @@ Stack::Stack() {
     roundsToWait = 0;
     cardsToPull = 0;
     emptyStack = true;
-
+    coldWar = false;
+    war = false;
 }
 Stack::~Stack() {}
 
@@ -86,8 +87,15 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
     std::string valueToCheck = cardToCheck->printValue();
     std::string colorToCheck = cardToCheck->printColor();
 
-    if(emptyStack==true){ return true;}
-    if (war == true) {
+    if(emptyStack==true){
+        return true;
+    }else if(coldWar){
+        if(valueToCheck=="4" || (valueToCheck=="Q" && colorToCheck=="H")){
+            return true;
+        }else{
+            return false;
+        }
+    }else if (war == true) {
         if ((valueToCheck == "2") || (valueToCheck == "3") || (valueToCheck == "K" && colorToCheck == "H") ||
             (valueToCheck == "Q" && colorToCheck == "H")) {
             //std::cout << "Wojna git";
@@ -96,7 +104,7 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
             //std::cout << "Wojna zle";
             return false;
         }
-    } else {
+    }else {
         if (this->topCard()->getValue() == cardToCheck->getValue() ||
             this->topCard()->getColor() == cardToCheck->getColor()) {
             //std::cout << "Nie wojna git";
@@ -201,5 +209,13 @@ void Stack::unsetFreshFour() {
 
 void Stack::setFreshFour() {
     freshFour = true;
+}
+
+void Stack::setColdWar() {
+    coldWar = true;
+}
+
+void Stack::unsetColdWar() {
+    coldWar = false;
 }
 

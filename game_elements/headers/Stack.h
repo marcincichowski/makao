@@ -21,6 +21,7 @@ private:
     bool emptyStack;
     bool war;
     bool freshFour;
+    bool coldWar;
 
 public:
     Stack();
@@ -54,6 +55,8 @@ public:
     void resetRoundsToWait();
     void unsetFreshFour();
     void setFreshFour();
+    void setColdWar();
+    void unsetColdWar();
 };
 
 
