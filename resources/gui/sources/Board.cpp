@@ -79,6 +79,10 @@ Board::Board(float width, float height){
     shape_icon.setScale(0.32,0.32);
     shape_icon.setPosition(sf::Vector2f(600, 5+160 * 3));
 
+    for(auto texture : shape_texture){
+        texture.setSmooth(true);
+    }
+
 
 
     chooseShape.setFont(font);

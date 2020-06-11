@@ -11,10 +11,10 @@ Menu::Menu(float width, float height){
 
     for(int i = 0;i<NUMBER_OF_ITEMS;i++){
         menu[i].setFont(font);
-        menu[i].setColor(sf::Color::White);
+        menu[i].setFillColor(sf::Color(255,255,255));
     }
 
-    menu[0].setColor(sf::Color::Red);
+    menu[0].setFillColor(sf::Color(255, 51, 51));
 
     sf::String option1(L"Nowa Gra");
     menu[0].setString(option1);
@@ -29,10 +29,10 @@ Menu::Menu(float width, float height){
     menu[2].setPosition(sf::Vector2f(width / 2 - 235, height / (NUMBER_OF_ITEMS + 1) + 200));
 
     title.setFont(font);
-    title.setColor(sf::Color::White);
+    title.setFillColor(sf::Color(255,255,255));
     title.setString(L"Makao");
     title.setCharacterSize(100);
-    title.setOutlineColor(sf::Color::Red);
+    title.setOutlineColor(sf::Color(255,51,51));
     title.setOutlineThickness(1);
     title.setPosition(sf::Vector2f(width / 2 - 320, height / (NUMBER_OF_ITEMS+ 1)-100));
     selectedItemIndex = 0;
@@ -44,7 +44,7 @@ Menu::Menu(float width, float height){
 
     title2.setString(L"Wybierz ilość graczy");
     title2.setFont(font);
-    title2.setColor(sf::Color::White);
+    title2.setFillColor(sf::Color(255,255,255));
     title2.setPosition(sf::Vector2f(width / 2 - 320, height / (NUMBER_OF_ITEMS+ 1)+100));
 }
 
@@ -73,17 +73,17 @@ void Menu::draw(sf::RenderWindow &window){
 
 void Menu::MoveUp(){
     if(selectedItemIndex -1 >= 0){
-        menu[selectedItemIndex].setColor(sf::Color::White);
+        menu[selectedItemIndex].setFillColor(sf::Color(255,255,255));
         selectedItemIndex--;
-        menu[selectedItemIndex].setColor(sf::Color::Red);
+        menu[selectedItemIndex].setFillColor(sf::Color(255,51,51));
     }
 }
 
 void Menu::MoveDown(){
     if(selectedItemIndex + 1 < NUMBER_OF_ITEMS){
-        menu[selectedItemIndex].setColor(sf::Color::White);
+        menu[selectedItemIndex].setFillColor(sf::Color(255,255,255));
         selectedItemIndex++;
-        menu[selectedItemIndex].setColor(sf::Color::Red);
+        menu[selectedItemIndex].setFillColor(sf::Color(255,51,51));
     }
 }
 
