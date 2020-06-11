@@ -68,9 +68,9 @@ int main(){
                             //if(plansza.getChooseWindowNumber())
                                 //choose
                             if(plansza.getChooseWindowNumber())
-                                plansza.getSelectedWindowNumber();
+                                plansza.getSelectedWindowNumber(window);
                             else if(plansza.getChooseWindowShape())
-                                plansza.getSelectedWindowShape();
+                                plansza.getSelectedWindowShape(window);
                             else if(STATE == 2){
                                 plansza.throwCard();
                             }

@@ -71,6 +71,16 @@ Board::Board(float width, float height){
     numbers[0].setColor(sf::Color(100,255,100));
     //load choose Text;
 
+    shape_texture[0].loadFromFile("../resources/cards/karo_icon.png");
+    shape_texture[1].loadFromFile("../resources/cards/trefl_icon.png");
+    shape_texture[2].loadFromFile("../resources/cards/kier_icon.png");
+    shape_texture[3].loadFromFile("../resources/cards/pik_icon.png");
+
+    shape_icon.setScale(0.32,0.32);
+    shape_icon.setPosition(sf::Vector2f(600, 5+160 * 3));
+
+
+
     chooseShape.setFont(font);
     chooseShape.setColor(sf::Color::White);
     chooseShape.setString(L"Wybierz żądany kolor:");
@@ -189,6 +199,7 @@ void Board::draw(sf::RenderWindow &window) {
 
     if(desiredColor && !IS_NEW_ROUND){
         window.draw(desiredColorText);
+        window.draw(shape_icon);
     }
     if(desiredNumber && !IS_NEW_ROUND){
         window.draw(desiredNumberText);
@@ -456,7 +467,7 @@ bool Board::getChooseWindowNumber() const {
     return chooseWindowNumber;
 }
 
-void Board::getSelectedWindowNumber() {
+void Board::getSelectedWindowNumber(sf::RenderWindow &window) {
     std::cout<<activeChooseNumber;
     chooseWindowNumber = false;
     desiredNumber = true;
@@ -497,26 +508,36 @@ void Board::getSelectedWindowNumber() {
     newRound();
 }
 
-void Board::getSelectedWindowShape() {
+void Board::getSelectedWindowShape(sf::RenderWindow &window) {
     std::cout<<activeChooseShape;
     chooseWindowShape = false;
     desiredColor = true;
     stack->setWantedColor();
-    if(activeChooseShape == 0){
-        stack->setDesiredColor(karo);
-        desiredColorText.setString(L"Żądany kolor: karo");
-    }
-    else if(activeChooseShape == 1){
-        stack->setDesiredColor(trefl);
-        desiredColorText.setString(L"Żądany kolor: trefl");
-    }
-    else if(activeChooseShape == 2){
-        stack->setDesiredColor(kier);
-        desiredColorText.setString(L"Żądany kolor: kier");
-    }
-    else if(activeChooseShape == 3){
-        stack->setDesiredColor(pik);
-        desiredColorText.setString(L"Żądany kolor: pik");
+    switch(activeChooseShape) {
+        case 0: {
+            stack->setDesiredColor(karo);
+            desiredColorText.setString(L"Żądany kolor:");
+            shape_icon.setTexture(shape_texture[0]);
+            break;
+        }
+        case 1: {
+            stack->setDesiredColor(trefl);
+            desiredColorText.setString(L"Żądany kolor:");
+            shape_icon.setTexture(shape_texture[1]);
+            break;
+        }
+        case 2: {
+            stack->setDesiredColor(kier);
+            desiredColorText.setString(L"Żądany kolor:");
+            shape_icon.setTexture(shape_texture[2]);
+            break;
+        }
+        case 3: {
+            stack->setDesiredColor(pik);
+            desiredColorText.setString(L"Żądany kolor:");
+            shape_icon.setTexture(shape_texture[3]);
+            break;
+        }
     }
     newRound();
 }

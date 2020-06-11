@@ -37,6 +37,9 @@ private:
     sf::Texture game_background_texture;
     sf::Sprite background;
     sf::Sprite game_background;
+    sf::Texture shape_texture[4];
+    sf::Sprite shape_icon;
+
     bool skippedRound;
     int activeOption;
     bool option;
@@ -77,8 +80,8 @@ public:
     void chooseMoveLeftNumber();
     bool getChooseWindowShape() const;
     bool getChooseWindowNumber() const;
-    void getSelectedWindowNumber();
-    void getSelectedWindowShape();
+    void getSelectedWindowNumber(sf::RenderWindow&);
+    void getSelectedWindowShape(sf::RenderWindow&);
     sf::Sprite getBackground();
     void initBoard(int playerCount);
     bool wonCheck();
