@@ -81,6 +81,7 @@ public:
     void getSelectedWindowShape();
     sf::Sprite getBackground();
     void initBoard(int playerCount);
+    bool wonCheck();
 
 };
 #endif //MAKAO_BOARD_H

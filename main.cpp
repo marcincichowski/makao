@@ -11,7 +11,10 @@ void debug(){
 }
 
 int main(){
+    sf::Image icon;
+    icon.loadFromFile("../resources/icon.png");
     sf::RenderWindow window(sf::VideoMode(1280,720),"Makao");
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     window.setFramerateLimit( 30 );
 
     int STATE = 0;
@@ -75,6 +78,9 @@ int main(){
                                 plansza.initBoard(menu.getPressedItem()+2);
                                 STATE = 2;
                             }
+                            else if(STATE == 4){
+                                STATE = 0;
+                            }
                             else{
                                 if(menu.getPressedItem() == 0){
                                     STATE = 3;                              //gra
@@ -104,6 +110,9 @@ int main(){
             plansza.draw(window);
         }
         else if(STATE == 3){
+            menu.changeString(window);
+        }
+        else if(STATE == 4){
             menu.changeString(window);
         }
         window.display();

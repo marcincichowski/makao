@@ -37,7 +37,8 @@ Menu::Menu(float width, float height){
     title.setPosition(sf::Vector2f(width / 2 - 320, height / (NUMBER_OF_ITEMS+ 1)-100));
     selectedItemIndex = 0;
 
-    logo.loadFromFile("../resources/cards/aces.png");
+    logo.loadFromFile("../resources/cards/cards.png");
+    logo.setSmooth(true);
     logoImage.setTexture(logo);
     logoImage.setScale(0.2,0.2);
 

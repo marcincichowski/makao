@@ -139,11 +139,16 @@ void Board::draw(sf::RenderWindow &window) {
         for(auto player : players) {
             if (player == activePlayer) {
                 //player->drawHand(window, 3,secondsWrong, zegar);
+
+                nickname.setColor(sf::Color::White);
                 nickname.setString(player->getNickname());
                 nickname.setPosition(sf::Vector2f(20, 10 + 160 * 3));
                 window.draw(nickname);
             }
             else {
+                if(player->getFreezedRounds()>0){
+                    nickname.setColor(sf::Color(128, 223, 255));
+                }else{nickname.setColor(sf::Color::White);}
                 player->drawHiddenHand(window, no);
                 nickname.setString(player->getNickname());
                 nickname.setPosition(sf::Vector2f(20, 10 + 160 * no));
@@ -151,7 +156,6 @@ void Board::draw(sf::RenderWindow &window) {
                 no++;
             }
         }
-
         activePlayer->drawHand(window, activeOption,secondsWrong, zegar);
         deck->drawDeck(window);
         stack->drawStack(window);
@@ -306,6 +310,7 @@ void Board::throwCard() {
             if(!chooseWindowNumber && !chooseWindowShape)
                 newRound();
         } else {
+            zegar.restart();
             secondsWrong = zegar.getElapsedTime();
             return;
         }
@@ -516,5 +521,16 @@ void Board::getSelectedWindowShape() {
     newRound();
 }
 
+
+
 Board::Board() {}
+
+bool Board::wonCheck() {
+    for(auto player : players){
+        if(player->getHand()->size()==0){
+            return true;
+        }
+    }
+    return true;
+}
 

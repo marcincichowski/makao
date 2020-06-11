@@ -25,7 +25,7 @@ void Player::drawHand(sf::RenderWindow &window, int activeOption, sf::Time czas,
         sf::Sprite toDraw = card->draw(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), height*0.75));
         if(activeOption == i) {
-            if((zegar.getElapsedTime().asMilliseconds()-czas.asMilliseconds()) > 300){
+            if((zegar.getElapsedTime().asMilliseconds()-czas.asMilliseconds()) > 250){
                 toDraw.setColor(sf::Color(100, 255, 100));
             }
             else{

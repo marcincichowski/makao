@@ -89,13 +89,13 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
     std::string valueToCheck = cardToCheck->printValue();
     std::string colorToCheck = cardToCheck->printColor();
     if(wantedColor){
-        if(this->desiredColor == cardToCheck->getColor() || cardToCheck->printValue() == "A")
+        if(this->desiredColor == cardToCheck->getColor() || (cardToCheck->printValue() == "A") || (valueToCheck == "Q" && colorToCheck == "H"))
             return true;
         else
             return false;
     }
     else if(wantedValue){
-        if(this->desiredValue == cardToCheck->getValue() || cardToCheck->printValue() == "J")
+        if(this->desiredValue == cardToCheck->getValue() || cardToCheck->printValue() == "J" || (valueToCheck == "Q" && colorToCheck == "H"))
             return true;
         else
             return false;
