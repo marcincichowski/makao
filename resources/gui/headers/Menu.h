@@ -16,6 +16,7 @@ private:
     sf::Text menu[NUMBER_OF_ITEMS];
     sf::Texture logo;
     sf::Sprite logoImage;
+    sf::Text title2;
 public:
     Menu(float width, float height);
     ~Menu();
@@ -24,6 +25,7 @@ public:
     void MoveUp();
     void MoveDown();
     int getPressedItem();
+    void changeString(sf::RenderWindow &window);
 };
 
 #endif //MAKAO_MENU_H

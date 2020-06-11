@@ -40,6 +40,24 @@ Menu::Menu(float width, float height){
     logo.loadFromFile("../resources/cards/aces.png");
     logoImage.setTexture(logo);
     logoImage.setScale(0.2,0.2);
+
+    title2.setString(L"Wybierz ilość graczy");
+    title2.setFont(font);
+    title2.setColor(sf::Color::White);
+    title2.setPosition(sf::Vector2f(width / 2 - 320, height / (NUMBER_OF_ITEMS+ 1)+100));
+}
+
+void Menu::changeString(sf::RenderWindow &window){
+    int height = window.getSize().y;
+    int width = window.getSize().x;
+    menu[0].setString(L"2 graczy");
+    menu[1].setString(L"3 graczy");
+    menu[2].setString(L"4 graczy");
+    menu[0].setPosition(sf::Vector2f(width / 2  - 250, height / (NUMBER_OF_ITEMS + 1) + 150));
+    menu[1].setPosition(sf::Vector2f(width / 2 - 250, height / (NUMBER_OF_ITEMS + 1) + 200));
+    menu[2].setPosition(sf::Vector2f(width / 2 - 250, height / (NUMBER_OF_ITEMS + 1) + 250));
+    window.draw(title2);
+    draw(window);
 }
 Menu::~Menu(){}
 

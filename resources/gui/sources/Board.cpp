@@ -7,7 +7,7 @@
 #include <iterator>
 #include <unordered_set>
 
-Board::Board(float width, float height, int playerCount){
+Board::Board(float width, float height){
     round=0;
     IS_NEW_ROUND = true;
     deck = std::make_shared<Deck>();
@@ -16,12 +16,6 @@ Board::Board(float width, float height, int playerCount){
     stack->getBoardStack()->push_back(deck->getCardCollection()->back());
     deck->getCardCollection()->pop_back();
     stack->update(stack->getFreezedBefore());
-    for(int i = 0;i<playerCount;i++) {
-        players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1), i+1));
-        //std::cout << "+ Gracz " << i << std::endl;
-    }
-    activePlayer = players.at((round)%playerCount);
-    giveaway();
 
     //SET PROPERTIES OF BUTTONS
     if(!font.loadFromFile("../assets/fonts/arial.TTF")){
@@ -61,6 +55,8 @@ Board::Board(float width, float height, int playerCount){
     numbersTextures[3].loadFromFile("../resources/cards/value_8.png");
     numbersTextures[4].loadFromFile("../resources/cards/value_9.png");
     numbersTextures[5].loadFromFile("../resources/cards/value_10.png");
+
+
     for(int i = 0; i < 4; i++){
         shapes[i].setTexture(shapesTextures[i]);
         shapes[i].setScale(0.15,0.15);
@@ -71,7 +67,8 @@ Board::Board(float width, float height, int playerCount){
         numbers[i].setScale(0.15, 0.15);
         numbers[i].setPosition(sf::Vector2f(920 + 25*i,300));
     }
-
+    shapes[0].setColor(sf::Color(100,255,100));
+    numbers[0].setColor(sf::Color(100,255,100));
     //load choose Text;
 
     chooseShape.setFont(font);
@@ -98,22 +95,47 @@ Board::Board(float width, float height, int playerCount){
     background_texture.loadFromFile("../resources/background.jpg");
     game_background_texture.loadFromFile("../resources/game_background.jpg");
     background.setTexture(background_texture);
+    game_background.setTexture(game_background_texture);
 
     zegar.restart();
+    chooseWindowNumber = false;
+    chooseWindowShape = false;
+
+    activeChooseNumber = 0;
+    activeChooseShape = 0;
+
+    desiredColor = false;
+    desiredNumber = false;
+
+    desiredColorText.setFont(font);
+    desiredColorText.setColor(sf::Color::White);
+    desiredColorText.setPosition(sf::Vector2f(400,10 + 160 * 3));
+
+    desiredNumberText.setFont(font);
+    desiredNumberText.setColor(sf::Color::White);
+    desiredNumberText.setPosition(sf::Vector2f(400, 10 + 160 * 3));
 }
 Board::~Board() {}
+
+void Board::initBoard(int playerCount){
+    for(int i = 0;i<playerCount;i++) {
+        players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1), i+1));
+        //std::cout << "+ Gracz " << i << std::endl;
+    }
+    activePlayer = players.at((round)%playerCount);
+    giveaway();
+}
 
 void Board::draw(sf::RenderWindow &window) {
     int no = 0;
 
      if(!IS_NEW_ROUND){
+         window.draw(game_background);
          if(activePlayer->getFreezedRounds()>0) {
             activePlayer->setFreezedRounds((activePlayer->getFreezedRounds()-1));
             newRound();
             return;
          }
-
-         background.setTexture(game_background_texture);
         for(auto player : players) {
             if (player == activePlayer) {
                 //player->drawHand(window, 3,secondsWrong, zegar);
@@ -150,9 +172,22 @@ void Board::draw(sf::RenderWindow &window) {
 
     }
     else{
-        background.setTexture(background_texture);
+        window.draw(background);
         if(skippedRound){window.draw(skippedRoundText[0]);window.draw(skippedRoundText[1]);return;}
         window.draw(newRoundText);
+    }
+    if(chooseWindowShape && !IS_NEW_ROUND){
+        drawChooseShape(window);
+    }
+    if(chooseWindowNumber && !IS_NEW_ROUND){
+        drawChooseNumber(window);
+    }
+
+    if(desiredColor && !IS_NEW_ROUND){
+        window.draw(desiredColorText);
+    }
+    if(desiredNumber && !IS_NEW_ROUND){
+        window.draw(desiredNumberText);
     }
 
     //choose window draw
@@ -253,11 +288,23 @@ void Board::throwCard() {
     if (getPressedOption() < getActivePlayerHandSize()) {
         //std::cout<<"Wyrzucono: ";
         getPressedCard()->printCard();
-
         if (stack->throwToStack(getPressedCard())) {
             if(getPressedCard()->printValue()=="4"){stack->setFreshFour();}
+            if(getPressedCard()->printValue() == "J" && !chooseWindowNumber)
+                chooseWindowNumber = true;
+            if(getPressedCard()->printValue() == "A" && !chooseWindowShape)
+                chooseWindowShape = true;
+            if(desiredColor){
+                desiredColor = false;
+                stack->unsetWantedColor();
+            }
+            if(desiredNumber){
+                desiredNumber = false;
+                stack->unsetWantedValue();
+            }
             activePlayer->getHand()->erase(std::find(activePlayer->getHand()->begin(), activePlayer->getHand()->end(), getPressedCard()));
-            newRound();
+            if(!chooseWindowNumber && !chooseWindowShape)
+                newRound();
         } else {
             secondsWrong = zegar.getElapsedTime();
             return;
@@ -290,9 +337,8 @@ void Board::throwCard() {
 std::shared_ptr<Card> Board::getPressedCard() {
     if(activeOption != activePlayer->getHand()->size() + 1){
         return activePlayer->getHand()->at(activeOption);
-    }
-    else{
-
+    }else{
+        return nullptr;
     }
 }
 
@@ -348,14 +394,14 @@ bool Board::getIsNewRound() const {
     return IS_NEW_ROUND;
 }
 
-void Board::drawChooseShape(sf::RenderWindow window){
+void Board::drawChooseShape(sf::RenderWindow &window){
     for(int i = 0; i < 4; i++)
-      window.draw(shapes[i]);
+        window.draw(shapes[i]);
     window.draw(chooseShape);
 }
 
-void Board::drawChooseNumber(sf::RenderWindow window){
-    for(int i = 0; i < 6; i++)
+void Board::drawChooseNumber(sf::RenderWindow &window) {
+    for (int i = 0; i < 6; i++)
         window.draw(numbers[i]);
     window.draw(chooseNumber);
 }
@@ -364,28 +410,111 @@ sf::Sprite Board::getBackground() {
     return background;
 }
 
+void Board::chooseMoveLeftShape() {
+    if(activeChooseShape > 0){
+        shapes[activeChooseShape].setColor(sf::Color(255,255,255));
+        activeChooseShape--;
+        shapes[activeChooseShape].setColor(sf::Color(100,255,100));
+    }
+}
 
+void Board::chooseMoveRightShape() {
+    if(activeChooseShape + 1 < 4){
+        shapes[activeChooseShape].setColor(sf::Color(255,255,255));
+        activeChooseShape++;
+        shapes[activeChooseShape].setColor(sf::Color(100,255,100));
+    }
 
+}
 
+void Board::chooseMoveRightNumber() {
+    if(activeChooseNumber + 1 < 6){
+        numbers[activeChooseNumber].setColor(sf::Color(255,255,255));
+        activeChooseNumber++;
+        numbers[activeChooseNumber].setColor(sf::Color(100,255,100));
+    }
+}
 
+void Board::chooseMoveLeftNumber() {
+    if(activeChooseNumber > 0){
+        numbers[activeChooseNumber].setColor(sf::Color(255,255,255));
+        activeChooseNumber--;
+        numbers[activeChooseNumber].setColor(sf::Color(100,255,100));
+    }
+}
 
+bool Board::getChooseWindowShape() const{
+    return chooseWindowShape;
+}
 
+bool Board::getChooseWindowNumber() const {
+    return chooseWindowNumber;
+}
 
+void Board::getSelectedWindowNumber() {
+    std::cout<<activeChooseNumber;
+    chooseWindowNumber = false;
+    desiredNumber = true;
+    stack->setWantedValue();
+    switch(activeChooseNumber){
+        case 0:{
+            stack->setDesiredValue(piec);
+            desiredNumberText.setString(L"Żądana wartość: 5");
+            break;
+        }
+        case 1:{
+            stack->setDesiredValue(szesc);
+            desiredNumberText.setString(L"Żądana wartość: 6");
+            break;
+        }
+        case 2:{
+            stack->setDesiredValue(siedem);
+            desiredNumberText.setString(L"Żądana wartość: 7");
+            break;
+        }
+        case 3:{
+            stack->setDesiredValue(osiem);
+            desiredNumberText.setString(L"Żądana wartość: 8");
+            break;
+        }
+        case 4:{
+            stack->setDesiredValue(dziewiec);
+            desiredNumberText.setString(L"Żądana wartość: 9");
+            break;
+        }
+        case 5:{
+            stack->setDesiredValue(dziesiec);
+            desiredNumberText.setString(L"Żądana wartość: 10");
+            break;
+        }
 
+    }
+    newRound();
+}
 
+void Board::getSelectedWindowShape() {
+    std::cout<<activeChooseShape;
+    chooseWindowShape = false;
+    desiredColor = true;
+    stack->setWantedColor();
+    if(activeChooseShape == 0){
+        stack->setDesiredColor(karo);
+        desiredColorText.setString(L"Żądany kolor: karo");
+    }
+    else if(activeChooseShape == 1){
+        stack->setDesiredColor(trefl);
+        desiredColorText.setString(L"Żądany kolor: trefl");
+    }
+    else if(activeChooseShape == 2){
+        stack->setDesiredColor(kier);
+        desiredColorText.setString(L"Żądany kolor: kier");
+    }
+    else if(activeChooseShape == 3){
+        stack->setDesiredColor(pik);
+        desiredColorText.setString(L"Żądany kolor: pik");
+    }
+    newRound();
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Board::Board() {}
 

@@ -18,7 +18,7 @@ int main(){
     Menu menu(window.getSize().x, window.getSize().y);
 
 
-    Board plansza(window.getSize().x, window.getSize().y, 3);
+    Board plansza(window.getSize().x, window.getSize().y);
     while(window.isOpen()){
         sf::Event event;
         while(window.pollEvent(event)) {
@@ -38,12 +38,20 @@ int main(){
                             break;
                         }
                         case sf::Keyboard::Left:{
-                            if(!plansza.getIsNewRound())
+                            if(plansza.getChooseWindowNumber())
+                                plansza.chooseMoveLeftNumber();
+                            else if(plansza.getChooseWindowShape())
+                                plansza.chooseMoveLeftShape();
+                            else if(!plansza.getIsNewRound())
                                 plansza.moveLeft();
                             break;
                         }
                         case sf::Keyboard::Right:{
-                            if(!plansza.getIsNewRound())
+                            if(plansza.getChooseWindowNumber())
+                                plansza.chooseMoveRightNumber();
+                            else if(plansza.getChooseWindowShape())
+                                plansza.chooseMoveRightShape();
+                            else if(!plansza.getIsNewRound())
                                 plansza.moveRight();
                             break;
                         }
@@ -52,12 +60,24 @@ int main(){
                             break;
                         }
                         case sf::Keyboard::Return:{
-                            if(STATE == 2){
+                            //if(plansza.getChooseWindowShape())
+                                //choose
+                            //if(plansza.getChooseWindowNumber())
+                                //choose
+                            if(plansza.getChooseWindowNumber())
+                                plansza.getSelectedWindowNumber();
+                            else if(plansza.getChooseWindowShape())
+                                plansza.getSelectedWindowShape();
+                            else if(STATE == 2){
                                 plansza.throwCard();
+                            }
+                            else if(STATE == 3){
+                                plansza.initBoard(menu.getPressedItem()+2);
+                                STATE = 2;
                             }
                             else{
                                 if(menu.getPressedItem() == 0){
-                                    STATE = 2;                              //gra
+                                    STATE = 3;                              //gra
                                 }else if(menu.getPressedItem() == 1) {
                                     //STATE = 1;                              //zasady
                                 }else{
@@ -82,6 +102,9 @@ int main(){
 
         }else if(STATE == 2){
             plansza.draw(window);
+        }
+        else if(STATE == 3){
+            menu.changeString(window);
         }
         window.display();
     }

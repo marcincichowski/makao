@@ -10,6 +10,8 @@ Stack::Stack() {
     emptyStack = true;
     coldWar = false;
     war = false;
+    wantedColor = false;
+    wantedValue = false;
 }
 Stack::~Stack() {}
 
@@ -86,7 +88,18 @@ void Stack::drawStack(sf::RenderWindow &window) {
 bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
     std::string valueToCheck = cardToCheck->printValue();
     std::string colorToCheck = cardToCheck->printColor();
-
+    if(wantedColor){
+        if(this->desiredColor == cardToCheck->getColor() || cardToCheck->printValue() == "A")
+            return true;
+        else
+            return false;
+    }
+    else if(wantedValue){
+        if(this->desiredValue == cardToCheck->getValue() || cardToCheck->printValue() == "J")
+            return true;
+        else
+            return false;
+    }
     if(emptyStack==true){
         return true;
     }else if(freshFour){
@@ -153,6 +166,12 @@ void Stack::update(bool freezedBefore) {
         setDesiredValue(topCard()->getValue());
         setDesiredColor(topCard()->getColor());
     }
+    else if(this->getBoardStack()->back()->printValue()=="J") {
+        return;
+    }
+    else if(this->getBoardStack()->back()->printValue()=="A") {
+        return;
+    }
     else if(this->getBoardStack()->back()->printValue()=="4"){
         if(freshFour && (!freezedBefore)){ addRoundsToWait(1); }
         setDesiredValue(topCard()->getValue());
@@ -217,6 +236,30 @@ void Stack::setColdWar() {
 
 void Stack::unsetColdWar() {
     coldWar = false;
+}
+
+void Stack::setChooseColor() {
+    freshAce = true;
+}
+
+void Stack::setChooseNumber() {
+    freshJack = true;
+}
+
+void Stack::setWantedColor() {
+    wantedColor = true;
+}
+
+void Stack::unsetWantedColor() {
+    wantedColor = false;
+}
+
+void Stack::setWantedValue() {
+    wantedValue = true;
+}
+
+void Stack::unsetWantedValue() {
+    wantedValue = false;
 }
 
 void Stack::setFreezedBefore() {

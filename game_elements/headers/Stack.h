@@ -24,7 +24,10 @@ private:
     bool freshFour;
     bool coldWar;
     bool freezedBefore;
-
+    bool freshJack;
+    bool freshAce;
+    bool wantedColor;
+    bool wantedValue;
 public:
     Stack();
     ~Stack();
@@ -59,6 +62,12 @@ public:
     void setFreshFour();
     void setColdWar();
     void unsetColdWar();
+    void setChooseColor();
+    void setChooseNumber();
+    void setWantedColor();
+    void setWantedValue();
+    void unsetWantedColor();
+    void unsetWantedValue();
     void setFreezedBefore();
     void unsetFreezenBefore();
     bool getFreezedBefore();
