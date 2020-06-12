@@ -25,6 +25,9 @@ private:
     bool freezedBefore;
     bool wantedColor;
     bool wantedValue;
+    sf::Sprite toDraw;
+    std::string valueToCheck;
+    std::string colorToCheck;
 public:
     Stack();
     ~Stack();

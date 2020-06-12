@@ -8,7 +8,7 @@
 class Deck {
 private:
     std::vector<std::shared_ptr<Card>> cardCollection;      //zbior kart
-
+    sf::Sprite toDraw;
 public:
     Deck();
     ~Deck();

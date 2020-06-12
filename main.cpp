@@ -126,6 +126,7 @@ int main(){
         }
         else if(STATE == 4){
             menu.drawWinners(window, *plansza.getWinners());
+            window.draw(pressToExit);
         }
         window.display();
     }

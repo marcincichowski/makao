@@ -5,7 +5,8 @@
 #include <iostream>
 #include "../headers/Player.h"
 
-Player::Player(std::string nicknameToSet, int index) : nickname(nicknameToSet),playerNo(index), freezedRounds(0), win(false), place(0){}
+Player::Player(std::string nicknameToSet, int index) : nickname(nicknameToSet),playerNo(index), freezedRounds(0), win(false), place(0){
+}
 Player::~Player() {}
 
 void Player::setFreezedRounds(int roundsToSet) {
@@ -22,7 +23,7 @@ void Player::drawHand(sf::RenderWindow &window, int activeOption, sf::Time czas,
     float scale = 0.15;
     int i = 0;
     for(auto &card : this->hand){
-        sf::Sprite toDraw = card->draw(scale);
+        toDraw = card->draw(scale);
         toDraw.setPosition(sf::Vector2f((20 + distance), height*0.75));
         if(activeOption == i) {
             if((zegar.getElapsedTime().asMilliseconds()-czas.asMilliseconds()) > 250){
@@ -46,7 +47,7 @@ void Player::drawHiddenHand(sf::RenderWindow &window, int no) {
     if(!win)
         for(auto &card : this->hand){
             if(counter>=15){return;}else{counter++;}
-            sf::Sprite toDraw = card->drawHidden(scale);
+            toDraw = card->drawHidden(scale);
             toDraw.setPosition(sf::Vector2f((20 + distance), 50+160*(no)));
             window.draw(toDraw);
             distance += widthBetween;

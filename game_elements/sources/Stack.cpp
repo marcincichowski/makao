@@ -65,14 +65,14 @@ void Stack::drawStack(sf::RenderWindow &window) {
     int x = (getBoardStack()->size() - 1) >= 5 ? 5 : getBoardStack()->size() - 1;
     if (getBoardStack()->size() - 1 > 0) {
         for (int i = 0; i < x; i++) {
-            sf::Sprite toDraw = boardStack[i + 1]->draw(scale);
+            toDraw = boardStack[i + 1]->draw(scale);
             toDraw.setPosition(sf::Vector2f(width / 2 + distance - 50, height / 2 + distance - 140));
             window.draw(toDraw);
             distance += widthBetween;
         }
     }
     getBoardStack()->back()->draw(scale);
-    sf::Sprite toDraw = getBoardStack()->back()->draw(scale);
+    toDraw = getBoardStack()->back()->draw(scale);
     toDraw.setPosition(sf::Vector2f(width / 2 +distance- 50, height / 2+distance - 140));
 
     window.draw(toDraw);
@@ -80,8 +80,9 @@ void Stack::drawStack(sf::RenderWindow &window) {
 
 
 bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
-    std::string valueToCheck = cardToCheck->printValue();
-    std::string colorToCheck = cardToCheck->printColor();
+    return true;
+    valueToCheck = cardToCheck->printValue();
+    colorToCheck = cardToCheck->printColor();
     if(wantedColor){
         if(this->desiredColor == cardToCheck->getColor() || (cardToCheck->printValue() == "A") || (valueToCheck == "Q" && colorToCheck == "H"))
             return true;
@@ -94,7 +95,7 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
         else
             return false;
     }
-    if(emptyStack==true){
+    if(emptyStack){
         return true;
     }else if(freshFour){
         if(valueToCheck=="4" || (valueToCheck=="Q" && colorToCheck=="H")){
@@ -102,7 +103,7 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
         }else{
             return false;
         }
-    }else if (war == true) {
+    }else if (war) {
         if ((valueToCheck == "2") || (valueToCheck == "3") || (valueToCheck == "K" && colorToCheck == "H") ||
             (valueToCheck == "Q" && colorToCheck == "H")) {
             return true;

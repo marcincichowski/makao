@@ -17,6 +17,7 @@ private:
     std::vector<std::shared_ptr<Card>> hand; //reka gracza
     bool win;
     int place;
+    sf::Sprite toDraw;
 public:
     Player(std::string nicknameToSet, int index);
     ~Player();
