@@ -8,24 +8,17 @@ Stack::Stack() {
     roundsToWait = 0;
     cardsToPull = 0;
     emptyStack = true;
-    coldWar = false;
     war = false;
     wantedColor = false;
     wantedValue = false;
 }
 Stack::~Stack() {}
 
-int Stack::getCardCount() { return getBoardStack()->size(); }
+
 
 void Stack::addCardsToPull(int amountToAdd) { cardsToPull+=amountToAdd; war=true;}
 void Stack::addRoundsToWait(int amountToAdd) { roundsToWait+=amountToAdd; }
 
-void Stack::pushCard(std::shared_ptr<Card> toAdd) { getBoardStack()->push_back(toAdd); }
-
-std::shared_ptr<Card> Stack::pullCard() {
-    return getBoardStack()->back();
-    getBoardStack()->pop_back();
-}
 
 int Stack::getCardsToPull(){
     return cardsToPull;
@@ -41,7 +34,6 @@ void Stack::resetRoundsToWait(){
 
 void Stack::reset() {
     freshFour = false;
-    coldWar = false;
     cardsToPull = 0;
     war=false;
 }
@@ -113,19 +105,15 @@ bool Stack::isLegit(std::shared_ptr<Card> &cardToCheck) {
     }else if (war == true) {
         if ((valueToCheck == "2") || (valueToCheck == "3") || (valueToCheck == "K" && colorToCheck == "H") ||
             (valueToCheck == "Q" && colorToCheck == "H")) {
-            //std::cout << "Wojna git";
             return true;
         } else {
-            //std::cout << "Wojna zle";
             return false;
         }
     }else {
         if (this->topCard()->getValue() == cardToCheck->getValue() ||
             this->topCard()->getColor() == cardToCheck->getColor()) {
-            //std::cout << "Nie wojna git";
             return true;
         } else {
-            //std::cout << "Nie wojna zle";
             return false;
         }
     }
@@ -137,7 +125,6 @@ bool Stack::throwToStack(std::shared_ptr<Card> cardToCheck){
         getBoardStack()->push_back(cardToCheck);
         return true;
     }else{
-        //std::cout << "Ta karta nie moze zostac wyrzucona na stos!\n";
         return false;
     }
 }
@@ -191,14 +178,6 @@ void Stack::update(bool freezedBefore) {
 
 }
 
-Color Stack::getDesideredColor() const {
-    return desiredColor;
-}
-
-Value Stack::getDesideredValue() const {
-    return desiredValue;
-}
-
 bool Stack::getWar() const {
     return war;
 }
@@ -208,21 +187,10 @@ void Stack::cancelWar() {
     cardsToPull = 0;
 }
 
-bool Stack::isEmpty() {
-    return emptyStack;
-}
-
-void Stack::setWar() {
-    war = true;
-}
-
 std::vector<std::shared_ptr<Card>> *Stack::getBoardStack() {
     return &boardStack;
 }
 
-bool Stack::getThrownFour() {
-    return freshFour;
-}
 
 void Stack::unsetFreshFour() {
     freshFour =false;
@@ -230,22 +198,6 @@ void Stack::unsetFreshFour() {
 
 void Stack::setFreshFour() {
     freshFour = true;
-}
-
-void Stack::setColdWar() {
-    coldWar = true;
-}
-
-void Stack::unsetColdWar() {
-    coldWar = false;
-}
-
-void Stack::setChooseColor() {
-    freshAce = true;
-}
-
-void Stack::setChooseNumber() {
-    freshJack = true;
 }
 
 void Stack::setWantedColor() {

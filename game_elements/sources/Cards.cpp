@@ -34,10 +34,6 @@ void Card::setColor(Color colorToSet){
     color = colorToSet;
 }
 
-void Card::printCard() {
-    //std::cout  << this->getValue() << this->getColor() << std::endl;
-}
-
 std::string Card::generatePath() {
     std::string col = this->printColor();
     std::string val = this->printValue();
@@ -189,27 +185,3 @@ Value Ace::getValue() const{
 
 
 //==================================================================================//
-
-///==================================================================================/
-///                                    Joker
-///==================================================================================/
-
-/*Joker::Joker(Color colorToSet) {
-    Card::setColor(colorToSet);
-    value = joker;
-};
-Joker::~Joker(){}
-
-Value Joker::getValue() const{
-    return value;
-}
-
-void Joker::initStack(Stack *stackToInitOn) {
-    return;
-}
-
-void Joker::printCard() {
-    //std::cout << this->getValue() << " " << this->getColor() << std::endl;
-}*/
-
-///==================================================================================/

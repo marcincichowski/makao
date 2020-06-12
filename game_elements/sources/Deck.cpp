@@ -12,15 +12,11 @@
 class Card;
 
 Deck::Deck() {
-    //std::cout << "Tworze karty..\n";
     createCards();
-
-    //std::cout << "Tasuje karty..\n";
     shuffleDeck();
 }
 
-Deck::~Deck(){ //std::cout << "Niszcze talie..\n";
-    }
+Deck::~Deck(){}
 
 void Deck::createCards(){               //tworzenie wszystkich kart
     for(auto color : all_Colors){
@@ -41,7 +37,6 @@ void Deck::shuffleDeck() {
         auto rng = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
         std::shuffle(std::begin(cardCollection), std::end(cardCollection), rng);
     }else{
-        //std::cout << "Talia jest pusta.\n";
         return;
     }
 }

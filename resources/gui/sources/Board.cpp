@@ -2,10 +2,8 @@
 // Created by marci on 06.06.2020.
 //
 #include "../headers/Board.h"
-//#include "../game_elements/Deck.h"
 #include <iostream>
 #include <iterator>
-#include <unordered_set>
 
 Board::Board(float width, float height){
     round=0;
@@ -136,7 +134,6 @@ Board::~Board() {}
 void Board::initBoard(int playerCount){
     for(int i = 0;i<playerCount;i++) {
         players.push_back(std::make_shared<Player>("Gracz "+std::to_string(i+1), i+1));
-        //std::cout << "+ Gracz " << i << std::endl;
     }
     activePlayer = players.at((round)%playerCount);
     giveaway();
@@ -355,15 +352,11 @@ void Board::newRound() {
     stack->update(stack->getFreezedBefore());
     stack->unsetFreezenBefore();
     zegar.restart();
-    //std::cout << "Aktywny gracz:" << activePlayer->getNickname();
 }
 
 void Board::throwCard() {
-
-    //std::cout << "Runda numer: " << round << std::endl;
     if (getPressedOption() < getActivePlayerHandSize()) {
 
-        getPressedCard()->printCard();
         if (stack->throwToStack(getPressedCard())) {
 
             if(getPressedCard()->printValue()=="4"){stack->setFreshFour();}
@@ -484,11 +477,8 @@ bool Board::checkDeck() {
             stack->getBoardStack()->pop_back();
         }
         stack->getBoardStack()->push_back(topCard);
-
-        //std::cout << "\nsPrzelozone karty, teraz:" << deck->getCardCollection()->size();
         return true;
     }else{
-        //std::cout << "Deck jest git";
         return true;
     }
 }

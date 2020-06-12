@@ -22,10 +22,7 @@ private:
     bool emptyStack;
     bool war;
     bool freshFour;
-    bool coldWar;
     bool freezedBefore;
-    bool freshJack;
-    bool freshAce;
     bool wantedColor;
     bool wantedValue;
 public:
@@ -33,17 +30,12 @@ public:
     ~Stack();
     std::vector<std::shared_ptr<Card>>* getBoardStack();
     std::shared_ptr<Card> topCard();
-    int getCardCount();
-    Color getDesideredColor() const;
-    Value getDesideredValue() const;
     void addCardsToPull(int amountToAdd);
     void addRoundsToWait(int amountToAdd);
     int getCardsToPull();
     int getRoundsToWait() const;
     void setDesiredColor(Color desiredColor);
     void setDesiredValue(Value desiredValue);
-    std::shared_ptr<Card> pullCard();
-    void pushCard(std::shared_ptr<Card> toAdd);
     void reset();                             //dama blokuje wojny i tury do odczekania
     void drawStack(sf::RenderWindow &window);
     bool isLegit(std::shared_ptr<Card>&);
@@ -51,19 +43,9 @@ public:
     void update(bool);
     bool getWar() const;
     void cancelWar();
-    void setWar();
-    bool isEmpty();
-    bool getThrownFour();
-    bool getGivenRounds();
-    void setGivenRounds();
-    void unsetGivenRounds();
     void resetRoundsToWait();
     void unsetFreshFour();
     void setFreshFour();
-    void setColdWar();
-    void unsetColdWar();
-    void setChooseColor();
-    void setChooseNumber();
     void setWantedColor();
     void setWantedValue();
     void unsetWantedColor();

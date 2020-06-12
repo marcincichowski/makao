@@ -44,7 +44,6 @@ public:
     Card(const Card&)=delete;
     ~Card();
 
-    void printCard();
 
     std::string generatePath();
     sf::Sprite draw(float scale);
