@@ -5,7 +5,7 @@
 #include <iostream>
 #include "../headers/Player.h"
 
-Player::Player(std::string nicknameToSet, int index) : nickname(nicknameToSet),playerNo(index), freezedRounds(0){}
+Player::Player(std::string nicknameToSet, int index) : nickname(nicknameToSet),playerNo(index), freezedRounds(0), win(false), place(0){}
 Player::~Player() {}
 
 void Player::setFreezedRounds(int roundsToSet) {
@@ -43,13 +43,14 @@ void Player::drawHiddenHand(sf::RenderWindow &window, int no) {
     float distance = 0;
     float scale = 0.1;
     int counter = 0;
-    for(auto &card : this->hand){
-        if(counter>=15){return;}else{counter++;}
-        sf::Sprite toDraw = card->drawHidden(scale);
-        toDraw.setPosition(sf::Vector2f((20 + distance), 50+160*(no)));
-        window.draw(toDraw);
-        distance += widthBetween;
-    }
+    if(!win)
+        for(auto &card : this->hand){
+            if(counter>=15){return;}else{counter++;}
+            sf::Sprite toDraw = card->drawHidden(scale);
+            toDraw.setPosition(sf::Vector2f((20 + distance), 50+160*(no)));
+            window.draw(toDraw);
+            distance += widthBetween;
+        }
 }
 
 int Player::getPlayerNo() const {
@@ -60,6 +61,22 @@ std::vector<std::shared_ptr<Card>> *Player::getHand() {
     return &hand;
 }
 
-int Player::getFreezedRounds() {
+int Player::getFreezedRounds() const {
     return freezedRounds;
+}
+
+bool Player::getWin() const {
+    return win;
+}
+
+void Player::setWin() {
+    win = true;
+}
+
+int Player::getPlace() const {
+    return place;
+}
+
+void Player::setPlace(int number){
+    place = number;
 }

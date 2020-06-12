@@ -18,25 +18,24 @@ Board::Board(float width, float height){
     stack->update(stack->getFreezedBefore());
 
     //SET PROPERTIES OF BUTTONS
-    if(!font.loadFromFile("../assets/fonts/arial.TTF")){
-        //std::cout<<"error font loading";
-    }
+    font.loadFromFile("../assets/fonts/arial.TTF");
+
 
     buttons[0].setFont(font);
-    buttons[0].setColor(sf::Color::White);
+    buttons[0].setFillColor(sf::Color::White);
     buttons[0].setString(L"Dobierz kartę i zakończ turę");
     buttons[0].setPosition(sf::Vector2f(800,10 + 160 * 3));
 
     buttons[1].setFont(font);
-    buttons[1].setColor(sf::Color::White);
+    buttons[1].setFillColor(sf::Color::White);
     buttons[1].setPosition(sf::Vector2f(800,10 + 160 * 3));
 
     nickname.setFont(font);
-    nickname.setColor(sf::Color::White);
+    nickname.setFillColor(sf::Color::White);
 
 
     newRoundText.setFont(font);
-    newRoundText.setColor(sf::Color::White);
+    newRoundText.setFillColor(sf::Color::White);
     newRoundText.setString(L"Rozpoczyna Gracz 1. Naciśnij spację aby rozpocząć grę...");
     newRoundText.setPosition(sf::Vector2f(width/2 - 350, height/2 - 20));
 
@@ -86,23 +85,23 @@ Board::Board(float width, float height){
 
 
     chooseShape.setFont(font);
-    chooseShape.setColor(sf::Color::White);
+    chooseShape.setFillColor(sf::Color::White);
     chooseShape.setString(L"Wybierz żądany kolor:");
     chooseShape.setPosition(sf::Vector2f(850, 250));
 
     chooseNumber.setFont(font);
-    chooseNumber.setColor(sf::Color::White);
+    chooseNumber.setFillColor(sf::Color::White);
     chooseNumber.setString(L"Wybierz żądaną liczbę:");
     chooseNumber.setPosition(sf::Vector2f(880, 250));
 
     skippedRoundText[1].setFont(font);
-    skippedRoundText[1].setColor(sf::Color::White);
+    skippedRoundText[1].setFillColor(sf::Color::White);
     skippedRoundText[1].setString(L"Naciśnij spację aby kontynuować...");
     skippedRoundText[1].setPosition(sf::Vector2f(width/2 - 240, height/2 +20));
 
 
     skippedRoundText[0].setFont(font);
-    skippedRoundText[0].setColor(sf::Color::White);
+    skippedRoundText[0].setFillColor(sf::Color::White);
     skippedRoundText[0].setPosition(sf::Vector2f(width/2 - 260, height/2 - 20));
 
 
@@ -122,12 +121,15 @@ Board::Board(float width, float height){
     desiredNumber = false;
 
     desiredColorText.setFont(font);
-    desiredColorText.setColor(sf::Color::White);
+    desiredColorText.setFillColor(sf::Color::White);
     desiredColorText.setPosition(sf::Vector2f(400,10 + 160 * 3));
 
     desiredNumberText.setFont(font);
-    desiredNumberText.setColor(sf::Color::White);
+    desiredNumberText.setFillColor(sf::Color::White);
     desiredNumberText.setPosition(sf::Vector2f(400, 10 + 160 * 3));
+
+    places = 1;
+    endGame = false;
 }
 Board::~Board() {}
 
@@ -142,9 +144,11 @@ void Board::initBoard(int playerCount){
 
 void Board::draw(sf::RenderWindow &window) {
     int no = 0;
-
      if(!IS_NEW_ROUND){
          window.draw(game_background);
+         if(activePlayer->getWin() && !chooseWindowNumber && !chooseWindowShape) {
+             newRound();
+         }
          if(activePlayer->getFreezedRounds()>0) {
             activePlayer->setFreezedRounds((activePlayer->getFreezedRounds()-1));
             newRound();
@@ -152,19 +156,67 @@ void Board::draw(sf::RenderWindow &window) {
          }
         for(auto player : players) {
             if (player == activePlayer) {
-                //player->drawHand(window, 3,secondsWrong, zegar);
-
-                nickname.setColor(sf::Color::White);
-                nickname.setString(player->getNickname());
+                nickname.setFillColor(sf::Color::White);
+                if (player->getWin()){
+                    nickname.setString(player->getNickname() + " miejsce " + std::to_string(player->getPlace()) + ".");
+                    switch (player->getPlace()) {
+                        case 1: {
+                            nickname.setOutlineThickness(1);
+                            nickname.setFillColor(sf::Color(245, 209, 66));
+                            nickname.setOutlineColor(sf::Color::White);
+                            break;
+                        }
+                        case 2: {
+                            nickname.setFillColor(sf::Color(115, 115, 115));
+                            nickname.setOutlineColor(sf::Color::White);
+                            break;
+                        }
+                        case 3: {
+                            nickname.setFillColor(sf::Color(138, 87, 50));
+                            nickname.setOutlineColor(sf::Color::White);
+                            break;
+                        }
+                    }
+                }
+                else{
+                    nickname.setString(player->getNickname());
+                    nickname.setOutlineThickness(0);
+                    nickname.setFillColor(sf::Color(255,255,255));
+                }
                 nickname.setPosition(sf::Vector2f(20, 10 + 160 * 3));
                 window.draw(nickname);
             }
             else {
                 if(player->getFreezedRounds()>0){
-                    nickname.setColor(sf::Color(128, 223, 255));
-                }else{nickname.setColor(sf::Color::White);}
+                    nickname.setFillColor(sf::Color(128, 223, 255));
+                }else{nickname.setFillColor(sf::Color::White);}
                 player->drawHiddenHand(window, no);
-                nickname.setString(player->getNickname());
+                if(!player->getWin()){
+                    nickname.setString(player->getNickname());
+                    nickname.setOutlineThickness(0);
+                    nickname.setFillColor(sf::Color(255,255,255));
+                }
+                else{
+                    nickname.setString(player->getNickname() + " miejsce " +std::to_string(player->getPlace()) + ".");
+                    switch (player->getPlace()) {
+                        case 1: {
+                            nickname.setOutlineThickness(1);
+                            nickname.setFillColor(sf::Color(245, 209, 66));
+                            nickname.setOutlineColor(sf::Color::White);
+                            break;
+                        }
+                        case 2: {
+                            nickname.setFillColor(sf::Color(115, 115, 115));
+                            nickname.setOutlineColor(sf::Color::White);
+                            break;
+                        }
+                        case 3: {
+                            nickname.setFillColor(sf::Color(138, 87, 50));
+                            nickname.setOutlineColor(sf::Color::White);
+                            break;
+                        }
+                    }
+                }
                 nickname.setPosition(sf::Vector2f(20, 10 + 160 * no));
                 window.draw(nickname);
                 no++;
@@ -238,18 +290,18 @@ void Board::moveRight() {
         activeOption = activePlayer->getHand()->size() + 1;
         if(activeButton == 0){
             if(option){
-                buttons[activeButton].setColor(sf::Color::White);
-                buttons[activeButton].setColor(sf::Color::Red);
+                buttons[activeButton].setFillColor(sf::Color::White);
+                buttons[activeButton].setFillColor(sf::Color::Red);
             }
             else{
                 option = true;
-                buttons[activeButton].setColor(sf::Color::Red);
+                buttons[activeButton].setFillColor(sf::Color::Red);
             }
         }
         else{
             if(activeButton == 1){
-                buttons[0].setColor(sf::Color::White);
-                buttons[1].setColor(sf::Color::Red);
+                buttons[0].setFillColor(sf::Color::White);
+                buttons[1].setFillColor(sf::Color::Red);
             }
         }
     }
@@ -260,11 +312,11 @@ void Board::moveLeft() {
         activeOption--;
     if(activeOption == activePlayer->getHand()->size() + 1){
         if(activeButton - 1 >= 0){
-            buttons[activeButton].setColor(sf::Color::White);
-            buttons[activeButton].setColor(sf::Color::Red);
+            buttons[activeButton].setFillColor(sf::Color::White);
+            buttons[activeButton].setFillColor(sf::Color::Red);
         }
         else{
-            buttons[activeButton].setColor(sf::Color::White);
+            buttons[activeButton].setFillColor(sf::Color::White);
             option = false;
             activeOption = activePlayer->getHand()->size() - 1;
         }
@@ -275,10 +327,17 @@ void Board::newRound() {
     IS_NEW_ROUND = true;
 
     round++;
-    buttons[0].setColor(sf::Color::White);
+    buttons[0].setFillColor(sf::Color::White);
     activeOption = 0;
     activeButton = 0;
+
     activePlayer = players.at((round)%getPlayerCount());
+    if(activePlayer->getWin())
+        round++;
+    if(winners.size() >= 2 && activePlayer->getWin())
+        round++;
+    activePlayer = players.at((round)%getPlayerCount());
+
     if(activePlayer->getFreezedRounds()>0){
         skippedRound=true;
     }else{
@@ -287,12 +346,10 @@ void Board::newRound() {
         std::string toDisplay =
                 "Tura Gracza " + (std::to_string(activePlayer->getPlayerNo())) + ". Nacisnij spacje aby kontynuowac...";
         newRoundText.setString(toDisplay);
-        std::cout << "NIE WCHODZE";
     }else{
         std::string toDisplay ="Gracz " + (std::to_string(activePlayer->getPlayerNo())) + " musi czekac. Pozostalo tur: "+(std::to_string(activePlayer->getFreezedRounds()));
         skippedRoundText[0].setString(toDisplay);
         skippedRoundText[0].setString(toDisplay);
-        std::cout << "WCHODZE";
         stack->setFreezedBefore();
     }
     stack->update(stack->getFreezedBefore());
@@ -305,9 +362,10 @@ void Board::throwCard() {
 
     //std::cout << "Runda numer: " << round << std::endl;
     if (getPressedOption() < getActivePlayerHandSize()) {
-        //std::cout<<"Wyrzucono: ";
+
         getPressedCard()->printCard();
         if (stack->throwToStack(getPressedCard())) {
+
             if(getPressedCard()->printValue()=="4"){stack->setFreshFour();}
             if(getPressedCard()->printValue() == "J" && !chooseWindowNumber)
                 chooseWindowNumber = true;
@@ -322,6 +380,15 @@ void Board::throwCard() {
                 stack->unsetWantedValue();
             }
             activePlayer->getHand()->erase(std::find(activePlayer->getHand()->begin(), activePlayer->getHand()->end(), getPressedCard()));
+            if(activePlayer->getHand()->size() == 0){
+                activePlayer->setWin();
+                activePlayer->setPlace(places);
+                places++;
+
+                winners.push_back(activePlayer->getPlayerNo());
+                if(winCheck())
+                    return;
+            }
             if(!chooseWindowNumber && !chooseWindowShape)
                 newRound();
         } else {
@@ -343,7 +410,6 @@ void Board::throwCard() {
                 newRound();
                 stack->cancelWar();
             } else {
-                //std::cout<<"draw"<<std::endl;}
                 for (int i = 0; i < stack->getCardsToPull(); i++) {
                     drawCard();
                 }
@@ -353,7 +419,24 @@ void Board::throwCard() {
         }
     }
 }
+bool Board::winCheck(){
+    int winCount = 0;
+    int maxPlayers = getPlayerCount();
 
+    for(auto player : players){
+        if(player->getWin())
+            winCount++;
+    }
+    if(winCount+1 == maxPlayers){
+        winners.push_back(players.at((round+1)%getPlayerCount())->getPlayerNo());
+        endGame = true;
+        return true;
+    }
+    else{
+        endGame = false;
+        return false;
+    }
+}
 std::shared_ptr<Card> Board::getPressedCard() {
     if(activeOption != activePlayer->getHand()->size() + 1){
         return activePlayer->getHand()->at(activeOption);
@@ -472,7 +555,6 @@ bool Board::getChooseWindowNumber() const {
 }
 
 void Board::getSelectedWindowNumber(sf::RenderWindow &window) {
-    std::cout<<activeChooseNumber;
     chooseWindowNumber = false;
     desiredNumber = true;
     stack->setWantedValue();
@@ -513,7 +595,6 @@ void Board::getSelectedWindowNumber(sf::RenderWindow &window) {
 }
 
 void Board::getSelectedWindowShape(sf::RenderWindow &window) {
-    std::cout<<activeChooseShape;
     chooseWindowShape = false;
     desiredColor = true;
     stack->setWantedColor();
@@ -550,12 +631,12 @@ void Board::getSelectedWindowShape(sf::RenderWindow &window) {
 
 Board::Board() {}
 
-bool Board::wonCheck() {
-    for(auto player : players){
-        if(player->getHand()->size()==0){
-            return true;
-        }
-    }
-    return true;
+std::vector<int> *Board::getWinners() {
+    return &winners;
 }
+
+bool Board::getWinCheck() const {
+    return endGame;
+}
+
 

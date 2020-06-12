@@ -40,6 +40,8 @@ void Stack::resetRoundsToWait(){
 }
 
 void Stack::reset() {
+    freshFour = false;
+    coldWar = false;
     cardsToPull = 0;
     war=false;
 }

@@ -15,7 +15,8 @@ private:
     int freezedRounds;                   //pozostala liczba rund do odczekania
     int playerNo;
     std::vector<std::shared_ptr<Card>> hand; //reka gracza
-
+    bool win;
+    int place;
 public:
     Player(std::string nicknameToSet, int index);
     ~Player();
@@ -26,7 +27,11 @@ public:
     void drawHiddenHand(sf::RenderWindow &window, int);
     int getPlayerNo()const;
     std::vector<std::shared_ptr<Card>>* getHand();
-    int getFreezedRounds();
+    int getFreezedRounds() const;
+    bool getWin() const;
+    void setWin();
+    void setPlace(int number);
+    int getPlace() const;
 };
 
 

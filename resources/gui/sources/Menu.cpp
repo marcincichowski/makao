@@ -5,10 +5,7 @@
 #include "../headers/Menu.h"
 #include <iostream>
 Menu::Menu(float width, float height){
-    if(!font.loadFromFile("../assets/fonts/arial.TTF")){
-        //std::cout<<"error font loading";
-    }
-
+    font.loadFromFile("../assets/fonts/arial.TTF");
     for(int i = 0;i<NUMBER_OF_ITEMS;i++){
         menu[i].setFont(font);
         menu[i].setFillColor(sf::Color(255,255,255));
@@ -46,6 +43,23 @@ Menu::Menu(float width, float height){
     title2.setFont(font);
     title2.setFillColor(sf::Color(255,255,255));
     title2.setPosition(sf::Vector2f(width / 2 - 320, height / (NUMBER_OF_ITEMS+ 1)+100));
+
+    for(int i = 0; i < 4; i++){
+        winnersTexts[i].setFillColor(sf::Color::White);
+        winnersTexts[i].setFont(font);
+    }
+    winnersTexts[0].setFillColor(sf::Color(245, 209, 66));
+    winnersTexts[0].setOutlineColor(sf::Color::White);
+
+    winnersTexts[1].setFillColor(sf::Color(115, 115, 115));
+    winnersTexts[1].setOutlineColor(sf::Color::White);
+
+    winnersTexts[2].setFillColor(sf::Color(138, 87, 50));
+    winnersTexts[2].setOutlineColor(sf::Color::White);
+
+    winnersTexts[0].setOutlineThickness(1);
+
+
 }
 
 void Menu::changeString(sf::RenderWindow &window){
@@ -89,4 +103,16 @@ void Menu::MoveDown(){
 
 int Menu::getPressedItem() {
     return selectedItemIndex;
+}
+
+void Menu::drawWinners(sf::RenderWindow &window, std::vector<int> &winners) {
+    int i = 0;
+    for(auto winner : winners){
+        winnersTexts[i].setString("Miejsce "+ std::to_string(i+1) +". Gracz "+std::to_string(winner));
+        winnersTexts[i].setPosition(sf::Vector2f(window.getSize().x / 2 - 150, window.getSize().y / 2 - 150 + i * 50));
+        window.draw(winnersTexts[i]);
+        i++;
+    }
+
+
 }

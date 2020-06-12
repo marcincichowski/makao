@@ -50,6 +50,7 @@ std::string Card::printColor() {
         case kier: return "H";
         case karo: return "D";
         case trefl: return "C";
+        default: return "END";
     }
 }
 
@@ -68,6 +69,7 @@ std::string Card::printValue() {
         case dama: return "Q";
         case krol: return "K";
         case as: return "A";
+        default: return "END";
     }
 }
 

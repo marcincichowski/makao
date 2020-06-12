@@ -52,7 +52,9 @@ private:
     bool chooseWindowShape;
     bool desiredColor;
     bool desiredNumber;
-
+    bool endGame;
+    int places;
+    std::vector<int> winners;
 public:
     Board();
     Board(float width, float height);
@@ -84,7 +86,8 @@ public:
     void getSelectedWindowShape(sf::RenderWindow&);
     sf::Sprite getBackground();
     void initBoard(int playerCount);
-    bool wonCheck();
-
+    bool winCheck();
+    std::vector<int>* getWinners();
+    bool getWinCheck() const;
 };
 #endif //MAKAO_BOARD_H
