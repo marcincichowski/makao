@@ -17,7 +17,7 @@ __The first player to lay down all their cards wins.__
 If the deck from which we draw cards runs out, then shuffle the pile of cards and put them back in the deck, placing the last player on top of the pile.
 
 ### Function cards
-king of hearts - the next player takes five cards (he can also put the queen of hearts to block the king) and start a war.
+- king of hearts - the next player takes five cards (he can also put the queen of hearts to block the king) and start a war.
 
 - 2 and 3 - the next player draws a number of cards equal to the value of the card. However, if he has a card of the same value or suit (but 2, 3, or King of hearts *), he may play it, then the next player must draw the sum of the values ​​of the cards on the table, unless he also has a matching 2, 3, or King of hearts).
 
