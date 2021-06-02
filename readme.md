@@ -1,4 +1,4 @@
-#makao<img align="right" width="100" height="100" src="https://raw.githubusercontent.com/D4VOS/makao/f44aed212a26d2b6576557ba99a9a2ab467996c1/resources/icon.png">
+#makao 
 A game based on the rules of the popular Polish card game - _macao_. Written in c ++ using the [SFML] library.
 
 The game was made for a university project.
